@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/HomeScreen/home_screen.dart';
+import 'package:societyuser_app/auth/login_page.dart';
 import 'package:societyuser_app/homeButtonScreen/noc_page.dart';
 import 'package:societyuser_app/homeButtonScreen/service_provider.dart';
 import 'package:societyuser_app/homeButtonScreen/service_request.dart';
@@ -104,6 +105,12 @@ class MyDrawer extends StatelessWidget {
             title: const Text('Logout'),
             onTap: () {
               // Handle Logout item tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return const loginScreen();
+                }),
+              );
             },
           ),
         ],

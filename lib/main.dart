@@ -4,7 +4,16 @@ import 'package:societyuser_app/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyBTEp34Y0CbkceRElxrh5Y9DNNnF7HwzoE",
+          authDomain: "societymanagement-763f1.firebaseapp.com",
+          projectId: "societymanagement-763f1",
+          storageBucket: "societymanagement-763f1.appspot.com",
+          messagingSenderId: "1077685961456",
+          appId: "1:1077685961456:android:0386d8498d527683747835",
+          measurementId: "G-3EHV4L3XZJ"));
+
   runApp(const MyApp());
 }
 
