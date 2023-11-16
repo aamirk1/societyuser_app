@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 import 'package:societyuser_app/common_widget/drawer.dart';
 
-class serviceRequest extends StatelessWidget {
-  const serviceRequest({super.key});
+class complaints extends StatelessWidget {
+  const complaints({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class serviceRequest extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: appBarBgColor,
         title: const Text(
-          'Service Request',
+          'Complaints',
           style: TextStyle(color: Colors.white),
         ),
       ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/HomeScreen/home_screen.dart';
 import 'package:societyuser_app/auth/login_page.dart';
+import 'package:societyuser_app/homeButtonScreen/circular_notice.dart';
+import 'package:societyuser_app/homeButtonScreen/complaints.dart';
+import 'package:societyuser_app/homeButtonScreen/member_ladger.dart';
 import 'package:societyuser_app/homeButtonScreen/noc_page.dart';
-import 'package:societyuser_app/homeButtonScreen/service_provider.dart';
-import 'package:societyuser_app/homeButtonScreen/service_request.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -54,12 +55,24 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.admin_panel_settings_outlined),
-            title: const Text('Service Provider'),
+            title: const Text('Member Ladger'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return const serviceProvider();
+                  return  memberLadger();
+                }),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.admin_panel_settings_outlined),
+            title: const Text('Circular Notice'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return const circular_notice();
                 }),
               );
             },
@@ -78,12 +91,12 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.home_repair_service),
-            title: const Text('Service Request'),
+            title: const Text('Complaints'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return const serviceRequest();
+                  return const complaints();
                 }),
               );
             },

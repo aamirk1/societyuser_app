@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/HomeScreen/home_screen.dart';
-import 'package:societyuser_app/auth/signup_page.dart';
 import 'package:societyuser_app/common_widget/drawer.dart';
 
-class loginScreen extends StatelessWidget {
-  const loginScreen({super.key});
+class signUp extends StatelessWidget {
+  const signUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class loginScreen extends StatelessWidget {
             SizedBox(
               height: 70,
             ),
-            const Text('Welcome Back',
+            const Text('Sign Up',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,
@@ -56,6 +55,32 @@ class loginScreen extends StatelessWidget {
                       color: Colors.white,
                     )),
                     labelText: 'username',
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    // enabledBorder: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                      color: Colors.white,
+                    )),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                      color: Colors.white,
+                    )),
+                    labelText: 'Email',
                     labelStyle: TextStyle(
                       color: Colors.white,
                     ),
@@ -100,6 +125,34 @@ class loginScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // controller: _passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    labelText: 'Confirm Password',
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    // enabledBorder: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                      color: Colors.white,
+                    )),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        borderSide: BorderSide(color: Colors.white)),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -122,41 +175,18 @@ class loginScreen extends StatelessWidget {
                     }));
                   },
                   child: const Text(
-                    'Login',
+                    'Sign Up',
                     style: TextStyle(fontSize: 28),
                   ),
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                ),
-                SizedBox(
-                  child: TextButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const signUp();
-                        }));
-                      },
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                ),
-              ],
+            SizedBox(
+              height: 10,
             ),
             const SizedBox(
               child: Text(
-                "Don't have an account? Sign Up",
+                "Already have an account? Sign In",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
             )
