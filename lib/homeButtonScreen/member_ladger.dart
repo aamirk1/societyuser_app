@@ -57,7 +57,7 @@ class _memberLadgerState extends State<memberLadger> {
                     columns: List.generate(6, (index) {
                       return DataColumn(
                           label: Text(colums[index],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 10, fontWeight: FontWeight.bold)));
                     }),
                     rows: List.generate(2, (index1) {
@@ -74,10 +74,10 @@ class _memberLadgerState extends State<memberLadger> {
                                       ),
                                     ),
                                     onPressed: () {},
-                                    child: Text('Pay'))
+                                    child: const Text('Pay'))
                                 : Text(
                                     rows[index2],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 10,
                                     ),
                                   ),

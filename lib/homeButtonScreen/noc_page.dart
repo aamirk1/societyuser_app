@@ -16,9 +16,87 @@ class nocPage extends StatelessWidget {
         ),
       ),
       drawer: const MyDrawer(),
-      body: const Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text('This is NOC Page'),
+      body: Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Expanded(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Passport'),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Name Change for Electric Meter'),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('No Objection Certificate for Sale'),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                            'No Objection Certificate for Sub-letting'),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                            'No Objection Certificate for Bank Loan'),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Nomination Form'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
       ])),
     );
   }
