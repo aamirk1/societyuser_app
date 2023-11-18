@@ -326,11 +326,12 @@ class _signUpState extends State<signUp> {
         'confirmPassword': confirmPassword
       });
       print('Data stored successfully');
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) {
           return const HomeScreen();
         }),
+        (route) => false,
       );
     } on FirebaseException catch (e) {
       print('Error storing data: $e');

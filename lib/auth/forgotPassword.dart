@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:societyuser_app/HomeScreen/home_screen.dart';
+import 'package:societyuser_app/auth/login_page.dart';
 import 'package:societyuser_app/common_widget/drawer.dart';
 
 // ignore: must_be_immutable
@@ -80,6 +80,40 @@ class _forgotPasswordState extends State<forgotPassword> {
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: flatNoController,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                      color: Colors.white,
+                    )),
+                    labelText: 'Flat NO.',
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    // enabledBorder: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                      color: Colors.white,
+                    )),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Flat No';
+                    }
+                    return null;
+                  },
+                ),
+              ),
             ),
             Center(
               child: Padding(
@@ -205,12 +239,12 @@ class _forgotPasswordState extends State<forgotPassword> {
       await firestore
           .collection('users')
           .doc(flatNo)
-          .set({'password': password, 'confirmPassword': confirmPassword});
+          .update({'password': password, 'confirmPassword': confirmPassword});
       print('Data updated successfully');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) {
-          return const HomeScreen();
+          return loginScreen();
         }),
       );
     } on FirebaseException catch (e) {
