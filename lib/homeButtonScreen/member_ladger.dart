@@ -27,6 +27,14 @@ class _memberLadgerState extends State<memberLadger> {
     '4000',
     'Paid',
   ];
+  List<dynamic> rows2 = [
+    '15/01/2022',
+    'Receipt',
+    '5000',
+    '1000',
+    '4000',
+    'Paid',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +78,8 @@ class _memberLadgerState extends State<memberLadger> {
                             index2 == 5
                                 ? ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.green,
+                                      backgroundColor:
+                                          const Color.fromARGB(255, 8, 77, 10),
                                       foregroundColor: buttonTextColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),

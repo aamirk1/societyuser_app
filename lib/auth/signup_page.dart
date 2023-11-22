@@ -13,13 +13,9 @@ class signUp extends StatefulWidget {
 
 class _signUpState extends State<signUp> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   TextEditingController flatNoController = TextEditingController();
-
   TextEditingController emailController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
-
   TextEditingController confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool validate = false;
@@ -276,7 +272,7 @@ class _signUpState extends State<signUp> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          minimumSize: const Size(180, 50),
+                          minimumSize: const Size(180, 40),
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {

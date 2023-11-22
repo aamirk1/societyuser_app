@@ -196,7 +196,7 @@ class _forgotPasswordState extends State<forgotPassword> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: Color.fromARGB(255, 0, 0, 12),
+                    foregroundColor: const Color.fromARGB(255, 0, 0, 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
@@ -221,13 +221,14 @@ class _forgotPasswordState extends State<forgotPassword> {
               children: [
                 SizedBox(
                   child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text(
-                        "Back",
-                        style: TextStyle(color: Colors.white),
-                      )),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Back",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -245,7 +246,7 @@ class _forgotPasswordState extends State<forgotPassword> {
           .collection('users')
           .doc(flatNo)
           .update({'password': password, 'confirmPassword': confirmPassword});
-      
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) {

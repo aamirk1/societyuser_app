@@ -156,7 +156,7 @@ class _loginScreenState extends State<loginScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          minimumSize: const Size(180, 50),
+                          minimumSize: const Size(180, 40),
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -179,29 +179,33 @@ class _loginScreenState extends State<loginScreen> {
               children: [
                 SizedBox(
                   child: TextButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return forgotPassword();
-                        }));
-                      },
-                      child: const Text(
-                        "Forgot Password?",
-                        style: TextStyle(color: Colors.white),
-                      )),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return forgotPassword();
+                      }));
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   child: TextButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
                           return signUp();
-                        }));
-                      },
-                      child: const Text(
-                        "Sign Up",
-                        style: TextStyle(color: Colors.white),
-                      )),
+                        }),
+                      );
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -215,10 +219,12 @@ class _loginScreenState extends State<loginScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return signUp();
-                      }));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return signUp();
+                        }),
+                      );
                     },
                     child: const Text(
                       "Sign Up",
@@ -249,7 +255,11 @@ class _loginScreenState extends State<loginScreen> {
 
         if (password == storedPassword) {
           // Login successful
-          print('Login successful');
+          SnackBar snackBar = const SnackBar(
+            content: Text('Login successful'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          // print('Login successful');
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
