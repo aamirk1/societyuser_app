@@ -54,6 +54,8 @@ class _signUpState extends State<signUp> {
     return Scaffold(
       drawer: const MyDrawer(),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/theme.jpeg'),
@@ -84,7 +86,7 @@ class _signUpState extends State<signUp> {
             const Text('Sign Up',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,
@@ -97,6 +99,7 @@ class _signUpState extends State<signUp> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.next,
                         controller: flatNoController,
                         decoration: const InputDecoration(
@@ -133,6 +136,7 @@ class _signUpState extends State<signUp> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.next,
                         controller: emailController,
                         decoration: const InputDecoration(
@@ -168,6 +172,7 @@ class _signUpState extends State<signUp> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.next,
                         controller: passwordController,
                         obscureText: true,
@@ -210,6 +215,7 @@ class _signUpState extends State<signUp> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.done,
                         controller: confirmPasswordController,
                         obscureText: true,
@@ -284,7 +290,7 @@ class _signUpState extends State<signUp> {
                         },
                         child: const Text(
                           'Sign Up',
-                          style: TextStyle(fontSize: 28),
+                          style: TextStyle(fontSize: 20),
                         ),
                       ),
                     ),
@@ -325,7 +331,6 @@ class _signUpState extends State<signUp> {
         'password': password,
         'confirmPassword': confirmPassword
       });
-      print('Data stored successfully');
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) {
@@ -333,8 +338,13 @@ class _signUpState extends State<signUp> {
         }),
         (route) => false,
       );
+      setState(() {
+        errorMessage = '';
+      });
     } on FirebaseException catch (e) {
-      print('Error storing data: $e');
+      setState(() {
+        errorMessage = e.message!;
+      });
     }
   }
 }

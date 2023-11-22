@@ -56,9 +56,12 @@ class _memberLadgerState extends State<memberLadger> {
                     columnSpacing: 15,
                     columns: List.generate(6, (index) {
                       return DataColumn(
-                          label: Text(colums[index],
-                              style: const TextStyle(
-                                  fontSize: 10, fontWeight: FontWeight.bold)));
+                        label: Text(
+                          colums[index],
+                          style: const TextStyle(
+                              fontSize: 10, fontWeight: FontWeight.bold),
+                        ),
+                      );
                     }),
                     rows: List.generate(2, (index1) {
                       return DataRow(
@@ -74,7 +77,8 @@ class _memberLadgerState extends State<memberLadger> {
                                       ),
                                     ),
                                     onPressed: () {},
-                                    child: const Text('Pay'))
+                                    child: const Text('Pay'),
+                                  )
                                 : Text(
                                     rows[index2],
                                     style: const TextStyle(

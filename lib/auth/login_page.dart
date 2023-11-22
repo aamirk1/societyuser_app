@@ -31,6 +31,8 @@ class _loginScreenState extends State<loginScreen> {
     return Scaffold(
       drawer: const MyDrawer(),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/theme.jpeg'),
@@ -56,12 +58,12 @@ class _loginScreenState extends State<loginScreen> {
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 70,
+              height: 50,
             ),
             const Text('Welcome Back',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,
@@ -74,6 +76,7 @@ class _loginScreenState extends State<loginScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.next,
                         controller: flatNoController,
                         decoration: const InputDecoration(
@@ -109,6 +112,7 @@ class _loginScreenState extends State<loginScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.done,
                         controller: passwordController,
                         obscureText: true,
@@ -128,8 +132,6 @@ class _loginScreenState extends State<loginScreen> {
                             color: Colors.white,
                           )),
                           border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
                               borderSide: BorderSide(color: Colors.white)),
                         ),
                         validator: (value) {
@@ -164,7 +166,7 @@ class _loginScreenState extends State<loginScreen> {
                         },
                         child: const Text(
                           'Login',
-                          style: TextStyle(fontSize: 28),
+                          style: TextStyle(fontSize: 20),
                         ),
                       ),
                     ),
@@ -204,16 +206,26 @@ class _loginScreenState extends State<loginScreen> {
               ],
             ),
             SizedBox(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return signUp();
-                  }));
-                },
-                child: const Text(
-                  "Already have an account? Sign In",
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account?",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return signUp();
+                      }));
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

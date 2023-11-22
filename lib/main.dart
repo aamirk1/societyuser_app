@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:societyuser_app/auth/login_page.dart';
+import 'package:societyuser_app/HomeScreen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,14 +24,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // theme: ThemeData(
-      //     inputDecorationTheme: InputDecorationTheme(
-      //         border: OutlineInputBorder(
-      //             borderSide: BorderSide(color: Colors.white)))),
-      title: 'Society User App',
-      debugShowCheckedModeBanner: false,
-      home: loginScreen(),
-      // HomeScreen(),
-    );
+        // theme: ThemeData(
+        //     inputDecorationTheme: InputDecorationTheme(
+        //         border: OutlineInputBorder(
+        //             borderSide: BorderSide(color: Colors.white)))),
+        title: 'Society User App',
+        debugShowCheckedModeBanner: false,
+        home: splash_screen()
+        // loginScreen(),
+        // HomeScreen(),
+        );
   }
 }

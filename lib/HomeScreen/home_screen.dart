@@ -38,13 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: const MyDrawer(),
       body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Column(children: [
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
+                    elevation: 5,
+                    shadowColor: Colors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -53,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         columns: List.generate(4, (index) {
                           return DataColumn(
                               label: Text(cols[index],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold)));
                         }),
@@ -72,10 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       onPressed: () {},
-                                      child: Text('Pay'))
+                                      child: const Text('Pay'))
                                   : Text(
                                       rows[index2],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 15,
                                       ),
                                     ),
@@ -98,26 +102,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: buttonColor,
-                          foregroundColor: buttonTextColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          minimumSize: const Size(370, 50),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: buttonColor,
+                        foregroundColor: buttonTextColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return memberLadger();
-                            }),
-                          );
-                        },
-                        child: const Text(
-                          'Member Ladger',
-                          style: TextStyle(fontSize: 20),
-                        ))
+                        minimumSize: const Size(370, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return memberLadger();
+                          }),
+                        );
+                      },
+                      child: const Text(
+                        'Member Ladger',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
                   ]),
             ),
             const SizedBox(
@@ -151,26 +156,27 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: buttonColor,
-                    foregroundColor: buttonTextColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    minimumSize: const Size(370, 50),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: buttonColor,
+                  foregroundColor: buttonTextColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return const nocPage();
-                      }),
-                    );
-                  },
-                  child: const Text(
-                    'NOC',
-                    style: TextStyle(fontSize: 20),
-                  ))
+                  minimumSize: const Size(370, 50),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return const nocPage();
+                    }),
+                  );
+                },
+                child: const Text(
+                  'NOC',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
             ]),
             const SizedBox(
               height: 10,

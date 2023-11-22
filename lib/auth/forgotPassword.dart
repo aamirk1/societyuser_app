@@ -46,6 +46,8 @@ class _forgotPasswordState extends State<forgotPassword> {
     return Scaffold(
       drawer: const MyDrawer(),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/theme.jpeg'),
@@ -85,6 +87,7 @@ class _forgotPasswordState extends State<forgotPassword> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  style: const TextStyle(color: Colors.white),
                   textInputAction: TextInputAction.next,
                   controller: flatNoController,
                   decoration: const InputDecoration(
@@ -119,6 +122,7 @@ class _forgotPasswordState extends State<forgotPassword> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  style: const TextStyle(color: Colors.white),
                   textInputAction: TextInputAction.next,
                   controller: passwordController,
                   obscureText: true,
@@ -151,6 +155,7 @@ class _forgotPasswordState extends State<forgotPassword> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                    style: const TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.done,
                     controller: confirmPasswordController,
                     obscureText: true,
@@ -180,7 +185,7 @@ class _forgotPasswordState extends State<forgotPassword> {
             ),
             Text(
               errorMessage,
-              style: const TextStyle(color: Colors.red, fontSize: 20),
+              style: const TextStyle(color: Colors.red, fontSize: 15),
             ),
             const SizedBox(
               height: 20,
@@ -195,7 +200,7 @@ class _forgotPasswordState extends State<forgotPassword> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    minimumSize: const Size(180, 50),
+                    // minimumSize: const Size(180, 40),
                   ),
                   onPressed: () async {
                     await updateUserData(
@@ -206,7 +211,7 @@ class _forgotPasswordState extends State<forgotPassword> {
                   },
                   child: const Text(
                     'Change Password',
-                    style: TextStyle(fontSize: 28),
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ),
@@ -240,7 +245,7 @@ class _forgotPasswordState extends State<forgotPassword> {
           .collection('users')
           .doc(flatNo)
           .update({'password': password, 'confirmPassword': confirmPassword});
-      print('Data updated successfully');
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) {
