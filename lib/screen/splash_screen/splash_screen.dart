@@ -1,20 +1,38 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/login_page.dart';
+import 'package:societyuser_app/auth/splash_service.dart';
+import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
-class splash_screen extends StatefulWidget {
-  const splash_screen({super.key});
+class SplashScreen extends StatefulWidget {
+  SplashScreen({super.key});
 
   @override
-  State<splash_screen> createState() => _splash_screenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _splash_screenState extends State<splash_screen> {
+class _SplashScreenState extends State<SplashScreen> {
+  final SplashService _splashService = SplashService();
+  bool isLogin = false;
+
+  @override
+  void initState() {
+    Timer(const Duration(milliseconds: 3000), () async {
+      isLogin = await _splashService.checkLoginStatus(context);
+      if (isLogin) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => loginScreen()));
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => loginScreen()));
-    });
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,

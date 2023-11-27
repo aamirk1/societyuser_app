@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:societyuser_app/HomeScreen/splash_screen.dart';
+import 'package:societyuser_app/screen/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         //             borderSide: BorderSide(color: Colors.white)))),
         title: 'Society User App',
         debugShowCheckedModeBanner: false,
-        home: splash_screen()
+        home: SplashScreen()
         // loginScreen(),
         // HomeScreen(),
         );

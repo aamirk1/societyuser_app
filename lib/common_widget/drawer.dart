@@ -1,21 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:societyuser_app/HomeScreen/home_screen.dart';
 import 'package:societyuser_app/auth/login_page.dart';
-import 'package:societyuser_app/homeButtonScreen/circular_notice.dart';
-import 'package:societyuser_app/homeButtonScreen/complaints.dart';
-import 'package:societyuser_app/homeButtonScreen/member_ladger.dart';
-import 'package:societyuser_app/homeButtonScreen/noc_page.dart';
+import 'package:societyuser_app/auth/splash_service.dart';
+import 'package:societyuser_app/homeButtonScreen/notice/circular_notice.dart';
+import 'package:societyuser_app/homeButtonScreen/complaint/complaints.dart';
+import 'package:societyuser_app/homeButtonScreen/ladger/member_ladger.dart';
+import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
+import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
   const MyDrawer({Key? key}) : super(key: key);
 
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  SplashService _splashService = SplashService();
+
+  final TextEditingController _societyNameController = TextEditingController();
+
+  final TextEditingController flatnoController = TextEditingController();
+  String flatno = '';
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
+          DrawerHeader(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,8 +45,8 @@ class MyDrawer extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 4),
-                Text('Flat No.'),
+                const SizedBox(height: 4),
+                Text('Flat No.: ${flatnoController.text}'),
               ],
             ),
           ),
@@ -129,5 +142,41 @@ class MyDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> getMemberFlat() async {
+    String phoneNum = '';
+
+    List<dynamic> temp = [];
+    phoneNum = await _splashService.getPhoneNum();
+
+    QuerySnapshot societyQuerySnapshot =
+        await FirebaseFirestore.instance.collection('members').get();
+
+    List<String> allSociety =
+        societyQuerySnapshot.docs.map((e) => e.id).toList();
+
+    for (int i = 0; i < allSociety.length; i++) {
+      bool isUserPresent = false;
+      DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
+          .collection('members')
+          .doc(flatno)
+          .get();
+
+      Map<String, dynamic> tempData =
+          dataDocumentSnapshot.data() as Map<String, dynamic>;
+      List<dynamic> dataList = tempData['data'];
+
+      for (var data in dataList) {
+        if (phoneNum == data['Mobile No.']) {
+          flatno = data['Flat No.'];
+          print(flatno);
+          setState(() {
+            flatnoController.text = flatno;
+          });
+          break;
+        }
+      }
+    }
   }
 }

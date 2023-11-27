@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:societyuser_app/HomeScreen/home_screen.dart';
 import 'package:societyuser_app/auth/login_page.dart';
-import 'package:societyuser_app/common_widget/drawer.dart';
 
 class signUp extends StatefulWidget {
   signUp({super.key});
@@ -13,13 +11,13 @@ class signUp extends StatefulWidget {
 
 class _signUpState extends State<signUp> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  TextEditingController flatNoController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool validate = false;
-  String flatNo = '';
+  String mobile = '';
   String email = '';
   String password = '';
   String confirmPassword = '';
@@ -38,7 +36,7 @@ class _signUpState extends State<signUp> {
 
   @override
   void dispose() {
-    flatNoController.dispose();
+    mobileController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
@@ -48,7 +46,7 @@ class _signUpState extends State<signUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const MyDrawer(),
+      // drawer: const MyDrawer(),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -97,13 +95,13 @@ class _signUpState extends State<signUp> {
                       child: TextFormField(
                         style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.next,
-                        controller: flatNoController,
+                        controller: mobileController,
                         decoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                             color: Colors.white,
                           )),
-                          labelText: 'Flat No',
+                          labelText: 'Mobile No.',
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),
@@ -121,7 +119,7 @@ class _signUpState extends State<signUp> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Flat No';
+                            return 'Please enter Mobile No.';
                           }
                           return null;
                         },
@@ -278,7 +276,7 @@ class _signUpState extends State<signUp> {
                           if (_formKey.currentState!.validate()) {
                             await storeUserData(
                                 context,
-                                flatNoController.text,
+                                mobileController.text,
                                 emailController.text,
                                 passwordController.text,
                                 confirmPasswordController.text);
@@ -317,12 +315,12 @@ class _signUpState extends State<signUp> {
     );
   }
 
-  Future<void> storeUserData(BuildContext context, String flatNo, String email,
+  Future<void> storeUserData(BuildContext context, String mobile, String email,
       String password, String confirmPassword) async {
     try {
       // Create a new document in the "users" collection
-      await firestore.collection('users').doc(flatNo).set({
-        'Flat No.: ': flatNo,
+      await firestore.collection('users').doc(mobile).set({
+        'Mobile No.: ': mobile,
         'email': email,
         'password': password,
         'confirmPassword': confirmPassword
@@ -330,7 +328,7 @@ class _signUpState extends State<signUp> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) {
-          return const HomeScreen();
+          return loginScreen();
         }),
         (route) => false,
       );

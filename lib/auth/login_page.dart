@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:societyuser_app/HomeScreen/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/auth/forgotPassword.dart';
 import 'package:societyuser_app/auth/signup_page.dart';
-import 'package:societyuser_app/common_widget/drawer.dart';
+import 'package:societyuser_app/auth/splash_service.dart';
+import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
 class loginScreen extends StatefulWidget {
   loginScreen({super.key});
@@ -15,13 +16,21 @@ class loginScreen extends StatefulWidget {
 class _loginScreenState extends State<loginScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController flatNoController = TextEditingController();
-
+  TextEditingController mobileController = TextEditingController();
+  SplashService _splashService = SplashService();
   TextEditingController passwordController = TextEditingController();
+
+  String? userFlatNumber;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   void dispose() {
-    flatNoController.dispose();
+    mobileController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -29,7 +38,7 @@ class _loginScreenState extends State<loginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const MyDrawer(),
+      // drawer: const MyDrawer(flatnumber: userFlatNumber),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -78,13 +87,13 @@ class _loginScreenState extends State<loginScreen> {
                       child: TextFormField(
                         style: const TextStyle(color: Colors.white),
                         textInputAction: TextInputAction.next,
-                        controller: flatNoController,
+                        controller: mobileController,
                         decoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                             color: Colors.white,
                           )),
-                          labelText: 'Flat NO.',
+                          labelText: 'Mobile No..',
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ),
@@ -101,7 +110,7 @@ class _loginScreenState extends State<loginScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Flat No';
+                            return 'Please enter Mobile No.';
                           }
                           return null;
                         },
@@ -160,7 +169,7 @@ class _loginScreenState extends State<loginScreen> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            login(flatNoController.text,
+                            login(mobileController.text,
                                 passwordController.text, context);
                           }
                         },
@@ -240,13 +249,21 @@ class _loginScreenState extends State<loginScreen> {
     );
   }
 
+  void storeLoginData(bool isLogin, String phoneNum) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('phoneNum');
+    prefs.setBool('isLogin', isLogin);
+    prefs.setString('phoneNum', phoneNum);
+    print('Data Stored');
+  }
+
   Future<void> login(
-      String flatNo, String password, BuildContext context) async {
+      String mobile, String password, BuildContext context) async {
     try {
       // Fetch the user document from Firestore based on the provided username
       final userDoc = await FirebaseFirestore.instance
           .collection('users')
-          .doc(flatNo)
+          .doc(mobile)
           .get();
 
       if (userDoc.exists) {
@@ -254,8 +271,10 @@ class _loginScreenState extends State<loginScreen> {
         final storedPassword = userDoc.data()!['password'];
 
         if (password == storedPassword) {
+          storeLoginData(true, mobileController.text);
           // Login successful
           SnackBar snackBar = const SnackBar(
+            backgroundColor: Colors.green,
             content: Text('Login successful'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -265,6 +284,7 @@ class _loginScreenState extends State<loginScreen> {
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),
               (route) => false);
+
           // Navigate to the home screen or perform any other necessary actions
         } else {
           // Incorrect password

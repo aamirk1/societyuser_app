@@ -38,6 +38,9 @@ dependencies:
   firebase_core: ^2.22.0
   cloud_firestore: ^4.13.1
   firebase_auth: ^4.14.0
+  flutter_typeahead: 
+  shared_preferences:
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
