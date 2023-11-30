@@ -36,9 +36,30 @@ class _apply_nocState extends State<apply_noc> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   // final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController noctypeController = TextEditingController();
-  final TextEditingController applicationController = TextEditingController();
+  final TextEditingController saleController = TextEditingController();
+  final TextEditingController gasController = TextEditingController();
+  final TextEditingController electricController = TextEditingController();
+  final TextEditingController passportController = TextEditingController();
+  final TextEditingController renovationController = TextEditingController();
+  final TextEditingController giftController = TextEditingController();
+  final TextEditingController bankController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    saleController.text =
+        'I would like to apply for noc to sale my flat ${widget.flatno} to ';
+    gasController.text =
+        'I would like to apply for noc to gas pipe my flat no ${widget.flatno}  ';
+    electricController.text =
+        'I would like to apply for noc to change  my electric meter my flat no is ${widget.flatno} ';
+    passportController.text =
+        'I would like to apply for noc to sale my flat ${widget.flatno}  ';
+    renovationController.text =
+        'I would like to apply for noc to renovate my flat ${widget.flatno} to ';
+    giftController.text =
+        'I would like to apply for noc to sale my flat ${widget.flatno} to ';
+    bankController.text =
+        'I would like to apply for noc to sale my flat ${widget.flatno} to ';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
@@ -81,24 +102,32 @@ class _apply_nocState extends State<apply_noc> {
                           noctypeController.text = suggestion.toString();
                           switch (suggestion.toString()) {
                             case 'SALE NOC':
-                              _showDialog(widget.application[0]);
+                              _showDialog(
+                                  widget.application[0], saleController);
                               break;
                             case 'GAS NOC':
-                              _showDialog(widget.application[1]);
+                              _showDialog(widget.application[1], gasController);
                               break;
                             case 'ELECTRIC METER NOC':
-                              _showDialog(widget.application[2]);
+                              _showDialog(
+                                  widget.application[2], electricController);
                               break;
                             case 'PASSPORT NOC':
-                              _showDialog(widget.application[3]);
+                              _showDialog(
+                                  widget.application[3], passportController);
                               break;
                             case 'RENOVATION NOC':
-                              _showDialog(widget.application[4]);
+                              _showDialog(
+                                  widget.application[4], renovationController);
                               break;
                             case 'NOC FOR GIFT DEED':
-                              _showDialog(widget.application[5]);
+                              _showDialog(
+                                  widget.application[5], giftController);
                               break;
                             case 'BANK':
+                              _showDialog(
+                                  widget.application[6], bankController);
+                              break;
                           }
                         }),
                   ))
@@ -109,7 +138,7 @@ class _apply_nocState extends State<apply_noc> {
     );
   }
 
-  void _showDialog(String selectedValue) {
+  void _showDialog(String selectedValue, TextEditingController controller) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -134,13 +163,13 @@ class _apply_nocState extends State<apply_noc> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(5.0),
-                    height: 80,
+                    height: 110,
                     width: MediaQuery.of(context).size.width,
                     child: TextField(
                       keyboardType: TextInputType.multiline,
-                      controller: applicationController,
+                      controller: controller,
                       decoration: InputDecoration(border: OutlineInputBorder()),
-                      maxLines: 5,
+                      maxLines: 6,
                     ),
                   ),
                   Padding(
@@ -170,7 +199,7 @@ class _apply_nocState extends State<apply_noc> {
                               storeUserData(
                                 context,
                                 noctypeController.text,
-                                applicationController.text,
+                                saleController.text,
                               );
                             },
                             child: const Text('Submit',
