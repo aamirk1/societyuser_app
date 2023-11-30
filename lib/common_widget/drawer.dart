@@ -1,16 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/login_page.dart';
 import 'package:societyuser_app/auth/splash_service.dart';
-import 'package:societyuser_app/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/homeButtonScreen/complaint/complaints.dart';
 import 'package:societyuser_app/homeButtonScreen/ladger/member_ladger.dart';
 import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
+import 'package:societyuser_app/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({Key? key}) : super(key: key);
-
+  MyDrawer({Key? key, this.flatno, this.username}) : super(key: key);
+  String? flatno;
+  String? username;
+  print(value) => print('flatno: $flatno');
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
@@ -18,10 +19,17 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   SplashService _splashService = SplashService();
 
-  final TextEditingController _societyNameController = TextEditingController();
-
   final TextEditingController flatnoController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   String flatno = '';
+
+  @override
+  void initState() {
+    super.initState();
+    flatnoController.text = widget.flatno!;
+    usernameController.text = widget.username!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -29,25 +37,32 @@ class _MyDrawerState extends State<MyDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                    radius: 40,
-                    child: Icon(
-                      Icons.person,
-                      size: 50,
-                    )),
-                Text(
-                  'Username',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CircleAvatar(
+                      radius: 30,
+                      child: Icon(
+                        Icons.person,
+                        size: 30,
+                      )),
+                  Text(
+                    'Name: ${usernameController.text}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text('Flat No.: ${flatnoController.text}'),
-              ],
+                  const SizedBox(height: 4),
+                  Text(
+                    'Flat No.: ${flatnoController.text}',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const Divider(
@@ -121,7 +136,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return const nocPage();
+                  return nocPage();
                 }),
               );
             },
@@ -142,41 +157,5 @@ class _MyDrawerState extends State<MyDrawer> {
         ],
       ),
     );
-  }
-
-  Future<void> getMemberFlat() async {
-    String phoneNum = '';
-
-    List<dynamic> temp = [];
-    phoneNum = await _splashService.getPhoneNum();
-
-    QuerySnapshot societyQuerySnapshot =
-        await FirebaseFirestore.instance.collection('members').get();
-
-    List<String> allSociety =
-        societyQuerySnapshot.docs.map((e) => e.id).toList();
-
-    for (int i = 0; i < allSociety.length; i++) {
-      bool isUserPresent = false;
-      DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
-          .collection('members')
-          .doc(flatno)
-          .get();
-
-      Map<String, dynamic> tempData =
-          dataDocumentSnapshot.data() as Map<String, dynamic>;
-      List<dynamic> dataList = tempData['data'];
-
-      for (var data in dataList) {
-        if (phoneNum == data['Mobile No.']) {
-          flatno = data['Flat No.'];
-          print(flatno);
-          setState(() {
-            flatnoController.text = flatno;
-          });
-          break;
-        }
-      }
-    }
   }
 }

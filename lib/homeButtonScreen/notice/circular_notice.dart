@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
-import 'package:societyuser_app/common_widget/drawer.dart';
 
 class circular_notice extends StatelessWidget {
   const circular_notice({super.key});

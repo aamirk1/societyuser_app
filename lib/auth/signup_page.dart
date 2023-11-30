@@ -320,7 +320,7 @@ class _signUpState extends State<signUp> {
     try {
       // Create a new document in the "users" collection
       await firestore.collection('users').doc(mobile).set({
-        'Mobile No.: ': mobile,
+        'Mobile No.:': mobile,
         'email': email,
         'password': password,
         'confirmPassword': confirmPassword

@@ -73,7 +73,7 @@ class _memberLadgerState extends State<memberLadger> {
                       label: Text(
                         colums[index],
                         style: const TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.bold),
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     );
                   }),

@@ -33,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController flatnoController = TextEditingController();
+
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
   // final TextEditingController _controllerSociety = TextEditingController();
@@ -43,10 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> memberList = [];
   String name = '';
   String status = '';
+  String flatno = '';
   @override
   void initState() {
     _splashService.getPhoneNum();
-
     // TODO: implement initState
     super.initState();
   }
@@ -61,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      drawer: MyDrawer(),
+      drawer: MyDrawer(flatno: flatno, username: name),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SizedBox(
@@ -112,61 +114,46 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                // crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.90,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: TypeAheadField(
-                                        textFieldConfiguration:
-                                            TextFieldConfiguration(
-                                                controller:
-                                                    _societyNameController,
-                                                style:
-                                                    DefaultTextStyle.of(context)
-                                                        .style
-                                                        .copyWith(
-                                                            fontStyle: FontStyle
-                                                                .italic,
-                                                            fontSize: 10),
-                                                decoration: const InputDecoration(
-                                                    labelText: 'select Society',
-                                                    border:
-                                                        OutlineInputBorder())),
-                                        suggestionsCallback: (pattern) async {
-                                          return await getSocietyList();
-                                        },
-                                        itemBuilder: (context, suggestion) {
-                                          return ListTile(
-                                            title: Text(
-                                              suggestion.toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                          );
-                                        },
-                                        onSuggestionSelected: (suggestion) {
-                                          _societyNameController.text =
-                                              suggestion.toString();
-                                          getMemberName(suggestion.toString());
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: TypeAheadField(
+                                    textFieldConfiguration:
+                                        TextFieldConfiguration(
+                                            controller: _societyNameController,
+                                            decoration: const InputDecoration(
+                                                labelText: 'Select Society',
+                                                border: OutlineInputBorder())),
+                                    suggestionsCallback: (pattern) async {
+                                      return await getSocietyList();
+                                    },
+                                    itemBuilder: (context, suggestion) {
+                                      return ListTile(
+                                        title: Text(
+                                          suggestion.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.black),
+                                        ),
+                                      );
+                                    },
+                                    onSuggestionSelected: (suggestion) {
+                                      _societyNameController.text =
+                                          suggestion.toString();
+                                      getMemberName(suggestion.toString());
 
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) => societyDetails(
-                                          //         societyNames: suggestion.toString()),
-                                          //   ),
-                                          // );
-                                        },
-                                      ),
-                                    ),
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) => societyDetails(
+                                      //         societyNames: suggestion.toString()),
+                                      //   ),
+                                      // );
+                                    },
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           ],
@@ -179,6 +166,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: MediaQuery.of(context).size.width * 0.90,
                                 child: Text(
                                     "Society Name: ${_societyNameController.text}"),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                child:
+                                    Text("Flat No.: ${flatnoController.text}"),
                               ),
                             ),
                           ],
@@ -342,7 +341,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
-                          return const nocPage();
+                          return nocPage(
+                              flatno: flatnoController.text,
+                              societyName: _societyNameController.text);
                         }),
                       );
                     },
@@ -483,7 +484,10 @@ class _HomeScreenState extends State<HomeScreen> {
         if (phoneNum == data['Mobile No.']) {
           name = data['Member Name'];
           status = data['Status'];
+          flatno = data['Flat No.'];
+
           setState(() {
+            flatnoController.text = flatno;
             usernameController.text = name;
             statusController.text = status;
           });

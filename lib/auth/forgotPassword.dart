@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/login_page.dart';
-import 'package:societyuser_app/common_widget/drawer.dart';
 
 // ignore: must_be_immutable
 class forgotPassword extends StatefulWidget {
