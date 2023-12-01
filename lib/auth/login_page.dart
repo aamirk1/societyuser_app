@@ -3,28 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/auth/forgotPassword.dart';
 import 'package:societyuser_app/auth/signup_page.dart';
-import 'package:societyuser_app/auth/splash_service.dart';
 import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
+// ignore: camel_case_types
 class loginScreen extends StatefulWidget {
-  loginScreen({super.key});
+  const loginScreen({super.key});
 
   @override
   State<loginScreen> createState() => _loginScreenState();
 }
 
+// ignore: camel_case_types
 class _loginScreenState extends State<loginScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
   TextEditingController mobileController = TextEditingController();
-  SplashService _splashService = SplashService();
   TextEditingController passwordController = TextEditingController();
 
   String? userFlatNumber;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -48,7 +47,7 @@ class _loginScreenState extends State<loginScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -56,23 +55,23 @@ class _loginScreenState extends State<loginScreen> {
               "Society",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 40,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold),
             ),
             const Text(
               "Manager",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 40,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 50,
+              height: 30,
             ),
             const Text('Welcome Back',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,
@@ -82,38 +81,40 @@ class _loginScreenState extends State<loginScreen> {
               child: Column(
                 children: [
                   Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: const TextStyle(color: Colors.white),
-                        textInputAction: TextInputAction.next,
-                        controller: mobileController,
-                        decoration: const InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.white,
-                          )),
-                          labelText: 'Mobile No..',
-                          labelStyle: TextStyle(
-                            color: Colors.white,
+                    child: Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          textInputAction: TextInputAction.next,
+                          controller: mobileController,
+                          decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.white,
+                            )),
+                            labelText: 'Mobile No.',
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            // enabledBorder: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.white,
+                            )),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
                           ),
-                          // enabledBorder: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.white,
-                          )),
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter Mobile No.';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Mobile No.';
-                          }
-                          return null;
-                        },
                       ),
                     ),
                   ),
@@ -161,7 +162,7 @@ class _loginScreenState extends State<loginScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-                          foregroundColor: Color.fromARGB(255, 0, 0, 12),
+                          foregroundColor: const Color.fromARGB(255, 0, 0, 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
@@ -191,7 +192,7 @@ class _loginScreenState extends State<loginScreen> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return forgotPassword();
+                        return const forgotPassword();
                       }));
                     },
                     child: const Text(
@@ -206,7 +207,7 @@ class _loginScreenState extends State<loginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
-                          return signUp();
+                          return const signUp();
                         }),
                       );
                     },
@@ -231,7 +232,7 @@ class _loginScreenState extends State<loginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
-                          return signUp();
+                          return const signUp();
                         }),
                       );
                     },
@@ -254,7 +255,6 @@ class _loginScreenState extends State<loginScreen> {
     prefs.remove('phoneNum');
     prefs.setBool('isLogin', isLogin);
     prefs.setString('phoneNum', phoneNum);
-    print('Data Stored');
   }
 
   Future<void> login(
@@ -275,8 +275,9 @@ class _loginScreenState extends State<loginScreen> {
           // Login successful
           SnackBar snackBar = const SnackBar(
             backgroundColor: Colors.green,
-            content: Text('Login successful'),
+            content: Center(child: Text('Login successful')),
           );
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           // print('Login successful');
           // ignore: use_build_context_synchronously
@@ -288,14 +289,27 @@ class _loginScreenState extends State<loginScreen> {
           // Navigate to the home screen or perform any other necessary actions
         } else {
           // Incorrect password
-          print('Incorrect password');
+          SnackBar snackBar = const SnackBar(
+            backgroundColor: Colors.red,
+            content: Center(child: Text('Incorrect password')),
+          );
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          // print('Incorrect password');
         }
       } else {
         // User does not exist
-        print('User does not exist');
+        SnackBar snackBar = const SnackBar(
+          backgroundColor: Colors.red,
+          content: Center(child: Center(child: Text('User does not exist'))),
+        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // print('User does not exist');
       }
     } catch (e) {
       // Error occurred
+      // ignore: avoid_print
       print('Error: $e');
     }
   }

@@ -11,7 +11,7 @@ class SplashService {
   Future<String> getPhoneNum() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String phoneNum = prefs.getString('phoneNum') ?? '';
-    print('phoneNum - $phoneNum');
+ 
     return phoneNum;
   }
 

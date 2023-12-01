@@ -3,22 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/splash_service.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 
+// ignore: camel_case_types
 class memberLadger extends StatefulWidget {
-  memberLadger({super.key});
+  const memberLadger({super.key});
 
   @override
   State<memberLadger> createState() => _memberLadgerState();
 }
 
+// ignore: camel_case_types
 class _memberLadgerState extends State<memberLadger> {
-  SplashService _splashService = SplashService();
+  final SplashService _splashService = SplashService();
   String monthyear = 'November 2023';
   String electric = '';
   List<dynamic> colums = [
     'Date',
     'Particulars',
-    'Debit',
-    'Credit',
+    'Bills/Debits',
+    'Credits / Receipts',
     'Balance',
   ];
 
@@ -36,6 +38,7 @@ class _memberLadgerState extends State<memberLadger> {
     '1000',
     '2000',
   ];
+  @override
   initState() {
     super.initState();
     ladgerList('siddivinayak');
@@ -57,7 +60,7 @@ class _memberLadgerState extends State<memberLadger> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(2.0),
             child: Card(
               elevation: 5,
               shadowColor: Colors.grey,
@@ -67,13 +70,13 @@ class _memberLadgerState extends State<memberLadger> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: DataTable(
-                  columnSpacing: MediaQuery.of(context).size.width * 0.03,
+                  columnSpacing: MediaQuery.of(context).size.width * 0.01,
                   columns: List.generate(5, (index) {
                     return DataColumn(
                       label: Text(
                         colums[index],
                         style: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                            fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                     );
                   }),
@@ -107,7 +110,6 @@ class _memberLadgerState extends State<memberLadger> {
   Future<void> ladgerList(String societyname) async {
     String phoneNum = '';
 
-    List<dynamic> temp = [];
     phoneNum = await _splashService.getPhoneNum();
 
     DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore.instance
@@ -117,11 +119,10 @@ class _memberLadgerState extends State<memberLadger> {
     Map<String, dynamic> tempdata =
         societyQuerySnapshot.data() as Map<String, dynamic>;
     List<dynamic> totalusers = tempdata['data'];
-    print('totalusers ${totalusers}');
+
     for (var data in totalusers) {
       if (phoneNum == data['Mobile No.']) {
         electric = data['Electricity Chg.'];
-        print('electricfriuhfrkjenfdi dsfhiwenf' + electric);
         break;
       }
     }

@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 import 'package:societyuser_app/homeButtonScreen/noc/applyNoc.dart';
+import 'package:societyuser_app/homeButtonScreen/noc/nocResponse.dart';
 
+// ignore: camel_case_types, must_be_immutable
 class nocPage extends StatefulWidget {
   nocPage({super.key, this.flatno, this.societyName});
   String? flatno;
@@ -12,6 +14,7 @@ class nocPage extends StatefulWidget {
   State<nocPage> createState() => _nocPageState();
 }
 
+// ignore: camel_case_types
 class _nocPageState extends State<nocPage> {
   @override
   void initState() {
@@ -52,7 +55,12 @@ class _nocPageState extends State<nocPage> {
                     ListTile(
                         title: TextButton(
                             onPressed: () {
-
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return const ViewResponse(
+                                  
+                                );
+                              }));
                             },
                             child: Text(
                               nocData[index],
@@ -97,6 +105,7 @@ class _nocPageState extends State<nocPage> {
         }
       }
     } catch (e) {
+      // ignore: avoid_print
       print('Error fetching data: $e');
     }
   }

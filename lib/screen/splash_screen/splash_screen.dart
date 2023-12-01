@@ -6,7 +6,7 @@ import 'package:societyuser_app/auth/splash_service.dart';
 import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -21,11 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(milliseconds: 3000), () async {
       isLogin = await _splashService.checkLoginStatus(context);
       if (isLogin) {
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const HomeScreen()));
       } else {
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => loginScreen()));
+            context, MaterialPageRoute(builder: (context) => const loginScreen()));
       }
     });
     super.initState();

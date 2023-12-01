@@ -7,6 +7,7 @@ import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
+// ignore: must_be_immutable
 class MyDrawer extends StatefulWidget {
   MyDrawer({Key? key, this.flatno, this.username}) : super(key: key);
   String? flatno;
@@ -17,6 +18,7 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+  // ignore: prefer_final_fields, unused_field
   SplashService _splashService = SplashService();
 
   final TextEditingController flatnoController = TextEditingController();
@@ -57,7 +59,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   const SizedBox(height: 4),
                   Text(
                     'Flat No.: ${flatnoController.text}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
@@ -88,7 +90,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return memberLadger();
+                  return const memberLadger();
                 }),
               );
             },
@@ -100,7 +102,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return const circular_notice();
+                  return circular_notice();
                 }),
               );
             },
@@ -124,7 +126,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return const complaints();
+                  return Complaints();
                 }),
               );
             },
@@ -149,7 +151,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return loginScreen();
+                  return const loginScreen();
                 }),
               );
             },

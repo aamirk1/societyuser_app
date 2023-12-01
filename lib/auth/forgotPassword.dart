@@ -1,4 +1,7 @@
-// ignore_for_file: camel_case_types
+// ignore: duplicate_ignore
+// ignore: file_names
+
+// ignore_for_file: file_names, camel_case_types
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +9,7 @@ import 'package:societyuser_app/auth/login_page.dart';
 
 // ignore: must_be_immutable
 class forgotPassword extends StatefulWidget {
-  forgotPassword({super.key});
+  const forgotPassword({super.key});
 
   @override
   State<forgotPassword> createState() => _forgotPasswordState();
@@ -246,13 +249,15 @@ class _forgotPasswordState extends State<forgotPassword> {
           .doc(flatNo)
           .update({'password': password, 'confirmPassword': confirmPassword});
 
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) {
-          return loginScreen();
+          return const loginScreen();
         }),
       );
     } on FirebaseException catch (e) {
+      // ignore: avoid_print
       print('Error storing data: $e');
     }
   }

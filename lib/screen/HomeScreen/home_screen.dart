@@ -5,9 +5,13 @@ import 'package:societyuser_app/auth/splash_service.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 import 'package:societyuser_app/common_widget/drawer.dart';
 import 'package:societyuser_app/homeButtonScreen/complaint/complaints.dart';
+import 'package:societyuser_app/homeButtonScreen/gatePass/gatePass.dart';
 import 'package:societyuser_app/homeButtonScreen/ladger/member_ladger.dart';
 import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/homeButtonScreen/notice/circular_notice.dart';
+import 'package:societyuser_app/homeButtonScreen/others/others.dart';
+import 'package:societyuser_app/homeButtonScreen/resident/resident_management.dart';
+import 'package:societyuser_app/homeButtonScreen/serviceProvider/serviceProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,20 +20,17 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-List<dynamic> cols = [
-  'month',
-  'Duration',
-  'Amount',
-  'Status',
+List<dynamic> row = [
+  'Dues',
+  'Ladger',
 ];
-List<dynamic> rows = [
-  'jan',
-  '15 days',
+List<dynamic> cols = [
   '5000',
+  '15 days',
 ];
 
 class _HomeScreenState extends State<HomeScreen> {
-  SplashService _splashService = SplashService();
+  final SplashService _splashService = SplashService();
   final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -49,10 +50,36 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _splashService.getPhoneNum();
-    // TODO: implement initState
     super.initState();
   }
 
+  List<String> buttons = [
+    'CIRCULAR/NOTICE',
+    'NOC MANAGEMENT',
+    'GRIEVANCE / COMPLAINT',
+    'RESIDENT MANAGEMENT',
+    'SERVICE PROVIDER MANAGEMENT',
+    'GATE PASS',
+    'OTHERS'
+  ];
+  List<Widget Function(String, String)> screens = [
+    (flatno, society) => circular_notice(
+          flatno: flatno,
+          societyName: society,
+    ),
+    (flatno, society) => nocPage(
+          flatno: flatno,
+          societyName: society,
+        ),
+    (flatno, society) => Complaints(
+          flatno: flatno,
+          societyName: society,
+        ),
+    (flat, society) => const ResidentManagement(),
+    (flat, society) => const ServiceProvider(),
+    (flat, society) => const GatePass(),
+    (flat, society) => const Others(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,13 +121,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: Column(
-                                // crossAxisAlignment: CrossAxisAlignment.center,
+                              child: Row(
                                 children: [
                                   Text(
-                                    'Dev Accounts',
+                                    'Dev Accounts -',
                                     style: TextStyle(
-                                        fontSize: 30,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.purple),
+                                  ),
+                                  Text(
+                                    ' Society Manager App',
+                                    style: TextStyle(
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.purple),
                                   ),
@@ -143,14 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       _societyNameController.text =
                                           suggestion.toString();
                                       getMemberName(suggestion.toString());
-
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => societyDetails(
-                                      //         societyNames: suggestion.toString()),
-                                      //   ),
-                                      // );
                                     },
                                   ),
                                 ),
@@ -211,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -224,193 +249,71 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: DataTable(
-                        columnSpacing: MediaQuery.of(context).size.width * 0.06,
-                        columns: List.generate(4, (index) {
-                          return DataColumn(
-                              label: Text(cols[index],
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold)));
-                        }),
-                        rows: List.generate(1, (index1) {
-                          return DataRow(
-                            cells: List.generate(4, (index2) {
-                              return DataCell(
-                                index2 == 3
-                                    ? ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.green,
-                                          foregroundColor: buttonTextColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                        ),
-                                        onPressed: () {},
-                                        child: const Text('Pay'))
-                                    : Text(
-                                        rows[index2],
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                              );
-                            }),
-                          );
-                        }),
+                        columnSpacing: 155,
+                        columns: const [
+                          DataColumn(
+                              label: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Dues',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                          DataColumn(label: Text('Rs: 1258')),
+                        ],
+                        dividerThickness: 2,
+                        rows: [
+                          DataRow(cells: [
+                            DataCell(TextButton(
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const memberLadger();
+                                }));
+                              },
+                              child: const Text('Ladger',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                            )),
+                            DataCell(ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.green)),
+                              onPressed: () {},
+                              child: const Text('Pay'),
+                            )),
+                          ]),
+                        ],
                       ),
                     ),
                   ),
                 ]),
               ]),
-              const Divider(
-                color: Colors.grey,
+              const SizedBox(
+                height: 5,
               ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: buttonColor,
-                      foregroundColor: buttonTextColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      // minimumSize: const Size(370, 50),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return memberLadger();
-                        }),
-                      );
-                    },
-                    child: const Text(
-                      'Member Ladger',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
-              ]),
-
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: buttonColor,
-                      foregroundColor: buttonTextColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      // minimumSize: const Size(370, 50),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return const circular_notice();
-                        }),
-                      );
-                    },
-                    child: const Text(
-                      'Circular Notices',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                )
-              ]),
-
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: buttonColor,
-                      foregroundColor: buttonTextColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      // minimumSize: const Size(370, 50),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return nocPage(
-                              flatno: flatnoController.text,
-                              societyName: _societyNameController.text);
-                        }),
-                      );
-                    },
-                    child: const Text(
-                      'NOC',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
-              ]),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: buttonColor,
-                        foregroundColor: buttonTextColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        // minimumSize: const Size(370, 50),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return const complaints();
-                          }),
-                        );
-                      },
-                      child: const Text(
-                        'Complaints',
-                        style: TextStyle(fontSize: 20),
-                      )),
-                )
-              ]),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.95,
-                    // padding: const EdgeInsets.all(4.0),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: buttonColor,
-                          foregroundColor: buttonTextColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          // minimumSize: const Size(370, 50),
-                        ),
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) {
-                          //     return const notice();
-                          //   }),
-                          // );
-                        },
-                        child: const Text(
-                          'Other',
-                          style: TextStyle(fontSize: 20),
-                        )),
-                  )
-                ],
-              ),
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: ListView.builder(
+                        itemCount: buttons.length,
+                        itemBuilder: (context, index) {
+                          return ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => screens[index](
+                                        flatnoController.text,
+                                        _societyNameController.text),
+                                  ),
+                                );
+                              },
+                              child: Text(buttons[index]));
+                        })),
+              ]),
             ],
           ),
         ),
@@ -460,7 +363,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> getMemberName(String selectedSociety) async {
     String phoneNum = '';
 
-    List<dynamic> temp = [];
     phoneNum = await _splashService.getPhoneNum();
 
     QuerySnapshot societyQuerySnapshot =
@@ -470,6 +372,7 @@ class _HomeScreenState extends State<HomeScreen> {
         societyQuerySnapshot.docs.map((e) => e.id).toList();
 
     for (int i = 0; i < allSociety.length; i++) {
+      // ignore: unused_local_variable
       bool isUserPresent = false;
       DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
           .collection('members')

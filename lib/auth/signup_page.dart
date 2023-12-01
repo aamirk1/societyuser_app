@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/login_page.dart';
 
+// ignore: camel_case_types
 class signUp extends StatefulWidget {
-  signUp({super.key});
+  const signUp({super.key});
 
   @override
   State<signUp> createState() => _signUpState();
 }
 
+// ignore: camel_case_types
 class _signUpState extends State<signUp> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController mobileController = TextEditingController();
@@ -266,7 +268,7 @@ class _signUpState extends State<signUp> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-                          foregroundColor: Color.fromARGB(255, 0, 0, 12),
+                          foregroundColor: const Color.fromARGB(255, 0, 0, 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
@@ -297,7 +299,7 @@ class _signUpState extends State<signUp> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return loginScreen();
+                          return const loginScreen();
                         }));
                       },
                       child: const Text(
@@ -325,10 +327,11 @@ class _signUpState extends State<signUp> {
         'password': password,
         'confirmPassword': confirmPassword
       });
+      // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) {
-          return loginScreen();
+          return const loginScreen();
         }),
         (route) => false,
       );

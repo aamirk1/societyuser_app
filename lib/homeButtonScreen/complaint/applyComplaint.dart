@@ -4,16 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
-import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
+import 'package:societyuser_app/homeButtonScreen/complaint/complaints.dart';
 
 // ignore: camel_case_types, must_be_immutable
-class apply_noc extends StatefulWidget {
-  apply_noc({super.key, this.flatno, this.societyName});
+class ApplyComplaints extends StatefulWidget {
+  ApplyComplaints({super.key, this.flatno, this.societyName});
   String? flatno;
   String? societyName;
 
   @override
-  State<apply_noc> createState() => _apply_nocState();
+  State<ApplyComplaints> createState() => _ApplyComplaintsState();
 
   List<String> items = [
     'SALE NOC',
@@ -36,10 +36,11 @@ class apply_noc extends StatefulWidget {
 }
 
 // ignore: camel_case_types
-class _apply_nocState extends State<apply_noc> {
+class _ApplyComplaintsState extends State<ApplyComplaints> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   // final TextEditingController _societyNameController = TextEditingController();
-  final TextEditingController noctypeController = TextEditingController();
+  final TextEditingController complaintstypeController =
+      TextEditingController();
   final TextEditingController saleController = TextEditingController();
   final TextEditingController gasController = TextEditingController();
   final TextEditingController electricController = TextEditingController();
@@ -51,24 +52,24 @@ class _apply_nocState extends State<apply_noc> {
   @override
   Widget build(BuildContext context) {
     saleController.text =
-        'I would like to apply for noc to sale my flat ${widget.flatno} to ';
+        'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
     gasController.text =
-        'I would like to apply for noc to gas pipe my flat no ${widget.flatno}  ';
+        'I would like to apply for complaints to gas pipe my flat no ${widget.flatno}  ';
     electricController.text =
-        'I would like to apply for noc to change  my electric meter my flat no is ${widget.flatno} ';
+        'I would like to apply for complaints to change  my electric meter my flat no is ${widget.flatno} ';
     passportController.text =
-        'I would like to apply for noc to sale my flat ${widget.flatno}  ';
+        'I would like to apply for complaints to sale my flat ${widget.flatno}  ';
     renovationController.text =
-        'I would like to apply for noc to renovate my flat ${widget.flatno} to ';
+        'I would like to apply for complaints to renovate my flat ${widget.flatno} to ';
     giftController.text =
-        'I would like to apply for noc to sale my flat ${widget.flatno} to ';
+        'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
     bankController.text =
-        'I would like to apply for noc to sale my flat ${widget.flatno} to ';
+        'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
         title: const Text(
-          'Apply NOC',
+          'Apply complaints',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -85,9 +86,9 @@ class _apply_nocState extends State<apply_noc> {
                     padding: const EdgeInsets.all(4.0),
                     child: TypeAheadField(
                         textFieldConfiguration: TextFieldConfiguration(
-                            controller: noctypeController,
+                            controller: complaintstypeController,
                             decoration: const InputDecoration(
-                                labelText: 'Select Noc Type',
+                                labelText: 'Select complaints Type',
                                 border: OutlineInputBorder())),
                         suggestionsCallback: (pattern) async {
                           // return await getSocietyList();
@@ -103,7 +104,7 @@ class _apply_nocState extends State<apply_noc> {
                           );
                         },
                         onSuggestionSelected: (suggestion) {
-                          noctypeController.text = suggestion.toString();
+                          complaintstypeController.text = suggestion.toString();
                           switch (suggestion.toString()) {
                             case 'SALE NOC':
                               _showDialog(
@@ -172,7 +173,8 @@ class _apply_nocState extends State<apply_noc> {
                     child: TextField(
                       keyboardType: TextInputType.multiline,
                       controller: controller,
-                      decoration: const InputDecoration(border: OutlineInputBorder()),
+                      decoration:
+                          const InputDecoration(border: OutlineInputBorder()),
                       maxLines: 6,
                     ),
                   ),
@@ -202,7 +204,7 @@ class _apply_nocState extends State<apply_noc> {
                             onPressed: () async {
                               storeUserData(
                                 context,
-                                noctypeController.text,
+                                complaintstypeController.text,
                                 controller.text,
                               );
                             },
@@ -222,25 +224,25 @@ class _apply_nocState extends State<apply_noc> {
 
   Future<void> storeUserData(
     BuildContext context,
-    String nocType,
+    String complaintsType,
     String text,
   ) async {
     try {
       // Create a new document in the "users" collection
       await firestore
-          .collection('nocApplications')
+          .collection('complaints')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofNoc')
-          .doc(nocType)
+          .collection('typeofcomplaints')
+          .doc(complaintsType)
           .set({
-        'nocType': nocType,
+        'complaintsType': complaintsType,
         'text': text,
       });
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return nocPage();
+        return Complaints();
       }));
     } on FirebaseException catch (e) {
       // ignore: avoid_print
