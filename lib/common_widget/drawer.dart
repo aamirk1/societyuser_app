@@ -9,9 +9,11 @@ import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
 // ignore: must_be_immutable
 class MyDrawer extends StatefulWidget {
-  MyDrawer({Key? key, this.flatno, this.username}) : super(key: key);
+  MyDrawer({Key? key, this.flatno, this.username, societyName})
+      : super(key: key);
   String? flatno;
   String? username;
+  String? societyName;
   print(value) => print('flatno: $flatno');
   @override
   State<MyDrawer> createState() => _MyDrawerState();

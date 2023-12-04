@@ -82,10 +82,11 @@ class _ComplaintsState extends State<Complaints> {
                           height: MediaQuery.of(context).size.height * 0.15,
                           padding: const EdgeInsets.all(2.0),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Society Name: ${widget.societyName}"),
-                              Text("Flat No.: ${widget.flatno}"),
                               Text("Memeber Name: ${widget.username}"),
+                              Text("Flat No.: ${widget.flatno}"),
+                              Text("Society Name: ${widget.societyName}"),
                             ],
                           ),
                         ),

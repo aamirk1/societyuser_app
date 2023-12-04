@@ -80,93 +80,80 @@ class _loginScreenState extends State<loginScreen> {
               key: _formKey,
               child: Column(
                 children: [
-                  Center(
-                    child: Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          style: const TextStyle(color: Colors.white),
-                          textInputAction: TextInputAction.next,
-                          controller: mobileController,
-                          decoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                              color: Colors.white,
-                            )),
-                            labelText: 'Mobile No.',
-                            labelStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            // enabledBorder: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                              color: Colors.white,
-                            )),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter Mobile No.';
-                            }
-                            return null;
-                          },
-                        ),
+                  TextFormField(
+                    style: const TextStyle(color: Colors.white),
+                    textInputAction: TextInputAction.next,
+                    controller: mobileController,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: Colors.white,
+                      )),
+                      labelText: 'Mobile No.',
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      // enabledBorder: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: Colors.white,
+                      )),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter Mobile No.';
+                      }
+                      return null;
+                    },
                   ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: const TextStyle(color: Colors.white),
-                        textInputAction: TextInputAction.done,
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          labelText: 'Password',
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          // enabledBorder: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.white,
-                          )),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    style: const TextStyle(color: Colors.white),
+                    textInputAction: TextInputAction.done,
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white,
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Password';
-                          }
-                          return null;
-                        },
                       ),
+                      labelText: 'Password',
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                      // enabledBorder: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: Colors.white,
+                      )),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter Password';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Center(
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.87,
+                      width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: const Color.fromARGB(255, 0, 0, 12),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          minimumSize: const Size(180, 40),
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -201,48 +188,44 @@ class _loginScreenState extends State<loginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return const signUp();
-                        }),
-                      );
-                    },
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return const signUp();
+                      }),
+                    );
+                  },
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],
             ),
-            SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don't have an account?",
-                    style: TextStyle(color: Colors.white),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Don't have an account?",
+                  style: TextStyle(color: Colors.white),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return const signUp();
+                      }),
+                    );
+                  },
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return const signUp();
-                        }),
-                      );
-                    },
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

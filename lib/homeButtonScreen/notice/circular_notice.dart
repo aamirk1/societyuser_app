@@ -53,118 +53,80 @@ class _circular_noticeState extends State<circular_notice> {
         padding: const EdgeInsets.all(4.0),
         child: Column(
           children: [
-            Column(
-              children: [
-                Card(
-                  elevation: 5,
-                  shadowColor: Colors.grey,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Column(
+            Card(
+              elevation: 5,
+              shadowColor: Colors.grey,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Dev Accounts -',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.purple),
-                                  ),
-                                  Text(
-                                    ' Society Manager App',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.purple),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        Text(
+                          'Dev Accounts -',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple),
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                child:
-                                    Text("Society Name: ${widget.societyName}"),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                child: Text("Flat No.: ${widget.flatno}"),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                child: Text("Memeber Name: ${widget.username}"),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          ' Society Manager App',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: SingleChildScrollView(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.70,
-                      child: Card(
-                        elevation: 5,
-                        shadowColor: Colors.grey,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          padding: const EdgeInsets.all(2.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Memeber Name: ${widget.username}"),
+                              Text("Flat No.: ${widget.flatno}"),
+                              Text("Society Name: ${widget.societyName}"),
+                            ],
                           ),
                         ),
-                        child: ListView.builder(
-                            itemCount: notice.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(notice[index]),
-                                onTap: () {
-                                  print('noticeeeeeeee $index');
-                                },
-                              );
-                            }),
-                      ),
+                        const Divider(
+                          color: Colors.grey,
+                          thickness: 2,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.64,
+                          child: ListView.builder(
+                              itemCount: notice.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(notice[index]),
+                                  onTap: () {
+                                    print('noticeeeeeeee $index');
+                                  },
+                                );
+                              }),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
-            )
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -95,7 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      drawer: MyDrawer(flatno: flatno, username: name),
+      drawer: MyDrawer(
+          flatno: flatno,
+          username: name,
+          societyName: _societyNameController.text),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SizedBox(
