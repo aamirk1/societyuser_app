@@ -16,22 +16,28 @@ class ApplyComplaints extends StatefulWidget {
   State<ApplyComplaints> createState() => _ApplyComplaintsState();
 
   List<String> items = [
-    'SALE NOC',
-    'GAS NOC',
-    'ELECTRIC METER NOC',
-    'PASSPORT NOC',
-    'RENOVATION NOC',
-    'NOC FOR GIFT DEED',
-    'BANK',
+    'House Keeping Complaint',
+    'Security Issues',
+    'Parking Issue',
+    'Admin Issue',
+    'Accounts Issue',
+    'Vendor Complaints',
+    'Water Related',
+    'Leackage Related',
+    'Pet Animals Related',
+    'Others',
   ];
   List<String> application = [
-    'Sale Noc  Application By Member',
-    'Gas Noc Application By Member',
-    'Electric Meter Noc Application By Member',
-    'Passport Noc Application By Member',
-    'Renevation Noc Application By Member',
-    'Noc For Gift Deed Application By Member',
-    'Bank Application By Member',
+    'House Keeping Complaint By Member',
+    'Security Issues By Member',
+    'Parking Issue By Member',
+    'Admin Issue By Member',
+    'Accounts Issue By Member',
+    'Vendor Complaints By Member',
+    'Water Related By Member',
+    'Leackage Related By Member',
+    'PetAnimal Related By Member',
+    'Others By Member',
   ];
 }
 
@@ -51,20 +57,20 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
 
   @override
   Widget build(BuildContext context) {
-    saleController.text =
-        'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
-    gasController.text =
-        'I would like to apply for complaints to gas pipe my flat no ${widget.flatno}  ';
-    electricController.text =
-        'I would like to apply for complaints to change  my electric meter my flat no is ${widget.flatno} ';
-    passportController.text =
-        'I would like to apply for complaints to sale my flat ${widget.flatno}  ';
-    renovationController.text =
-        'I would like to apply for complaints to renovate my flat ${widget.flatno} to ';
-    giftController.text =
-        'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
-    bankController.text =
-        'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
+    // saleController.text =
+    //     'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
+    // gasController.text =
+    //     'I would like to apply for complaints to gas pipe my flat no ${widget.flatno}  ';
+    // electricController.text =
+    //     'I would like to apply for complaints to change  my electric meter my flat no is ${widget.flatno} ';
+    // passportController.text =
+    //     'I would like to apply for complaints to sale my flat ${widget.flatno}  ';
+    // renovationController.text =
+    //     'I would like to apply for complaints to renovate my flat ${widget.flatno} to ';
+    // giftController.text =
+    //     'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
+    // bankController.text =
+    //     'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
@@ -81,7 +87,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
             children: [
               SizedBox(
                   width: MediaQuery.of(context).size.width * 0.90,
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: MediaQuery.of(context).size.height * 0.08,
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: TypeAheadField(
@@ -106,32 +112,44 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                         onSuggestionSelected: (suggestion) {
                           complaintstypeController.text = suggestion.toString();
                           switch (suggestion.toString()) {
-                            case 'SALE NOC':
+                            case 'House Keeping Complaint':
                               _showDialog(
                                   widget.application[0], saleController);
                               break;
-                            case 'GAS NOC':
+                            case 'Security Issues':
                               _showDialog(widget.application[1], gasController);
                               break;
-                            case 'ELECTRIC METER NOC':
+                            case 'Parking Issue':
                               _showDialog(
                                   widget.application[2], electricController);
                               break;
-                            case 'PASSPORT NOC':
+                            case 'Admin Issue':
                               _showDialog(
                                   widget.application[3], passportController);
                               break;
-                            case 'RENOVATION NOC':
+                            case 'Accounts Issue':
                               _showDialog(
                                   widget.application[4], renovationController);
                               break;
-                            case 'NOC FOR GIFT DEED':
+                            case 'Vendor Complaints':
                               _showDialog(
                                   widget.application[5], giftController);
                               break;
-                            case 'BANK':
+                            case 'Water Related':
                               _showDialog(
                                   widget.application[6], bankController);
+                              break;
+                            case 'Leackage Related':
+                              _showDialog(
+                                  widget.application[7], bankController);
+                              break;
+                            case 'Pet Animals Related':
+                              _showDialog(
+                                  widget.application[8], bankController);
+                              break;
+                            case 'Others':
+                              _showDialog(
+                                  widget.application[9], bankController);
                               break;
                           }
                         }),
@@ -155,7 +173,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: Center(
                       child: Text(
                         selectedValue.toString(),
@@ -167,7 +185,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(4.0),
                     height: 110,
                     width: MediaQuery.of(context).size.width,
                     child: TextField(
@@ -198,20 +216,23 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                           width: 10,
                         ),
                         ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.green)),
-                            onPressed: () async {
-                              storeUserData(
-                                context,
-                                complaintstypeController.text,
-                                controller.text,
-                              );
-                            },
-                            child: const Text('Submit',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ))),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.green)),
+                          onPressed: () async {
+                            storeUserData(
+                              context,
+                              complaintstypeController.text,
+                              controller.text,
+                            );
+                          },
+                          child: const Text(
+                            'Submit',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   )

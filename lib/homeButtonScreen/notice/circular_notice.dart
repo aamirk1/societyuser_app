@@ -1,11 +1,14 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 
 // ignore: camel_case_types
 class circular_notice extends StatefulWidget {
-  circular_notice({super.key, this.flatno, this.societyName});
+  circular_notice({super.key, this.flatno, this.societyName, this.username});
   String? flatno;
   String? societyName;
+  String? username;
 
   @override
   State<circular_notice> createState() => _circular_noticeState();
@@ -46,36 +49,125 @@ class _circular_noticeState extends State<circular_notice> {
         ),
       ),
       // drawer: const MyDrawer(),
-      body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Padding(
-            padding: EdgeInsets.all(2.0),
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.85,
-                child: Card(
+      body: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          children: [
+            Column(
+              children: [
+                Card(
                   elevation: 5,
                   shadowColor: Colors.grey,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(5),
+                      Radius.circular(10),
                     ),
                   ),
-                  child: ListView.builder(
-                      itemCount: notice.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(notice[index]),
-                          onTap: () {
-                            print('noticeeeeeeee $index');
-                          },
-                        );
-                      }),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Column(
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Dev Accounts -',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.purple),
+                                  ),
+                                  Text(
+                                    ' Society Manager App',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.purple),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                child:
+                                    Text("Society Name: ${widget.societyName}"),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                child: Text("Flat No.: ${widget.flatno}"),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                child: Text("Memeber Name: ${widget.username}"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            )),
-      ])),
+              ],
+            ),
+            Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.70,
+                      child: Card(
+                        elevation: 5,
+                        shadowColor: Colors.grey,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        child: ListView.builder(
+                            itemCount: notice.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(notice[index]),
+                                onTap: () {
+                                  print('noticeeeeeeee $index');
+                                },
+                              );
+                            }),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

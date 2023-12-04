@@ -6,9 +6,10 @@ import 'package:societyuser_app/homeButtonScreen/complaint/complaintsResponse.da
 
 // ignore: camel_case_types, must_be_immutable
 class Complaints extends StatefulWidget {
-  Complaints({super.key, this.flatno, this.societyName});
+  Complaints({super.key, this.flatno, this.societyName, this.username});
   String? flatno;
   String? societyName;
+  String? username;
 
   @override
   State<Complaints> createState() => _ComplaintsState();
@@ -35,55 +36,116 @@ class _ComplaintsState extends State<Complaints> {
         ),
       ),
       // drawer: const MyDrawer(),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Card(
-            elevation: 5,
-            shadowColor: Colors.grey,
-            // margin: EdgeInsets.all(2.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: ListView.builder(
-              itemCount: complaintsData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    ListTile(
-                        title: TextButton(
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const ViewComplaintsResponse();
-                              }));
-                            },
-                            child: Text(
-                              complaintsData[index],
-                              style: const TextStyle(color: Colors.black),
-                            ))),
-                    const Divider(
-                      color: Colors.grey,
+      body: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          children: [
+            Card(
+              elevation: 5,
+              shadowColor: Colors.grey,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Dev Accounts -',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple),
+                        ),
+                        Text(
+                          ' Society Manager App',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple),
+                        ),
+                      ],
                     ),
-                  ],
-                );
-              },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          padding: const EdgeInsets.all(2.0),
+                          child: Column(
+                            children: [
+                              Text("Society Name: ${widget.societyName}"),
+                              Text("Flat No.: ${widget.flatno}"),
+                              Text("Memeber Name: ${widget.username}"),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: Colors.grey,
+                          thickness: 2,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.64,
+                          child: ListView.builder(
+                            itemCount: complaintsData.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Column(
+                                children: [
+                                  ListTile(
+                                      title: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return const ViewComplaintsResponse();
+                                            }));
+                                          },
+                                          child: Text(
+                                            complaintsData[index],
+                                            style: const TextStyle(
+                                                color: Colors.black),
+                                          ))),
+                                  const Divider(
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return ApplyComplaints(
-              flatno: widget.flatno,
-              societyName: widget.societyName,
-            );
-          }));
-        },
-        child: const Icon(Icons.add),
+
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 5),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ApplyComplaints(
+                flatno: widget.flatno,
+                societyName: widget.societyName,
+              );
+            }));
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

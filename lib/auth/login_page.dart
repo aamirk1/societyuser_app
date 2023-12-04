@@ -66,7 +66,7 @@ class _loginScreenState extends State<loginScreen> {
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             const Text('Welcome Back',
                 style: TextStyle(
@@ -154,7 +154,7 @@ class _loginScreenState extends State<loginScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Center(
                     child: SizedBox(

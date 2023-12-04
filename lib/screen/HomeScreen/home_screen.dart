@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+bool isSocietySelected = false;
 List<dynamic> row = [
   'Dues',
   'Ladger',
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> societyList = [];
   List<dynamic> memberList = [];
   String name = '';
+  String username = '';
   String status = '';
   String flatno = '';
   @override
@@ -62,23 +64,26 @@ class _HomeScreenState extends State<HomeScreen> {
     'GATE PASS',
     'OTHERS'
   ];
-  List<Widget Function(String, String)> screens = [
-    (flatno, society) => circular_notice(
+  List<Widget Function(String, String, String)> screens = [
+    (flatno, society, name) => circular_notice(
           flatno: flatno,
           societyName: society,
-    ),
-    (flatno, society) => nocPage(
-          flatno: flatno,
-          societyName: society,
+          username: name,
         ),
-    (flatno, society) => Complaints(
+    (flatno, society, name) => nocPage(
           flatno: flatno,
           societyName: society,
+          username: name,
         ),
-    (flat, society) => const ResidentManagement(),
-    (flat, society) => const ServiceProvider(),
-    (flat, society) => const GatePass(),
-    (flat, society) => const Others(),
+    (flatno, society, name) => Complaints(
+          flatno: flatno,
+          societyName: society,
+          username: name,
+        ),
+    (flat, society, username) => const ResidentManagement(),
+    (flat, society, username) => const ServiceProvider(),
+    (flat, society, username) => const GatePass(),
+    (flat, society, username) => const Others(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -175,7 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onSuggestionSelected: (suggestion) {
                                       _societyNameController.text =
                                           suggestion.toString();
-                                      getMemberName(suggestion.toString());
+                                      getMemberName(suggestion.toString())
+                                          .whenComplete(
+                                              () => isSocietySelected = true);
                                     },
                                   ),
                                 ),
@@ -302,14 +309,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           return ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => screens[index](
-                                        flatnoController.text,
-                                        _societyNameController.text),
-                                  ),
-                                );
+                                if (isSocietySelected) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => screens[index](
+                                          flatnoController.text,
+                                          _societyNameController.text,
+                                          usernameController.text),
+                                    ),
+                                  );
+                                } else {
+                                  customDialogBox();
+                                }
                               },
                               child: Text(buttons[index]));
                         })),
@@ -398,5 +410,33 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
+  }
+
+  void customDialogBox() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              'Select Society First',
+              style: TextStyle(color: Colors.red),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(color: Colors.black),
+                  )),
+              // TextButton(
+              //     onPressed: () {
+              //       Navigator.pop(context);
+              //     },
+              //     child: const Text('Yes'))
+            ],
+          );
+        });
   }
 }
