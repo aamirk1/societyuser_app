@@ -110,7 +110,7 @@ class _loginScreenState extends State<loginScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.done,

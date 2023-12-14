@@ -14,6 +14,7 @@ class circular_notice extends StatefulWidget {
   State<circular_notice> createState() => _circular_noticeState();
 }
 
+// ignore: camel_case_types
 class _circular_noticeState extends State<circular_notice> {
   List<String> notice = [
     'Notice 1',
@@ -116,6 +117,7 @@ class _circular_noticeState extends State<circular_notice> {
                                 return ListTile(
                                   title: Text(notice[index]),
                                   onTap: () {
+                                    // ignore: avoid_print
                                     print('noticeeeeeeee $index');
                                   },
                                 );

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:intl/intl.dart';
 import 'package:societyuser_app/auth/splash_service.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 import 'package:societyuser_app/common_widget/drawer.dart';
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final SplashService _splashService = SplashService();
   final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
+  final TextEditingController billAmountController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController flatnoController = TextEditingController();
 
@@ -48,7 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
   String name = '';
   String username = '';
   String status = '';
+  String billAmount = '';
   String flatno = '';
+
+  String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
   void initState() {
     _splashService.getPhoneNum();
@@ -184,8 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       _societyNameController.text =
                                           suggestion.toString();
                                       getMemberName(suggestion.toString())
-                                          .whenComplete(
-                                              () => isSocietySelected = true);
+                                          .whenComplete(() {
+                                        getCurrentBill(suggestion.toString());
+                                        isSocietySelected = true;
+                                      });
                                     },
                                   ),
                                 ),
@@ -260,8 +267,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: DataTable(
                         columnSpacing: 155,
-                        columns: const [
-                          DataColumn(
+                        columns: [
+                          const DataColumn(
                               label: Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Text(
@@ -269,23 +276,39 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           )),
-                          DataColumn(label: Text('Rs: 1258')),
+                          DataColumn(
+                              label: Text('Rs: ${billAmountController.text}')),
                         ],
                         dividerThickness: 2,
                         rows: [
                           DataRow(cells: [
-                            DataCell(TextButton(
-                              onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const memberLadger();
-                                }));
-                              },
-                              child: const Text('Ladger',
+                            DataCell(
+                              TextButton(
+                                onPressed: () {
+                                  if (isSocietySelected) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return memberLadger(
+                                          flatno: flatnoController.text,
+                                          societyName:
+                                              _societyNameController.text,
+                                          username: usernameController.text,
+                                        );
+                                      }),
+                                    );
+                                  } else {
+                                    customDialogBox();
+                                  }
+                                },
+                                child: const Text(
+                                  'Ladger',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black)),
-                            )),
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
                             DataCell(ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:
@@ -404,11 +427,10 @@ class _HomeScreenState extends State<HomeScreen> {
           status = data['Status'];
           flatno = data['Flat No.'];
 
-          setState(() {
-            flatnoController.text = flatno;
-            usernameController.text = name;
-            statusController.text = status;
-          });
+          flatnoController.text = flatno;
+          usernameController.text = name;
+          statusController.text = status;
+
           break;
         }
       }
@@ -441,5 +463,34 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         });
+  }
+
+  Future<void> getCurrentBill(String selectedSociety) async {
+    String phoneNum = '';
+
+    phoneNum = await _splashService.getPhoneNum();
+
+    DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore.instance
+        .collection('ladgerBill')
+        .doc(_societyNameController.text)
+        .collection('month')
+        .doc(currentmonth)
+        .get();
+
+    Map<String, dynamic> allSociety =
+        societyQuerySnapshot.data() as Map<String, dynamic>;
+
+    List<dynamic> dataList = allSociety['data'];
+
+    for (var data in dataList) {
+      if (flatnoController.text == data['Flat No.']) {
+        billAmount = data['Bill Amount'];
+
+        setState(() {
+          billAmountController.text = billAmount;
+        });
+        break;
+      }
+    }
   }
 }
