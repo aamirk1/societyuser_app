@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:societyuser_app/auth/splash_service.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
-import 'package:societyuser_app/homeButtonScreen/ladger/ledgerBillDetails.dart';
-import 'package:societyuser_app/homeButtonScreen/ladger/ledgerReceiptDetails.dart';
+import 'package:societyuser_app/homeButtonScreen/ledger/ledgerBillDetails.dart';
+import 'package:societyuser_app/homeButtonScreen/ledger/ledgerReceiptDetails.dart';
 
 // ignore: camel_case_types, must_be_immutable
-class memberLadger extends StatefulWidget {
-  memberLadger({super.key, this.flatno, this.societyName, this.username});
+class memberLedger extends StatefulWidget {
+  memberLedger({super.key, this.flatno, this.societyName, this.username});
   String? flatno;
   String? societyName;
   String? username;
 
   @override
-  State<memberLadger> createState() => _memberLadgerState();
+  State<memberLedger> createState() => _memberLedgerState();
 }
 
 // ignore: camel_case_types
-class _memberLadgerState extends State<memberLadger> {
+class _memberLedgerState extends State<memberLedger> {
   final TextEditingController totalAmountController = TextEditingController();
   final TextEditingController electricController = TextEditingController();
   final TextEditingController billnoController = TextEditingController();
@@ -50,7 +50,7 @@ class _memberLadgerState extends State<memberLadger> {
   @override
   initState() {
     super.initState();
-    // ladgerList('siddivinayak');
+    // LedgerList('siddivinayak');
     getBill(widget.societyName ?? '', widget.flatno ?? '').whenComplete(() {
       getReceipt(widget.societyName ?? '', widget.flatno ?? '')
           .whenComplete(() {
@@ -66,7 +66,7 @@ class _memberLadgerState extends State<memberLadger> {
       appBar: AppBar(
         backgroundColor: appBarBgColor,
         title: const Text(
-          'Member Ladger',
+          'Member Ledger',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -106,45 +106,6 @@ class _memberLadgerState extends State<memberLadger> {
                                 // print(rows[index2]);
                                 print(allRecepts[index1][index2]);
                                 return DataCell(
-                                  //   Column(
-                                  //   children: [
-                                  //     Padding(
-                                  //       padding: const EdgeInsets.only(top: 8.0),
-                                  //       child: index2 == 1
-                                  //           ? TextButton(
-                                  //               onPressed: () {
-                                  //                 print("Billlllllllll");
-                                  //               },
-                                  //               child: Text(rows[index1][index2],
-                                  //                   style: const TextStyle(
-                                  //                     fontSize: 10,
-                                  //                   )))
-                                  //           : Text(rows[index1][index2],
-                                  //               style: const TextStyle(
-                                  //                 fontSize: 10,
-                                  //               )),
-                                  //     ),
-                                  //     index2 == 1
-                                  //         ? TextButton(
-                                  //             onPressed: () {
-                                  //               print("Receipttttttt");
-                                  //             },
-                                  //             child: Text(
-                                  //               allRecepts[index1][index2] ??
-                                  //                   'N/A',
-                                  //               style: const TextStyle(
-                                  //                 fontSize: 10,
-                                  //               ),
-                                  //             ),
-                                  //           )
-                                  //         : Text(
-                                  //             allRecepts[index1][index2] ?? 'N/A',
-                                  //             style: const TextStyle(
-                                  //               fontSize: 10,
-                                  //             ),
-                                  //           ),
-                                  //   ],
-                                  // )
                                   index1.isEven
                                       ? index2 == 1
                                           ? TextButton(
@@ -153,17 +114,19 @@ class _memberLadgerState extends State<memberLadger> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) {
-                                                    return LadgerBillDetailsPage(
+                                                    return LedgerBillDetailsPage(
                                                       flatno: widget.flatno,
                                                       name: widget.username,
-                                                      societyName: widget.societyName,
-                                                      BillData: allDataWithBill[index1],
+                                                      societyName:
+                                                          widget.societyName,
+                                                      BillData: allDataWithBill[
+                                                          index1],
                                                     );
                                                   }),
                                                 );
                                               },
                                               child: Text(
-                                                rows[index1][index2] ?? 'N/A',
+                                                'Bill No. \n ${rows[index1][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,
@@ -182,18 +145,20 @@ class _memberLadgerState extends State<memberLadger> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) {
-                                                    return LadgerReceiptDetailsPage(
+                                                    return LedgerReceiptDetailsPage(
                                                       flatno: widget.flatno,
                                                       name: widget.username,
-                                                      societyName: widget.societyName,
-                                                      ReceiptData: allDataWithReceipt[index1],
+                                                      societyName:
+                                                          widget.societyName,
+                                                      ReceiptData:
+                                                          allDataWithReceipt[
+                                                              index1],
                                                     );
                                                   }),
                                                 );
                                               },
                                               child: Text(
-                                                allRecepts[index1][index2] ??
-                                                    'N/A',
+                                                'Receipt No. \n ${allRecepts[index1][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,

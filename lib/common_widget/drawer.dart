@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/login_page.dart';
 import 'package:societyuser_app/auth/splash_service.dart';
 import 'package:societyuser_app/homeButtonScreen/complaint/complaints.dart';
-import 'package:societyuser_app/homeButtonScreen/ladger/member_ladger.dart';
+import 'package:societyuser_app/homeButtonScreen/ledger/member_ladger.dart';
 import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
@@ -92,7 +92,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return  memberLadger();
+                  return  memberLedger();
                 }),
               );
             },

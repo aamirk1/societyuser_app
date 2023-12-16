@@ -7,7 +7,7 @@ import 'package:societyuser_app/common_widget/colors.dart';
 import 'package:societyuser_app/common_widget/drawer.dart';
 import 'package:societyuser_app/homeButtonScreen/complaint/complaints.dart';
 import 'package:societyuser_app/homeButtonScreen/gatePass/gatePass.dart';
-import 'package:societyuser_app/homeButtonScreen/ladger/member_ladger.dart';
+import 'package:societyuser_app/homeButtonScreen/ledger/member_ladger.dart';
 import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/homeButtonScreen/others/others.dart';
@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 bool isSocietySelected = false;
 List<dynamic> row = [
   'Dues',
-  'Ladger',
+  'Ledger',
 ];
 List<dynamic> cols = [
   '5000',
@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String status = '';
   String billAmount = '';
   String flatno = '';
+  bool isLoading = false;
 
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
@@ -200,53 +201,78 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                child: Text(
-                                    "Society Name: ${_societyNameController.text}"),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                child:
-                                    Text("Flat No.: ${flatnoController.text}"),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                child: Text(
-                                    "Memeber Name: ${usernameController.text}"),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                child: Text("Status: ${statusController.text}"),
-                              ),
-                            ),
-                          ],
-                        ),
+                        isLoading
+                            ? const Padding(
+                                padding: EdgeInsets.only(top: 50.0),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Column(children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.90,
+                                          child: Text(
+                                              "Society Name: ${_societyNameController.text}"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.90,
+                                          child: Text(
+                                              "Flat No.: ${flatnoController.text}"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.90,
+                                          child: Text(
+                                              "Memeber Name: ${usernameController.text}"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.90,
+                                          child: Text(
+                                              "Status: ${statusController.text}"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ]),
+                              )
                       ],
                     ),
                   ),
@@ -289,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) {
-                                        return memberLadger(
+                                        return memberLedger(
                                           flatno: flatnoController.text,
                                           societyName:
                                               _societyNameController.text,
@@ -302,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }
                                 },
                                 child: const Text(
-                                  'Ladger',
+                                  'Ledger',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
@@ -399,6 +425,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getMemberName(String selectedSociety) async {
+    setState(() {
+      isLoading = true;
+    });
     String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();
@@ -434,6 +463,8 @@ class _HomeScreenState extends State<HomeScreen> {
           break;
         }
       }
+      setState(() {});
+      isLoading = false;
     }
   }
 

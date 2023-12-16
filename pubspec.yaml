@@ -41,6 +41,7 @@ dependencies:
   flutter_typeahead: 
   shared_preferences:
   intl: ^0.18.1
+  number_to_character: ^0.0.12
 
 dev_dependencies:
   flutter_test:

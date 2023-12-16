@@ -288,6 +288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  number_to_character:
+    dependency: "direct main"
+    description:
+      name: number_to_character
+      sha256: "0df6b57f68d789c117a1e8f1273bd7710d914033a75c9e96839b73b9e48cb132"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12"
   path:
     dependency: transitive
     description:
