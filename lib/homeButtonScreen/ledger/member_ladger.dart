@@ -40,8 +40,8 @@ class _memberLedgerState extends State<memberLedger> {
   List<dynamic> colums = [
     'Date',
     'Particulars',
-    'Bills/Debits',
-    'Credits / Receipts',
+    'Bills\nDebits',
+    'Credits\nReceipts',
     'Balance',
   ];
 
@@ -91,8 +91,7 @@ class _memberLedgerState extends State<memberLedger> {
                         ),
                         child: DataTable(
                           // dataRowMinHeight: 10,
-                          columnSpacing:
-                              MediaQuery.of(context).size.width * 0.01,
+                          columnSpacing: 5,
                           columns: List.generate(5, (index) {
                             return DataColumn(
                               label: Text(
@@ -127,7 +126,7 @@ class _memberLedgerState extends State<memberLedger> {
                                                 );
                                               },
                                               child: Text(
-                                                'Bill No. \n ${rows[listOfIndex[index1]][index2]}',
+                                                'Bill No.\n ${rows[listOfIndex[index1]][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,
@@ -163,7 +162,7 @@ class _memberLedgerState extends State<memberLedger> {
                                                 );
                                               },
                                               child: Text(
-                                                'Receipt No. \n ${allRecepts[listOfIndex[index1]][index2]}',
+                                                'Receipt No.\n ${allRecepts[listOfIndex[index1]][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,

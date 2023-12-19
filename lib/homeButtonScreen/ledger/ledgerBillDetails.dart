@@ -177,7 +177,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.42,
+                                    MediaQuery.of(context).size.height * 0.40,
                                 child: SingleChildScrollView(
                                   child: DataTable(
                                     dividerThickness: 0,
@@ -258,9 +258,18 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text("Total: "),
-                                              Text("Previous Dues: "),
-                                              Text("Intrest On Dues: ")
+                                              Text(
+                                                "Total",
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              Text(
+                                                "Previous Dues",
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              Text(
+                                                "Intrest On Dues",
+                                                style: TextStyle(fontSize: 10),
+                                              )
                                             ],
                                           ),
                                           const Column(
@@ -276,10 +285,16 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: [
-                                                Text("$billAmount"),
-                                                Text("$billAmount"),
+                                                Text("$billAmount",
+                                                    style: TextStyle(
+                                                        fontSize: 10)),
+                                                Text("$billAmount",
+                                                    style: TextStyle(
+                                                        fontSize: 10)),
                                                 Text(
-                                                    "${interest == '' ? 0 : interest}"),
+                                                    "${interest == '' ? 0 : interest}",
+                                                    style: TextStyle(
+                                                        fontSize: 10)),
                                               ]),
                                           const Divider(
                                             color: Colors.black,
@@ -330,27 +345,27 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                             thickness: 1,
                           ),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.90,
+                              width: MediaQuery.of(context).size.width * 0.99,
                               child: RichText(
                                   text: TextSpan(children: [
                                 const TextSpan(
                                   text:
                                       'Please pay your dues on or before Due Date. Otherwise Simple interest @21%p.a. will be charged on Arrears. Please Pay by cross cheques or via NEFT only in favouring ',
                                   style: TextStyle(
-                                      fontSize: 11, color: Colors.black),
+                                      fontSize: 10, color: Colors.black),
                                 ),
                                 TextSpan(
-                                  text: '${widget.name}',
+                                  text: '$society_name',
                                   style: const TextStyle(
                                       color: Colors.black,
-                                      fontSize: 12,
+                                      fontSize: 11,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const TextSpan(
                                   text:
                                       ' and mention your flat number. If you have any descrepancy in the bill please contact society office.',
                                   style: TextStyle(
-                                      fontSize: 11, color: Colors.black),
+                                      fontSize: 10, color: Colors.black),
                                 )
                               ])))
                         ],
