@@ -60,7 +60,6 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   List<dynamic> receiptDetails = [];
   @override
   initState() {
-    
     fetchData(widget.ReceiptData!);
     numbertochar();
 

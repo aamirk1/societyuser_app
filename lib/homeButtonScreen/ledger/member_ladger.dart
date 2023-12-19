@@ -19,6 +19,7 @@ class memberLedger extends StatefulWidget {
 
 // ignore: camel_case_types
 class _memberLedgerState extends State<memberLedger> {
+  List<int> listOfIndex = [];
   final TextEditingController totalAmountController = TextEditingController();
   final TextEditingController electricController = TextEditingController();
   final TextEditingController billnoController = TextEditingController();
@@ -54,6 +55,7 @@ class _memberLedgerState extends State<memberLedger> {
     getBill(widget.societyName ?? '', widget.flatno ?? '').whenComplete(() {
       getReceipt(widget.societyName ?? '', widget.flatno ?? '')
           .whenComplete(() {
+        setListOfIndex();
         isLoading = false;
         setState(() {});
       });
@@ -100,11 +102,10 @@ class _memberLedgerState extends State<memberLedger> {
                               ),
                             );
                           }),
-                          rows: List.generate(rows.length, (index1) {
+                          rows: List.generate(rows.length * 2, (index1) {
                             return DataRow(
                               cells: List.generate(rows[0].length, (index2) {
                                 // print(rows[index2]);
-                                print(allRecepts[index1][index2]);
                                 return DataCell(
                                   index1.isEven
                                       ? index2 == 1
@@ -120,13 +121,13 @@ class _memberLedgerState extends State<memberLedger> {
                                                       societyName:
                                                           widget.societyName,
                                                       BillData: allDataWithBill[
-                                                          index1],
+                                                          listOfIndex[index1]],
                                                     );
                                                   }),
                                                 );
                                               },
                                               child: Text(
-                                                'Bill No. \n ${rows[index1][index2]}',
+                                                'Bill No. \n ${rows[listOfIndex[index1]][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,
@@ -134,7 +135,10 @@ class _memberLedgerState extends State<memberLedger> {
                                                         FontWeight.bold),
                                               ),
                                             )
-                                          : Text(rows[index1][index2] ?? 'N/A',
+                                          : Text(
+                                              rows[listOfIndex[index1]]
+                                                      [index2] ??
+                                                  'N/A',
                                               style: const TextStyle(
                                                 fontSize: 10,
                                               ))
@@ -152,13 +156,14 @@ class _memberLedgerState extends State<memberLedger> {
                                                           widget.societyName,
                                                       ReceiptData:
                                                           allDataWithReceipt[
-                                                              index1],
+                                                              listOfIndex[
+                                                                  index1]],
                                                     );
                                                   }),
                                                 );
                                               },
                                               child: Text(
-                                                'Receipt No. \n ${allRecepts[index1][index2]}',
+                                                'Receipt No. \n ${allRecepts[listOfIndex[index1]][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,
@@ -167,7 +172,8 @@ class _memberLedgerState extends State<memberLedger> {
                                               ),
                                             )
                                           : Text(
-                                              allRecepts[index1][index2] ??
+                                              allRecepts[listOfIndex[index1]]
+                                                      [index2] ??
                                                   'N/A',
                                               style: const TextStyle(
                                                 fontSize: 10,
@@ -235,6 +241,13 @@ class _memberLedgerState extends State<memberLedger> {
     isLoading = false;
     setState(() {});
     print(rows.length);
+  }
+
+  void setListOfIndex() {
+    for (int i = 0; i < rows.length; i++) {
+      listOfIndex.add(i);
+      listOfIndex.add(i);
+    }
   }
 
   Future<void> getReceipt(String societyname, String flatno) async {
