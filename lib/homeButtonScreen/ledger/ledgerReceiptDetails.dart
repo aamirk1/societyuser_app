@@ -204,6 +204,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   }
 
   Future<void> getSociety(String societyname) async {
+    // ignore: unused_local_variable
     String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();

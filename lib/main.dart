@@ -1,5 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:provider/provider.dart';
+import 'package:societyuser_app/provider/AllComplaintProvider.dart';
+import 'package:societyuser_app/provider/AllNocProvider.dart';
+import 'package:societyuser_app/provider/AllNoticeProvider.dart';
 import 'package:societyuser_app/screen/splash_screen/splash_screen.dart';
 
 void main() async {
@@ -14,6 +19,10 @@ void main() async {
           appId: "1:1077685961456:android:0386d8498d527683747835",
           measurementId: "G-3EHV4L3XZJ"));
 
+  await FlutterDownloader.initialize(
+      debug: true // Set this to false in production
+      );
+
   runApp(const MyApp());
 }
 
@@ -23,12 +32,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        title: 'Society User App',
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen()
-        // loginScreen(),
-        // HomeScreen(),
-        );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AllNoticeProvider()),
+        ChangeNotifierProvider(create: (_) => AllNocProvider()),
+        ChangeNotifierProvider(create: (_) => AllComplaintProvider()),
+      ],
+      child: const MaterialApp(
+          title: 'Society User App',
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen()),
+    );
   }
 }

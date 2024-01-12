@@ -3,8 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
-import 'package:societyuser_app/homeButtonScreen/noc/noc_page.dart';
+import 'package:societyuser_app/provider/AllNocProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class apply_noc extends StatefulWidget {
@@ -144,87 +145,91 @@ class _apply_nocState extends State<apply_noc> {
 
   void _showDialog(String selectedValue, TextEditingController controller) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            child: SizedBox(
-              height: 220,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(
-                        selectedValue.toString(),
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SizedBox(
+            height: 220,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      selectedValue.toString(),
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(5.0),
-                    height: 110,
-                    width: MediaQuery.of(context).size.width,
-                    child: TextField(
-                      keyboardType: TextInputType.multiline,
-                      controller: controller,
-                      decoration: const InputDecoration(border: OutlineInputBorder()),
-                      maxLines: 6,
-                    ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  height: 110,
+                  width: MediaQuery.of(context).size.width,
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    controller: controller,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
+                    maxLines: 6,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.red)),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Cancel',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ))),
-                        const SizedBox(
-                          width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.green)),
-                            onPressed: () async {
-                              storeUserData(
-                                context,
-                                noctypeController.text,
-                                controller.text,
-                              );
-                            },
-                            child: const Text('Submit',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ))),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green)),
+                        onPressed: () async {
+                          storeUserData(
+                            noctypeController.text,
+                            controller.text,
+                          );
+                        },
+                        child: const Text(
+                          'Submit',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
-  Future<void> storeUserData(
-    BuildContext context,
-    String nocType,
-    String text,
-  ) async {
+  void storeUserData(String nocType, String text) async {
+    final provider = Provider.of<AllNocProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
       await firestore
@@ -238,10 +243,20 @@ class _apply_nocState extends State<apply_noc> {
         'nocType': nocType,
         'text': text,
       });
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return nocPage();
-      }));
+      await firestore
+          .collection('nocApplications')
+          .doc(widget.societyName)
+          .collection('flatno')
+          .doc(widget.flatno)
+          .set({"flatno": widget.flatno});
+
+      provider.addSingleList({'nocType': nocType});
+
+      Navigator.pop(context);
+      Navigator.pop(context);
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      //   return nocPage();
+      // }));
     } on FirebaseException catch (e) {
       // ignore: avoid_print
       print('Error storing data: $e');

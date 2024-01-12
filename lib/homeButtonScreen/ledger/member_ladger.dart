@@ -193,6 +193,7 @@ class _memberLedgerState extends State<memberLedger> {
   Future<void> getBill(String societyname, String flatno) async {
     isLoading = true;
 
+    // ignore: unused_local_variable
     String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();
@@ -223,7 +224,7 @@ class _memberLedgerState extends State<memberLedger> {
 
           if (flatno == data['Flat No.']) {
             allDataWithBill.add(data);
-            row.add(data['Flat No.']);
+            row.add(data['Bill Date']);
             row.add(data['Bill No']);
             row.add(data['Maintenance Charges']);
             row.add(data['Municipal Tax']);
@@ -252,6 +253,7 @@ class _memberLedgerState extends State<memberLedger> {
   Future<void> getReceipt(String societyname, String flatno) async {
     isLoading = true;
 
+    // ignore: unused_local_variable
     String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();

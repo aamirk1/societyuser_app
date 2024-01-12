@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 import 'package:societyuser_app/homeButtonScreen/noc/applyNoc.dart';
 import 'package:societyuser_app/homeButtonScreen/noc/nocResponse.dart';
+import 'package:societyuser_app/provider/AllNocProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class nocPage extends StatefulWidget {
@@ -27,6 +29,7 @@ class _nocPageState extends State<nocPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AllNocProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
@@ -38,67 +41,68 @@ class _nocPageState extends State<nocPage> {
       // drawer: const MyDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Column(
-          children: [
-            Card(
-              elevation: 5,
-              shadowColor: Colors.grey,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+        child: SingleChildScrollView(
+          child: Card(
+            elevation: 5,
+            shadowColor: Colors.grey,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
               ),
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Dev Accounts -',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.purple),
-                        ),
-                        Text(
-                          ' Society Manager App',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.purple),
-                        ),
-                      ],
-                    ),
+            ),
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Dev Accounts -',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple),
+                      ),
+                      Text(
+                        ' Society Manager App',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          padding: const EdgeInsets.all(2.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Memeber Name: ${widget.username}"),
-                              Text("Flat No.: ${widget.flatno}"),
-                              Text("Society Name: ${widget.societyName}"),
-                            ],
-                          ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.10,
+                        padding: const EdgeInsets.all(2.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Memeber Name: ${widget.username}"),
+                            Text("Flat No.: ${widget.flatno}"),
+                            Text("Society Name: ${widget.societyName}"),
+                          ],
                         ),
-                        const Divider(
-                          color: Colors.grey,
-                          thickness: 2,
-                        ),
-                        SizedBox(
+                      ),
+                      const Divider(
+                        color: Colors.grey,
+                        thickness: 2,
+                      ),
+                      Consumer<AllNocProvider>(
+                          builder: (context, value, child) {
+                        return SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.64,
+                          height: MediaQuery.of(context).size.height * 0.69,
                           child: ListView.builder(
-                            itemCount: nocData.length,
+                            itemCount: value.nocList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Column(
                                 children: [
@@ -112,7 +116,7 @@ class _nocPageState extends State<nocPage> {
                                             }));
                                           },
                                           child: Text(
-                                            nocData[index],
+                                            value.nocList[index]['nocType'],
                                             style: const TextStyle(
                                                 color: Colors.black),
                                           ))),
@@ -123,14 +127,14 @@ class _nocPageState extends State<nocPage> {
                               );
                             },
                           ),
-                        ),
-                      ],
-                    ),
+                        );
+                      })
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: Padding(
@@ -151,6 +155,7 @@ class _nocPageState extends State<nocPage> {
   }
 
   Future<void> fetchData() async {
+    final provider = Provider.of<AllNocProvider>(context, listen: false);
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('nocApplications')
@@ -160,9 +165,9 @@ class _nocPageState extends State<nocPage> {
           .collection('typeofNoc')
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        for (var doc in querySnapshot.docs) {
-          nocData.add(doc.id);
-        }
+        List<dynamic> tempData =
+            querySnapshot.docs.map((e) => e.data()).toList();
+        provider.setBuilderList(tempData);
       }
     } catch (e) {
       // ignore: avoid_print
@@ -170,44 +175,3 @@ class _nocPageState extends State<nocPage> {
     }
   }
 }
-
-
-// SizedBox(
-//         width: MediaQuery.of(context).size.width,
-//         height: MediaQuery.of(context).size.height,
-//         child: Padding(
-//           padding: const EdgeInsets.all(6.0),
-//           child: Card(
-//             elevation: 5,
-//             shadowColor: Colors.grey,
-//             // margin: EdgeInsets.all(2.0),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(5),
-//             ),
-//             child: ListView.builder(
-//               itemCount: nocData.length,
-//               itemBuilder: (BuildContext context, int index) {
-//                 return Column(
-//                   children: [
-//                     ListTile(
-//                         title: TextButton(
-//                             onPressed: () {
-//                               Navigator.push(context,
-//                                   MaterialPageRoute(builder: (context) {
-//                                 return const ViewResponse();
-//                               }));
-//                             },
-//                             child: Text(
-//                               nocData[index],
-//                               style: const TextStyle(color: Colors.black),
-//                             ))),
-//                     const Divider(
-//                       color: Colors.grey,
-//                     ),
-//                   ],
-//                 );
-//               },
-//             ),
-//           ),
-//         ),
-//       ),

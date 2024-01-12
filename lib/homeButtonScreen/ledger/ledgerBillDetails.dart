@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:number_to_character/number_to_character.dart';
@@ -379,6 +380,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   }
 
   Future<void> getSociety(String societyname) async {
+    // ignore: unused_local_variable
     String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();

@@ -497,6 +497,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getCurrentBill(String selectedSociety) async {
+    // ignore: unused_local_variable
     String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();
