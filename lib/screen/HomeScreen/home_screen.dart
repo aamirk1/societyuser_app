@@ -88,7 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
     (flat, society, username) => const ResidentManagement(),
     (flat, society, username) => const ServiceProvider(),
-    (flat, society, username) => const GatePass(),
+    (flatno, society, name) => GatePass(
+          flatno: flatno,
+          societyName: society,
+          username: name,
+        ),
     (flat, society, username) => const Others(),
   ];
   @override

@@ -228,7 +228,10 @@ class _apply_nocState extends State<apply_noc> {
     );
   }
 
-  void storeUserData(String nocType, String text) async {
+  void storeUserData(
+    String nocType,
+    String text,
+  ) async {
     final provider = Provider.of<AllNocProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection

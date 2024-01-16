@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/provider/AllComplaintProvider.dart';
+import 'package:societyuser_app/provider/AllGatePassProvider.dart';
 import 'package:societyuser_app/provider/AllNocProvider.dart';
 import 'package:societyuser_app/provider/AllNoticeProvider.dart';
 import 'package:societyuser_app/screen/splash_screen/splash_screen.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AllNoticeProvider()),
         ChangeNotifierProvider(create: (_) => AllNocProvider()),
         ChangeNotifierProvider(create: (_) => AllComplaintProvider()),
+        ChangeNotifierProvider(create: (_) => AllGatePassProvider()),
       ],
       child: const MaterialApp(
           title: 'Society User App',

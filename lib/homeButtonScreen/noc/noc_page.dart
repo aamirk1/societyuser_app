@@ -107,19 +107,33 @@ class _nocPageState extends State<nocPage> {
                               return Column(
                                 children: [
                                   ListTile(
-                                      title: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return const ViewResponse();
-                                            }));
-                                          },
-                                          child: Text(
-                                            value.nocList[index]['nocType'],
-                                            style: const TextStyle(
-                                                color: Colors.black),
-                                          ))),
+                                    title: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return ViewNoc(
+                                                nocType: value.nocList[index]
+                                                    ['nocType'],
+                                                societyName:
+                                                    widget.societyName!,
+                                                flatNo: widget.flatno!,
+                                                text: value.nocList[index]
+                                                    ['text'],
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        value.nocList[index]['nocType'],
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    subtitle: value.nocList[index]['date'],
+                                  ),
                                   const Divider(
                                     color: Colors.grey,
                                   ),

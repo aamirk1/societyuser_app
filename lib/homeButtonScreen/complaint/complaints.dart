@@ -111,7 +111,13 @@ class _ComplaintsState extends State<Complaints> {
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                              return const ViewComplaintsResponse();
+                                              return ViewComplaints(
+                                                complaintsType:
+                                                    value.complaintList[index]
+                                                        ['complaintsType'],
+                                                text: value.complaintList[index]
+                                                    ['text'],
+                                              );
                                             }));
                                           },
                                           child: Text(
