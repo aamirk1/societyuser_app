@@ -43,7 +43,7 @@ class _ViewNocState extends State<ViewNoc> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SafeArea(
               child: Center(
                 child: SizedBox(
@@ -55,7 +55,7 @@ class _ViewNocState extends State<ViewNoc> {
                       children: [
                         SingleChildScrollView(
                           child: Container(
-                            margin: EdgeInsets.only(top: 20),
+                            margin: const EdgeInsets.only(top: 20),
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height * 0.85,
                             child: Padding(
@@ -64,21 +64,17 @@ class _ViewNocState extends State<ViewNoc> {
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    child: Text(
-                                      widget.nocType,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Colors.black),
-                                    ),
+                                  Text(
+                                    widget.nocType,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Colors.black),
                                   ),
-                                  Container(
-                                    child: Text(
-                                      widget.text,
-                                      style: const TextStyle(
-                                          fontSize: 12, color: Colors.black),
-                                    ),
+                                  Text(
+                                    widget.text,
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.black),
                                   ),
                                 ],
                               ),
@@ -121,6 +117,7 @@ class _ViewNocState extends State<ViewNoc> {
   }
 
   Future<List<String>> getNocPdf(
+      // ignore: non_constant_identifier_names
       String? SelectedSociety, String flatNo, String nocType) async {
     ListResult listResult = await FirebaseStorage.instance
         .ref('NocPdfs')

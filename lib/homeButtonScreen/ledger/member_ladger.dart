@@ -8,10 +8,14 @@ import 'package:societyuser_app/homeButtonScreen/ledger/ledgerReceiptDetails.dar
 
 // ignore: camel_case_types, must_be_immutable
 class memberLedger extends StatefulWidget {
-  memberLedger({super.key, this.flatno, this.societyName, this.username});
-  String? flatno;
-  String? societyName;
-  String? username;
+  memberLedger(
+      {super.key,
+      required this.flatno,
+      required this.societyName,
+      required this.username});
+  String flatno;
+  String societyName;
+  String username;
 
   @override
   State<memberLedger> createState() => _memberLedgerState();
@@ -30,6 +34,7 @@ class _memberLedgerState extends State<memberLedger> {
   String billno = '';
   String water = '';
   bool isLoading = true;
+  // ignore: non_constant_identifier_names
   int BillMonthLength = 0;
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
 
@@ -52,9 +57,8 @@ class _memberLedgerState extends State<memberLedger> {
   initState() {
     super.initState();
     // LedgerList('siddivinayak');
-    getBill(widget.societyName ?? '', widget.flatno ?? '').whenComplete(() {
-      getReceipt(widget.societyName ?? '', widget.flatno ?? '')
-          .whenComplete(() {
+    getBill(widget.societyName, widget.flatno).whenComplete(() {
+      getReceipt(widget.societyName, widget.flatno).whenComplete(() {
         setListOfIndex();
         isLoading = false;
         setState(() {});
@@ -237,10 +241,8 @@ class _memberLedgerState extends State<memberLedger> {
         }
       }
     }
-    print('bill print $allDataWithBill');
     isLoading = false;
     setState(() {});
-    print(rows.length);
   }
 
   void setListOfIndex() {
@@ -299,6 +301,6 @@ class _memberLedgerState extends State<memberLedger> {
     // print('hellllloooo $allRecepts');
     isLoading = false;
     setState(() {});
-    print(allRecepts.length);
+    // print(allRecepts.length);
   }
 }

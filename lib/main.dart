@@ -6,6 +6,9 @@ import 'package:societyuser_app/provider/AllComplaintProvider.dart';
 import 'package:societyuser_app/provider/AllGatePassProvider.dart';
 import 'package:societyuser_app/provider/AllNocProvider.dart';
 import 'package:societyuser_app/provider/AllNoticeProvider.dart';
+import 'package:societyuser_app/provider/AllSendComplaintsProvider.dart';
+import 'package:societyuser_app/provider/emplist_builder_provider.dart';
+import 'package:societyuser_app/provider/list_builder_provider.dart';
 import 'package:societyuser_app/screen/splash_screen/splash_screen.dart';
 
 void main() async {
@@ -39,6 +42,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AllNocProvider()),
         ChangeNotifierProvider(create: (_) => AllComplaintProvider()),
         ChangeNotifierProvider(create: (_) => AllGatePassProvider()),
+        ChangeNotifierProvider(create: (_) => ListBuilderProvider()),
+        ChangeNotifierProvider(create: (_) => EmpListBuilderProvider()),
+        ChangeNotifierProvider(create: (_) => AllSendComplaintsProvider()),
       ],
       child: const MaterialApp(
           title: 'Society User App',

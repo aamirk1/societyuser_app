@@ -255,7 +255,9 @@ class _apply_nocState extends State<apply_noc> {
 
       provider.addSingleList({'nocType': nocType});
 
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       //   return nocPage();

@@ -9,11 +9,15 @@ import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
 // ignore: must_be_immutable
 class MyDrawer extends StatefulWidget {
-  MyDrawer({Key? key, this.flatno, this.username, societyName})
+  MyDrawer(
+      {Key? key,
+      required this.flatno,
+      required this.username,
+      required this.societyName})
       : super(key: key);
-  String? flatno;
-  String? username;
-  String? societyName;
+  String flatno;
+  String username;
+  String societyName;
   print(value) => print('flatno: $flatno');
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -30,8 +34,8 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   void initState() {
     super.initState();
-    flatnoController.text = widget.flatno!;
-    usernameController.text = widget.username!;
+    flatnoController.text = widget.flatno;
+    usernameController.text = widget.username;
   }
 
   @override
@@ -92,7 +96,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return  memberLedger();
+                  return memberLedger(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },
@@ -104,7 +111,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return circular_notice();
+                  return circular_notice(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },
@@ -128,7 +138,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return Complaints();
+                  return Complaints(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },
@@ -140,7 +153,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return nocPage();
+                  return nocPage(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },

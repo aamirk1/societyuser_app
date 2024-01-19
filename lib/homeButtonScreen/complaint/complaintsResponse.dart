@@ -38,7 +38,7 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                 children: [
                   SingleChildScrollView(
                     child: Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.85,
                       child: Padding(
@@ -47,14 +47,12 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              child: Text(
-                                widget.complaintsType,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.black),
-                              ),
+                            Text(
+                              widget.complaintsType,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black),
                             ),
                             Container(
                               child: Text(

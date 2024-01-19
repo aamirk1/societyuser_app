@@ -22,12 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
       isLogin = await _splashService.checkLoginStatus(context);
       if (isLogin) {
         // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const HomeScreen()));
       } else {
         // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const loginScreen()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const loginScreen()));
       }
     });
     super.initState();

@@ -269,7 +269,9 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .set({"flatno": widget.flatno});
 
       provider.addSingleList({'complaintsType': complaintsType});
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseException catch (e) {
       print('Error storing data: $e');

@@ -29,7 +29,6 @@ class _GatePassState extends State<GatePass> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AllGatePassProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,

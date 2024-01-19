@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class MyPdfViewer extends StatefulWidget {
-  MyPdfViewer({super.key, required this.pdfPath, required this.downloadUrl});
+  const MyPdfViewer({super.key, required this.pdfPath, required this.downloadUrl});
   final String pdfPath;
   final String downloadUrl;
 
@@ -21,7 +21,6 @@ class _MyPdfViewerState extends State<MyPdfViewer> {
   void initState() {
     super.initState();
     getPdfBytes();
-    print('hellooooooooo - ${widget.pdfPath}');
   }
 
   Uint8List? documentbytes;

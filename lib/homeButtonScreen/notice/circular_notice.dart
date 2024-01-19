@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -187,7 +187,7 @@ class _circular_noticeState extends State<circular_notice> {
         .get();
     List<dynamic> allTypeOfNotice =
         getAllNotice.docs.map((e) => e.data()).toList();
-    print('aaaa - $allTypeOfNotice');
+    // print('aaaa - $allTypeOfNotice');
     Allnotice = allTypeOfNotice;
     provider.setBuilderNoticeList(allTypeOfNotice);
   }
@@ -207,7 +207,7 @@ class _circular_noticeState extends State<circular_notice> {
       String filename = ref.name;
       fileList.add(filename);
     }
-    print('getPdf - $fileList');
+    // print('getPdf - $fileList');
 
     provider.setBuilderNoticePdfList(fileList);
 
@@ -220,7 +220,7 @@ class _circular_noticeState extends State<circular_notice> {
         storage.ref('Notices').child(widget.societyName!).child(title);
     String url = await ref.getDownloadURL();
 
-    print('url - $url');
+    // print('url - $url');
 
     return url;
   }

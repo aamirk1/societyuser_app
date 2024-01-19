@@ -15,7 +15,7 @@ import 'package:societyuser_app/homeButtonScreen/resident/resident_management.da
 import 'package:societyuser_app/homeButtonScreen/serviceProvider/serviceProvider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key,});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -87,7 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
           username: name,
         ),
     (flat, society, username) => const ResidentManagement(),
-    (flat, society, username) => const ServiceProvider(),
+    (flatno, society, name) => ServiceProvider(
+          flatno: flatno,
+          societyName: society,
+          username: name,
+        ),
     (flatno, society, name) => GatePass(
           flatno: flatno,
           societyName: society,

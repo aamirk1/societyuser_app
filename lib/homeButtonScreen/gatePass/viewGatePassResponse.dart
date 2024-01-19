@@ -60,7 +60,7 @@ class _ViewGatePassState extends State<ViewGatePass> {
                         child: Text(
                           widget.text ?? '',
                           textAlign: TextAlign.justify,
-                          style: TextStyle(color: textColor),     
+                          style: TextStyle(color: textColor),
                         ),
                       )
                     ],
@@ -100,22 +100,23 @@ class _ViewGatePassState extends State<ViewGatePass> {
 
   alertbox() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    'OK',
-                    style: TextStyle(color: textColor),
-                  )),
-            ],
-            title: const Text(
-              'Application in progress',
-              style: TextStyle(color: Colors.red),
-            ),
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'OK',
+                  style: TextStyle(color: textColor),
+                )),
+          ],
+          title: const Text(
+            'Application in progress',
+            style: TextStyle(color: Colors.red),
+          ),
+        );
+      },
+    );
   }
 }

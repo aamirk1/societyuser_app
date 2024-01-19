@@ -151,7 +151,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(

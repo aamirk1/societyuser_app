@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:number_to_character/number_to_character.dart';
@@ -10,6 +9,7 @@ class LedgerBillDetailsPage extends StatefulWidget {
   // ignore: non_constant_identifier_names
   LedgerBillDetailsPage(
       {super.key,
+      // ignore: non_constant_identifier_names
       required this.BillData,
       required this.societyName,
       required this.name,
@@ -29,7 +29,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   final SplashService _splashService = SplashService();
 
   bool isLoading = true;
-  // List<dynamic> a = widget.name.toString().split('');
+  // ignore: non_constant_identifier_names
   String? society_name;
   String? email;
   String? regNo;
@@ -157,7 +157,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             color: Colors.black, fontSize: 12),
                                       ),
                                       Text(
-                                        "Bill Date: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}",
+                                        "Bill Date: ${widget.BillData!['Bill Date'] == '' ? 'N/A' : widget.BillData!['Bill Date']}",
                                         style: const TextStyle(
                                             color: Colors.black, fontSize: 12),
                                       ),
@@ -287,14 +287,14 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                                   CrossAxisAlignment.end,
                                               children: [
                                                 Text("$billAmount",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 10)),
                                                 Text("$billAmount",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 10)),
                                                 Text(
                                                     "${interest == '' ? 0 : interest}",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 10)),
                                               ]),
                                           const Divider(
