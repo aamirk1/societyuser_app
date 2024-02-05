@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -106,13 +108,13 @@ class _ViewEmployeeState extends State<ViewEmployee> {
     );
   }
 
-  Future<void> getEmployee(String CompanyName) async {
+  Future<void> getEmployee(String companyName) async {
     final provider =
         Provider.of<EmpListBuilderProvider>(context, listen: false);
 
     QuerySnapshot companyQuerySnapshot = await FirebaseFirestore.instance
         .collection('vendorEmployeeList')
-        .doc(CompanyName)
+        .doc(companyName)
         .collection('employeeList')
         .get();
 

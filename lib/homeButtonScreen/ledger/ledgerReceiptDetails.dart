@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:number_to_character/number_to_character.dart';
@@ -9,13 +11,13 @@ class LedgerReceiptDetailsPage extends StatefulWidget {
   // ignore: non_constant_identifier_names
   LedgerReceiptDetailsPage(
       {super.key,
-      required this.ReceiptData,
+      required this.receiptData,
       required this.societyName,
       required this.name,
       required this.flatno});
 
   // ignore: non_constant_identifier_names
-  Map<String, dynamic>? ReceiptData;
+  Map<String, dynamic>? receiptData;
   String? societyName;
   String? name;
   String? flatno;
@@ -30,6 +32,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
 
   bool isLoading = true;
   // List<dynamic> a = widget.name.toString().split('');
+  // ignore: non_constant_identifier_names
   String? society_name;
   String? email;
   String? regNo;
@@ -54,13 +57,13 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
 
   void numbertochar() {
     words = converter.getTextForNumber(amount);
-    print(words);
+    // print(words);
   }
 
   List<dynamic> receiptDetails = [];
   @override
   initState() {
-    fetchData(widget.ReceiptData!);
+    fetchData(widget.receiptData!);
     numbertochar();
 
     getSociety(widget.societyName ?? '').whenComplete(() {});
@@ -238,7 +241,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
     receiptDetails.add(amount);
     receiptDetails.add(bankName);
     receiptDetails.add(receiptDate);
-    print(receiptDetails);
+    // print(receiptDetails);
     setState(() {});
     isLoading = false;
   }

@@ -136,7 +136,8 @@ class _circular_noticeState extends State<circular_notice> {
                                     );
                                   }),
                               ListView.builder(
-                                  itemCount: value.noticePdfList.length,
+                                  // itemCount: value.noticePdfList.length,
+                                  itemCount: fileList.length,
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
                                     return Card(
@@ -146,8 +147,7 @@ class _circular_noticeState extends State<circular_notice> {
                                         child: ListTile(
                                           minVerticalPadding: 0.3,
                                           title: Text(
-                                            value.noticePdfList[index]
-                                                .toString(),
+                                            fileList[index].toString(),
                                             style: TextStyle(color: textColor),
                                           ),
                                           onTap: () {
@@ -193,7 +193,7 @@ class _circular_noticeState extends State<circular_notice> {
   }
 
   Future<List<String>> getNoticePdf(String? selectedSociety) async {
-    final provider = Provider.of<AllNoticeProvider>(context, listen: false);
+    // final provider = Provider.of<AllNoticeProvider>(context, listen: false);
 
     // List<String> fileList = [];
 
@@ -209,8 +209,10 @@ class _circular_noticeState extends State<circular_notice> {
     }
     // print('getPdf - $fileList');
 
-    provider.setBuilderNoticePdfList(fileList);
-
+    // provider.setBuilderNoticePdfList(fileList);
+    setState(() {
+      fileList = fileList;
+    });
     return fileList;
   }
 

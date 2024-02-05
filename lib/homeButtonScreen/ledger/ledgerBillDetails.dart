@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:number_to_character/number_to_character.dart';
@@ -162,7 +164,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             color: Colors.black, fontSize: 12),
                                       ),
                                       Text(
-                                        "Due Date: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}",
+                                        "Due Date: ${widget.BillData!['Due Date'] == '' ? 'N/A' : widget.BillData!['Due Date']}",
                                         style: const TextStyle(
                                             color: Colors.black, fontSize: 12),
                                       ),

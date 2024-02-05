@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/login_page.dart';
 import 'package:societyuser_app/auth/splash_service.dart';
@@ -176,6 +177,15 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/',
+      (route) => false,
     );
   }
 }

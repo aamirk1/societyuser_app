@@ -141,7 +141,7 @@ class _memberLedgerState extends State<memberLedger> {
                                           : Text(
                                               rows[listOfIndex[index1]]
                                                       [index2] ??
-                                                  'N/A',
+                                                  '0',
                                               style: const TextStyle(
                                                 fontSize: 10,
                                               ))
@@ -157,7 +157,7 @@ class _memberLedgerState extends State<memberLedger> {
                                                       name: widget.username,
                                                       societyName:
                                                           widget.societyName,
-                                                      ReceiptData:
+                                                      receiptData:
                                                           allDataWithReceipt[
                                                               listOfIndex[
                                                                   index1]],
@@ -177,7 +177,7 @@ class _memberLedgerState extends State<memberLedger> {
                                           : Text(
                                               allRecepts[listOfIndex[index1]]
                                                       [index2] ??
-                                                  'N/A',
+                                                  '0',
                                               style: const TextStyle(
                                                 fontSize: 10,
                                               ),
@@ -230,8 +230,8 @@ class _memberLedgerState extends State<memberLedger> {
             allDataWithBill.add(data);
             row.add(data['Bill Date']);
             row.add(data['Bill No']);
-            row.add(data['Maintenance Charges']);
-            row.add(data['Municipal Tax']);
+            row.add(data['Bill Amount']);
+            row.add(data['0']);
             row.add(data['Bill Amount']);
 
             rows.add(row);
@@ -286,8 +286,8 @@ class _memberLedgerState extends State<memberLedger> {
             allDataWithReceipt.add(data);
             receipt.add(data['Receipt Date']);
             receipt.add(data['Flat No.']);
-            receipt.add(data['ChqNo']);
-            receipt.add(data['Bank Name']);
+            receipt.add(data['0']);
+            receipt.add(data['Amount']);
             receipt.add(data['Amount']);
             allRecepts.add(receipt);
             break;

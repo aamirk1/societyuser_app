@@ -1,4 +1,4 @@
-// import 'dart:html';
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/common_widget/colors.dart';

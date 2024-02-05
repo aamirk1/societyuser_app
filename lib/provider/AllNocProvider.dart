@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/foundation.dart';
 
 class AllNocProvider extends ChangeNotifier {
@@ -18,7 +20,6 @@ class AllNocProvider extends ChangeNotifier {
 
   void addSingleList(Map<String, dynamic> value) {
     _nocList.add(value);
-    print('Provider - $_nocList');
     notifyListeners();
   }
 

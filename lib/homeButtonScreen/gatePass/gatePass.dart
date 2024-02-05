@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -103,7 +105,7 @@ class _GatePassState extends State<GatePass> {
                           child: ListView.builder(
                             itemCount: value.gatePassList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              print(value.gatePassList);
+                              // print(value.gatePassList);
                               return Column(
                                 children: [
                                   ListTile(
@@ -114,8 +116,12 @@ class _GatePassState extends State<GatePass> {
                                           MaterialPageRoute(
                                             builder: (context) {
                                               return ViewGatePass(
-                                                title: value.gatePassList[index]
-                                                    ['gatePassType'],
+                                                gatePassType:
+                                                    value.gatePassList[index]
+                                                        ['gatePassType'],
+                                                societyName:
+                                                    widget.societyName!,
+                                                flatNo: widget.flatno!,
                                                 text: value.gatePassList[index]
                                                     ['text'],
                                               );
@@ -180,7 +186,7 @@ class _GatePassState extends State<GatePass> {
             querySnapshot.docs.map((e) => e.data()).toList();
         provider.setBuilderList(tempData);
       }
-      print(provider.gatePassList);
+      // print(provider.gatePassList);
     } catch (e) {
       // ignore: avoid_print
       print('Error fetching data: $e');

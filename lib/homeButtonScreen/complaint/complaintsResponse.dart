@@ -1,4 +1,5 @@
-// import 'dart:html';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 
@@ -54,12 +55,10 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                                   fontSize: 15,
                                   color: Colors.black),
                             ),
-                            Container(
-                              child: Text(
-                                widget.text,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black),
-                              ),
+                            Text(
+                              widget.text,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.black),
                             ),
                           ],
                         ),
@@ -85,21 +84,22 @@ class _ViewComplaintsState extends State<ViewComplaints> {
 
   alertbox() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      'OK',
-                      style: TextStyle(color: textColor),
-                    )),
-              ],
-              title: const Text(
-                'Please select a file first!',
-                style: TextStyle(color: Colors.red),
-              ));
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(color: textColor),
+                  )),
+            ],
+            title: const Text(
+              'Please select a file first!',
+              style: TextStyle(color: Colors.red),
+            ));
+      },
+    );
   }
 }

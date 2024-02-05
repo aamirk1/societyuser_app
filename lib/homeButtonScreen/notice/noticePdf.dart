@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -13,6 +15,7 @@ class MyPdfViewer extends StatefulWidget {
   final String downloadUrl;
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyPdfViewerState createState() => _MyPdfViewerState();
 }
 

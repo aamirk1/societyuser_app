@@ -4,7 +4,7 @@ class EmpListBuilderProvider extends ChangeNotifier {
   List<dynamic> _empList = [];
   List<dynamic> get empList => _empList;
 
-  bool _load = false;
+  final bool _load = false;
   bool get load => _load;
 
   void addList(List<dynamic> list) {
