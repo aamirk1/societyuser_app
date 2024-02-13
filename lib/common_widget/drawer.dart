@@ -14,11 +14,13 @@ class MyDrawer extends StatefulWidget {
       {Key? key,
       required this.flatno,
       required this.username,
-      required this.societyName})
+      required this.societyName,
+      required this.mobile})
       : super(key: key);
   String flatno;
   String username;
   String societyName;
+  String mobile;
   print(value) => print('flatno: $flatno');
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -30,6 +32,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
   final TextEditingController flatnoController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
   String flatno = '';
 
   @override
@@ -37,6 +40,7 @@ class _MyDrawerState extends State<MyDrawer> {
     super.initState();
     flatnoController.text = widget.flatno;
     usernameController.text = widget.username;
+    mobileController.text = widget.mobile;
   }
 
   @override
@@ -66,6 +70,12 @@ class _MyDrawerState extends State<MyDrawer> {
                   const SizedBox(height: 4),
                   Text(
                     'Flat No.: ${flatnoController.text}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    'Mobile No.: ${mobileController.text}',
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -166,13 +176,7 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () {
-              // Handle Logout item tap
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return const loginScreen();
-                }),
-              );
+              signOut(context);
             },
           ),
         ],
@@ -182,10 +186,12 @@ class _MyDrawerState extends State<MyDrawer> {
 
   Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      '/',
-      (route) => false,
-    );
+    SplashService().removeLogin(context);
+
+    // ignore: use_build_context_synchronously
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const loginScreen()),
+        (route) => false);
   }
 }
