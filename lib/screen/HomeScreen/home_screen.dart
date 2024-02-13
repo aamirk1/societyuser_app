@@ -36,7 +36,7 @@ List<dynamic> cols = [
 class _HomeScreenState extends State<HomeScreen> {
   final SplashService _splashService = SplashService();
   final TextEditingController _societyNameController = TextEditingController();
-  // final TextEditingController statusController = TextEditingController();
+  final TextEditingController statusController = TextEditingController();
   final TextEditingController billAmountController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController flatnoController = TextEditingController();
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> memberList = [];
   String name = '';
   String username = '';
-  // String status = '';
+  String status = '';
   String billAmount = '';
   String flatno = '';
   String mobile = '';
@@ -270,21 +270,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ],
                                   ),
-                                  // Row(
-                                  //   children: [
-                                  //     Padding(
-                                  //       padding: const EdgeInsets.all(4.0),
-                                  //       child: SizedBox(
-                                  //         width: MediaQuery.of(context)
-                                  //                 .size
-                                  //                 .width *
-                                  //             0.90,
-                                  //         child: Text(
-                                  //             "Status: ${statusController.text}"),
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.90,
+                                          child: Text(
+                                              "Status: ${statusController.text}"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ]),
                               )
                       ],
@@ -467,14 +467,14 @@ class _HomeScreenState extends State<HomeScreen> {
         for (var data in dataList) {
           if (phoneNum == data['Mobile No.']) {
             name = data['Member Name'];
-            // status = data['Status'];
+            status = data['Status'];
             flatno = data['Flat No.'];
             mobile = data['Mobile No.'];
 
             flatnoController.text = flatno;
             usernameController.text = name;
             mobileController.text = mobile;
-            // statusController.text = status;
+            statusController.text = status;
 
             break;
           }
