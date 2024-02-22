@@ -27,7 +27,7 @@ class LedgerReceiptDetailsPage extends StatefulWidget {
 
 class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   final SplashService _splashService = SplashService();
-
+    String phoneNum = '';
   bool isLoading = true;
   // List<dynamic> a = widget.name.toString().split('');
   String? society_name;
@@ -60,7 +60,6 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   List<dynamic> receiptDetails = [];
   @override
   initState() {
-    
     fetchData(widget.ReceiptData!);
     numbertochar();
 
@@ -205,7 +204,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   }
 
   Future<void> getSociety(String societyname) async {
-    String phoneNum = '';
+
 
     phoneNum = await _splashService.getPhoneNum();
 

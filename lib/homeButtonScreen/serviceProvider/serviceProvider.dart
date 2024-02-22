@@ -2,8 +2,12 @@
 
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ServiceProvider extends StatefulWidget {
-  const ServiceProvider({super.key});
+   ServiceProvider({super.key,required this.flatno,required  this.societyName,required  this.username});
+  String flatno;
+  String societyName;
+  String username;
 
   @override
   State<ServiceProvider> createState() => _ServiceProviderState();

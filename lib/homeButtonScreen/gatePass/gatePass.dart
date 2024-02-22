@@ -2,8 +2,12 @@
 
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class GatePass extends StatelessWidget {
-  const GatePass({super.key});
+   GatePass({super.key,required this.flatno,required  this.societyName,required  this.username});
+  String flatno;
+  String societyName;
+  String username;
 
   @override
   Widget build(BuildContext context) {

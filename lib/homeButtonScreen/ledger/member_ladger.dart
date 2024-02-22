@@ -43,10 +43,15 @@ class _memberLedgerState extends State<memberLedger> {
     'Credits / Receipts',
     'Balance',
   ];
-
+  String flatno = '';
+  String date = '';
+  String date2 = '';
+  String particulars = '';
+  String amount = '';
+  String month = '';
   List<List<dynamic>> rows = [];
   List<List<dynamic>> allRecepts = [];
-
+  String phoneNum = '';
   @override
   initState() {
     super.initState();
@@ -58,6 +63,7 @@ class _memberLedgerState extends State<memberLedger> {
         setState(() {});
       });
     });
+    // creditNodeData(widget.societyName ?? '', widget.username ?? '');
   }
 
   @override
@@ -188,8 +194,6 @@ class _memberLedgerState extends State<memberLedger> {
   Future<void> getBill(String societyname, String flatno) async {
     isLoading = true;
 
-    String phoneNum = '';
-
     phoneNum = await _splashService.getPhoneNum();
 
     QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
@@ -240,8 +244,6 @@ class _memberLedgerState extends State<memberLedger> {
   Future<void> getReceipt(String societyname, String flatno) async {
     isLoading = true;
 
-    String phoneNum = '';
-
     phoneNum = await _splashService.getPhoneNum();
 
     QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
@@ -286,5 +288,34 @@ class _memberLedgerState extends State<memberLedger> {
     isLoading = false;
     setState(() {});
     print(allRecepts.length);
+  }
+
+  Future<void> creditNodeData(String societyName, String monthyear, String name,
+      String particulartype) async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('creditNode')
+        .doc(societyName)
+        .collection('month')
+        .doc(monthyear)
+        .collection('memberName')
+        .doc(name)
+        .collection('particular')
+        .doc(particulartype)
+        .get();
+
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      flatno = data['Flat No.'];
+      amount = data['amount'];
+      date = data['date'];
+      particulars = data['particular'];
+      monthyear = data['monthyear'];
+      date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
+
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

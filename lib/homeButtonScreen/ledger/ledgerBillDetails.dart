@@ -36,7 +36,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   String? city;
   String? state;
   String? pincode;
-
+  String phoneNum = '';
   String? maintenanceCharges;
   String? municipalTax;
   String? legalNoticeCharges;
@@ -76,7 +76,6 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
 
   void numbertochar() {
     words = converter.getTextForNumber(billAmount);
-    print(words);
   }
 
   @override
@@ -98,181 +97,150 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
           ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Card(
-                elevation: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          '$society_name',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text("Registration Number: $regNo"),
-                        Text(
-                            "$society_name $landmark, $city, $state, $pincode"),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          "MAINTENANCE BILL",
-                          style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.bold),
-                        ),
-                        const Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                        ),
-                        Row(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Card(
+                  elevation: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            '$society_name',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Text("Registration Number: $regNo"),
+                          Text(
+                              "$society_name $landmark, $city, $state, $pincode"),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "MAINTENANCE BILL",
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold),
+                          ),
+                          const Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.50,
+                                        child: Text(
+                                          "Name: ${widget.name}",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ]),
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Flat No.: ${widget.flatno}"),
+                                      Text(
+                                          "Bill No.: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}"),
+                                      Text(
+                                          "Bill Date: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}"),
+                                      Text(
+                                          "Due Date: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}"),
+                                    ])
+                              ]),
+                          const Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.50,
-                                      child: Text(
-                                        "Name: ${widget.name}",
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.50,
+                                child: SingleChildScrollView(
+                                  child: DataTable(
+                                    dividerThickness: 0,
+                                    columnSpacing: 35,
+                                    columns: [
+                                      DataColumn(
+                                          label: Text(
+                                        colums[0],
                                         style: const TextStyle(
-                                            fontSize: 12,
                                             fontWeight: FontWeight.bold),
-                                      ),
-                                    )
-                                  ]),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Flat No.: ${widget.flatno}"),
-                                    Text(
-                                        "Bill No.: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}"),
-                                    Text(
-                                        "Bill Date: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}"),
-                                    Text(
-                                        "Due Date: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}"),
-                                  ])
-                            ]),
-                        const Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.50,
-                              child: SingleChildScrollView(
-                                child: DataTable(
-                                  dividerThickness: 0,
-                                  columnSpacing: 35,
-                                  columns: [
-                                    DataColumn(
-                                        label: Text(
-                                      colums[0],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                    DataColumn(
-                                        label: Text(
-                                      colums[1],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                    DataColumn(
-                                        label: Text(
-                                      colums[2],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                  ],
-                                  rows: List.generate(11, (index) {
-                                    return DataRow(cells: [
-                                      DataCell(
-                                        Text((index + 1).toString()),
-                                      ),
-                                      DataCell(
-                                        Text(particulars[index]),
-                                      ),
-                                      DataCell(
-                                        Text(billDetails[index] == ''
-                                            ? '0'
-                                            : billDetails[index]),
-                                      )
-                                    ]);
-                                  }),
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        colums[1],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        colums[2],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                    ],
+                                    rows: List.generate(11, (index) {
+                                      return DataRow(cells: [
+                                        DataCell(
+                                          Text((index + 1).toString()),
+                                        ),
+                                        DataCell(
+                                          Text(particulars[index]),
+                                        ),
+                                        DataCell(
+                                          Text(billDetails[index] == ''
+                                              ? '0'
+                                              : billDetails[index]),
+                                        )
+                                      ]);
+                                    }),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.10,
-                          child: Row(children: [
-                            Expanded(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.50,
-                                child: Text(
-                                  "Rupees $words Only",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                            ],
+                          ),
+                          const Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.10,
+                            child: Row(children: [
+                              Expanded(
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.50,
+                                  child: Text(
+                                    "Rupees $words Only",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const VerticalDivider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Total: "),
-                                            Text("Previous Dues: "),
-                                            Text("Intrest On Dues: ")
-                                          ],
-                                        ),
-                                        const Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(":"),
-                                            Text(":"),
-                                            Text(":")
-                                          ],
-                                        ),
-                                        Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text("$billAmount"),
-                                              Text("$billAmount"),
-                                              Text(
-                                                  "${interest == '' ? 0 : interest}"),
-                                            ]),
-                                        const Divider(
-                                          color: Colors.black,
-                                          thickness: 1,
-                                        ),
-                                      ],
-                                    ),
-                                    const Divider(
-                                        color: Colors.black, thickness: 1),
-                                    Row(
+                              const VerticalDivider(
+                                thickness: 1,
+                                color: Colors.black,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
@@ -280,38 +248,79 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                "Total Dues Amount: ",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12),
-                                              ),
+                                              Text("Total: "),
+                                              Text("Previous Dues: "),
+                                              Text("Intrest On Dues: ")
+                                            ],
+                                          ),
+                                          const Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(":"),
+                                              Text(":"),
+                                              Text(":")
                                             ],
                                           ),
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                "${totalDues == '' ? 0 : totalDues}",
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text("$billAmount"),
+                                                Text("$billAmount"),
+                                                Text(
+                                                    "${interest == '' ? 0 : interest}"),
+                                              ]),
+                                          const Divider(
+                                            color: Colors.black,
+                                            thickness: 1,
                                           ),
-                                        ])
-                                  ],
+                                        ],
+                                      ),
+                                      const Divider(
+                                          color: Colors.black, thickness: 1),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Total Dues Amount: ",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  "${totalDues == '' ? 0 : totalDues}",
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ])
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ]),
-                        ),
-                        const Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                        )
-                      ],
+                            ]),
+                          ),
+                          const Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -321,7 +330,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   }
 
   Future<void> getSociety(String societyname) async {
-    String phoneNum = '';
+  
 
     phoneNum = await _splashService.getPhoneNum();
 

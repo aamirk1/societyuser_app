@@ -49,11 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> memberList = [];
   String name = '';
   String username = '';
-  String status = '';
+  String? status = '';
   String billAmount = '';
   String flatno = '';
   bool isLoading = false;
-
+  bool isDataAvailable = false;
+  String phoneNum = '';
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
   @override
   void initState() {
@@ -62,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<String> buttons = [
+    'MEMBER LEDGER',
     'CIRCULAR/NOTICE',
     'NOC MANAGEMENT',
     'GRIEVANCE / COMPLAINT',
@@ -71,6 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
     'OTHERS'
   ];
   List<Widget Function(String, String, String)> screens = [
+    (flatno, society, name) => memberLedger(
+          flatno: flatno,
+          societyName: society,
+          username: name,
+        ),
     (flatno, society, name) => circular_notice(
           flatno: flatno,
           societyName: society,
@@ -87,8 +94,16 @@ class _HomeScreenState extends State<HomeScreen> {
           username: name,
         ),
     (flat, society, username) => const ResidentManagement(),
-    (flat, society, username) => const ServiceProvider(),
-    (flat, society, username) => const GatePass(),
+    (flatno, society, name) => ServiceProvider(
+          flatno: flatno,
+          societyName: society,
+          username: name,
+        ),
+    (flatno, society, name) => GatePass(
+          flatno: flatno,
+          societyName: society,
+          username: name,
+        ),
     (flat, society, username) => const Others(),
   ];
   @override
@@ -425,10 +440,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getMemberName(String selectedSociety) async {
+    isDataAvailable = false;
     setState(() {
       isLoading = true;
     });
-    String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();
 
@@ -446,21 +461,23 @@ class _HomeScreenState extends State<HomeScreen> {
           .doc(selectedSociety)
           .get();
 
-      Map<String, dynamic> tempData =
-          dataDocumentSnapshot.data() as Map<String, dynamic>;
-      List<dynamic> dataList = tempData['data'];
+      if (dataDocumentSnapshot.exists) {
+        isDataAvailable = true;
+        Map<String, dynamic> tempData =
+            dataDocumentSnapshot.data() as Map<String, dynamic>;
+        List<dynamic> dataList = tempData['data'];
 
-      for (var data in dataList) {
-        if (phoneNum == data['Mobile No.']) {
-          name = data['Member Name'];
-          status = data['Status'];
-          flatno = data['Flat No.'];
+        for (var data in dataList) {
+          if (phoneNum == data['Mobile No.']) {
+            name = data['Member Name'];
+            status = data['Status'] ?? 'N/A';
+            flatno = data['Flat No.'];
 
-          flatnoController.text = flatno;
-          usernameController.text = name;
-          statusController.text = status;
-
-          break;
+            flatnoController.text = flatno;
+            usernameController.text = name;
+            statusController.text = status ?? '';
+            break;
+          }
         }
       }
       setState(() {});
@@ -497,8 +514,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getCurrentBill(String selectedSociety) async {
-    String phoneNum = '';
-
     phoneNum = await _splashService.getPhoneNum();
 
     DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore.instance
@@ -508,20 +523,32 @@ class _HomeScreenState extends State<HomeScreen> {
         .doc(currentmonth)
         .get();
 
-    Map<String, dynamic> allSociety =
-        societyQuerySnapshot.data() as Map<String, dynamic>;
+    if (societyQuerySnapshot.exists) {
+      Map<String, dynamic> allSociety =
+          societyQuerySnapshot.data() as Map<String, dynamic>;
 
-    List<dynamic> dataList = allSociety['data'];
+      List<dynamic> dataList = allSociety['data'];
 
-    for (var data in dataList) {
-      if (flatnoController.text == data['Flat No.']) {
-        billAmount = data['Bill Amount'];
+      for (var data in dataList) {
+        if (flatnoController.text == data['Flat No.']) {
+          billAmount = data['Bill Amount'];
 
-        setState(() {
-          billAmountController.text = billAmount;
-        });
-        break;
+          setState(() {
+            billAmountController.text = billAmount;
+          });
+          break;
+        }
       }
     }
+  }
+
+  alertBox() {
+    return const AlertDialog(
+      title: Center(
+          child: Text(
+        'No User Found',
+        style: TextStyle(fontSize: 20, color: Colors.red),
+      )),
+    );
   }
 }
