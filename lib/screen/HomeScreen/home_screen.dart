@@ -15,7 +15,9 @@ import 'package:societyuser_app/homeButtonScreen/resident/resident_management.da
 import 'package:societyuser_app/homeButtonScreen/serviceProvider/serviceProvider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -38,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController billAmountController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController flatnoController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
 
   List<String> searchedList = [];
   List<List<dynamic>> data = [];
@@ -49,9 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> memberList = [];
   String name = '';
   String username = '';
-  String? status = '';
+  String status = '';
   String billAmount = '';
   String flatno = '';
+  String mobile = '';
+
   bool isLoading = false;
   bool isDataAvailable = false;
   String phoneNum = '';
@@ -119,7 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: MyDrawer(
           flatno: flatno,
           username: name,
-          societyName: _societyNameController.text),
+          societyName: _societyNameController.text,
+          mobile: mobile),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SizedBox(
@@ -440,29 +446,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getMemberName(String selectedSociety) async {
-    isDataAvailable = false;
     setState(() {
       isLoading = true;
     });
+    String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();
 
     QuerySnapshot societyQuerySnapshot =
         await FirebaseFirestore.instance.collection('members').get();
 
-    List<String> allSociety =
+    List<String> memeberName =
         societyQuerySnapshot.docs.map((e) => e.id).toList();
 
-    for (int i = 0; i < allSociety.length; i++) {
+    for (int i = 0; i < memeberName.length; i++) {
       // ignore: unused_local_variable
       bool isUserPresent = false;
       DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
           .collection('members')
           .doc(selectedSociety)
           .get();
-
       if (dataDocumentSnapshot.exists) {
-        isDataAvailable = true;
         Map<String, dynamic> tempData =
             dataDocumentSnapshot.data() as Map<String, dynamic>;
         List<dynamic> dataList = tempData['data'];
@@ -470,18 +474,21 @@ class _HomeScreenState extends State<HomeScreen> {
         for (var data in dataList) {
           if (phoneNum == data['Mobile No.']) {
             name = data['Member Name'];
-            status = data['Status'] ?? 'N/A';
+            status = data['Status'] ?? 'Not Available';
             flatno = data['Flat No.'];
+            mobile = data['Mobile No.'];
 
             flatnoController.text = flatno;
             usernameController.text = name;
-            statusController.text = status ?? '';
+            mobileController.text = mobile;
+            statusController.text = status;
+
             break;
           }
         }
+        setState(() {});
+        isLoading = false;
       }
-      setState(() {});
-      isLoading = false;
     }
   }
 
@@ -514,6 +521,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getCurrentBill(String selectedSociety) async {
+    // ignore: unused_local_variable
+    String phoneNum = '';
+
     phoneNum = await _splashService.getPhoneNum();
 
     DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore.instance
@@ -541,14 +551,184 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
   }
-
-  alertBox() {
-    return const AlertDialog(
-      title: Center(
-          child: Text(
-        'No User Found',
-        style: TextStyle(fontSize: 20, color: Colors.red),
-      )),
-    );
-  }
 }
+
+
+
+
+
+// Future<List<dynamic>> getSocietyList() async {
+//     String phoneNum = '';
+//     List<dynamic> temp = [];
+//     phoneNum = await _splashService.getPhoneNum();
+
+//     QuerySnapshot societyQuerySnapshot =
+//         await FirebaseFirestore.instance.collection('members').get();
+
+//     List<String> allSociety =
+//         societyQuerySnapshot.docs.map((e) => e.id).toList();
+
+//     for (int i = 0; i < allSociety.length; i++) {
+//       bool isUserPresent = false;
+//       DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
+//           .collection('members')
+//           .doc(allSociety[i])
+//           .get();
+
+//       Map<String, dynamic> tempData =
+//           dataDocumentSnapshot.data() as Map<String, dynamic>;
+//       List<dynamic> dataList = tempData['data'];
+
+//       for (var data in dataList) {
+//         if (phoneNum == data['Mobile No.']) {
+//           isUserPresent = true;
+//           break;
+//         }
+//       }
+//       if (isUserPresent) {
+//         temp.add(allSociety[i]);
+//       }
+//     }
+//     societyList = temp;
+//     if (societyList.isEmpty) {
+//       societyList.add(['No Data Found']);
+//     }
+//     return societyList;
+//   }
+
+//   Future<void> getMemberName(String selectedSociety) async {
+//     isDataAvailable = false;
+//     setState(() {
+//       isLoading = true;
+//     });
+
+//     phoneNum = await _splashService.getPhoneNum();
+
+//     QuerySnapshot societyQuerySnapshot =
+//         await FirebaseFirestore.instance.collection('members').get();
+
+//     List<String> memeberName =
+//         societyQuerySnapshot.docs.map((e) => e.id).toList();
+
+//     for (int i = 0; i < memeberName.length; i++) {
+//       // ignore: unused_local_variable
+//       bool isUserPresent = false;
+//       DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
+//           .collection('members')
+//           .doc(selectedSociety)
+//           .get();
+//       if (dataDocumentSnapshot.exists) {
+//         Map<String, dynamic> tempData =
+//             dataDocumentSnapshot.data() as Map<String, dynamic>;
+//         List<dynamic> dataList = tempData['data'];
+
+//         if (dataDocumentSnapshot.exists) {
+//           isDataAvailable = true;
+//           Map<String, dynamic> tempData =
+//               dataDocumentSnapshot.data() as Map<String, dynamic>;
+//           List<dynamic> dataList = tempData['data'];
+
+//           for (var data in dataList) {
+//             if (phoneNum == data['Mobile No.']) {
+//               name = data['Member Name'];
+//               status = data['Status'] ?? 'N/A';
+//               flatno = data['Flat No.'];
+
+//               flatnoController.text = flatno;
+//               usernameController.text = name;
+//               statusController.text = status ?? '';
+//               for (var data in dataList) {
+//                 if (phoneNum == data['Mobile No.']) {
+//                   name = data['Member Name'];
+//                   status = data['Status'];
+//                   flatno = data['Flat No.'];
+//                   mobile = data['Mobile No.'];
+
+//                   flatnoController.text = flatno;
+//                   usernameController.text = name;
+//                   mobileController.text = mobile;
+//                   statusController.text = status!;
+
+//                   break;
+//                 }
+//               }
+//               setState(() {});
+//               isLoading = false;
+//             }
+//           }
+//         }
+
+//         void customDialogBox() {
+//           showDialog(
+//               context: context,
+//               builder: (context) {
+//                 return AlertDialog(
+//                   title: const Text(
+//                     'Select Society First',
+//                     style: TextStyle(color: Colors.red),
+//                   ),
+//                   actions: [
+//                     TextButton(
+//                         onPressed: () {
+//                           Navigator.pop(context);
+//                         },
+//                         child: const Text(
+//                           'OK',
+//                           style: TextStyle(color: Colors.black),
+//                         )),
+//                     // TextButton(
+//                     //     onPressed: () {
+//                     //       Navigator.pop(context);
+//                     //     },
+//                     //     child: const Text('Yes'))
+//                   ],
+//                 );
+//               });
+//         }
+
+//         Future<void> getCurrentBill(String selectedSociety) async {
+//           // ignore: unused_local_variable
+//           String phoneNum = '';
+
+//           phoneNum = await _splashService.getPhoneNum();
+
+//           DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore
+//               .instance
+//               .collection('ladgerBill')
+//               .doc(_societyNameController.text)
+//               .collection('month')
+//               .doc(currentmonth)
+//               .get();
+
+//           if (societyQuerySnapshot.exists) {
+//             Map<String, dynamic> allSociety =
+//                 societyQuerySnapshot.data() as Map<String, dynamic>;
+
+//             List<dynamic> dataList = allSociety['data'];
+
+//             for (var data in dataList) {
+//               if (flatnoController.text == data['Flat No.']) {
+//                 billAmount = data['Bill Amount'];
+
+//                 setState(() {
+//                   billAmountController.text = billAmount;
+//                 });
+//                 break;
+//               }
+//             }
+//           }
+//         }
+
+//         alertBox() {
+//           return const AlertDialog(
+//             title: Center(
+//                 child: Text(
+//               'No User Found',
+//               style: TextStyle(fontSize: 20, color: Colors.red),
+//             )),
+//           );
+//         }
+//       }
+//     }
+//   }
+// }

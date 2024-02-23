@@ -1,31 +1,48 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
-import 'package:societyuser_app/homeButtonScreen/noc/applyNoc.dart';
-import 'package:societyuser_app/homeButtonScreen/noc/nocResponse.dart';
-import 'package:societyuser_app/provider/AllNocProvider.dart';
+import 'package:societyuser_app/homeButtonScreen/serviceProvider/EmployeeDetails/sendComplaints.dart';
 
 // ignore: camel_case_types, must_be_immutable
-class nocPage extends StatefulWidget {
-  nocPage({super.key, this.flatno, this.societyName, this.username});
-  String? flatno;
-  String? societyName;
-  String? username;
+class Complaints_List extends StatefulWidget {
+  Complaints_List({
+    super.key,
+    required this.username,
+    required this.flatno,
+    required this.societyName,
+    required this.companyName,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.address,
+    required this.designation,
+  });
+  String username;
+  String flatno;
+  String societyName;
+  String companyName;
+  String name;
+  String email;
+  String phone;
+  String address;
+  String designation;
 
   @override
-  State<nocPage> createState() => _nocPageState();
+  State<Complaints_List> createState() => _Complaints_ListState();
 }
 
 // ignore: camel_case_types
-class _nocPageState extends State<nocPage> {
+class _Complaints_ListState extends State<Complaints_List> {
   @override
   void initState() {
     fetchData();
     super.initState();
   }
 
-  List<String> nocData = [];
+  List<dynamic> allData = [];
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +50,7 @@ class _nocPageState extends State<nocPage> {
       appBar: AppBar(
         backgroundColor: appBarBgColor,
         title: const Text(
-          'NOC ',
+          'All Complaints',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -57,14 +74,14 @@ class _nocPageState extends State<nocPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Dev Accounts -',
+                        'Dev Accounts - ',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.purple),
                       ),
                       Text(
-                        ' Society Manager App',
+                        'Society Manager App',
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -85,8 +102,8 @@ class _nocPageState extends State<nocPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Memeber Name: ${widget.username}"),
-                            Text("Flat No.: ${widget.flatno}"),
+                            Text("Member Name: ${widget.username}"),
+                            Text("Flat Now.: ${widget.flatno}"),
                             Text("Society Name: ${widget.societyName}"),
                           ],
                         ),
@@ -95,53 +112,46 @@ class _nocPageState extends State<nocPage> {
                         color: Colors.grey,
                         thickness: 2,
                       ),
-                      Consumer<AllNocProvider>(
-                          builder: (context, value, child) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.69,
-                          child: ListView.builder(
-                            itemCount: value.nocList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Column(
-                                children: [
-                                  ListTile(
-                                    title: TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return ViewNoc(
-                                                nocType: value.nocList[index]
-                                                    ['nocType'],
-                                                societyName:
-                                                    widget.societyName!,
-                                                flatNo: widget.flatno!,
-                                                text: value.nocList[index]
-                                                    ['text'],
-                                              );
-                                            },
-                                          ),
-                                        ).whenComplete(() => fetchData());
-                                      },
-                                      child: Text(
-                                        value.nocList[index]['nocType'],
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.69,
+                        child: ListView.builder(
+                          itemCount: allData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  title: TextButton(
+                                    onPressed: () {
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) {
+                                      //       return ViewGatePass(
+
+                                      //         text:
+                                      //             value.sendComplaints[index]
+                                      //                 ['text'],
+                                      //       );
+                                      //     },
+                                      //   ),
+                                      // );
+                                    },
+                                    child: Text(
+                                      allData[index]['problemsType'].toString(),
+                                      style:
+                                          const TextStyle(color: Colors.black),
                                     ),
-                                    subtitle: value.nocList[index]['date'],
                                   ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        );
-                      })
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -155,11 +165,19 @@ class _nocPageState extends State<nocPage> {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return apply_noc(
+              return SendComplaints(
                 flatno: widget.flatno,
                 societyName: widget.societyName,
+                companyName: widget.companyName,
+                name: widget.name,
+                email: widget.email,
+                phone: widget.phone,
+                address: widget.address,
+                designation: widget.designation,
               );
-            }));
+            })).whenComplete(() {
+              fetchData();
+            });
           },
           child: const Icon(Icons.add),
         ),
@@ -168,20 +186,30 @@ class _nocPageState extends State<nocPage> {
   }
 
   Future<void> fetchData() async {
-    final provider = Provider.of<AllNocProvider>(context, listen: false);
+    setState(() {
+      isLoading = true;
+    });
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('nocApplications')
+          .collection('sencomplaintsForVendors')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofNoc')
+          .collection('vendorCompanyName')
+          .doc(widget.companyName)
+          .collection('vendorName')
+          .doc(widget.name)
+          .collection('problemsType')
           .get();
+
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData =
             querySnapshot.docs.map((e) => e.data()).toList();
-        provider.setBuilderList(tempData);
+        allData = tempData;
       }
+      setState(() {});
+      isLoading = false;
+      // print('sendComplaints: ${allData.length}');
     } catch (e) {
       // ignore: avoid_print
       print('Error fetching data: $e');

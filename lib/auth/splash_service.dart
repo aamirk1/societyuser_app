@@ -11,10 +11,13 @@ class SplashService {
   Future<String> getPhoneNum() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String phoneNum = prefs.getString('phoneNum') ?? '';
- 
+
     return phoneNum;
   }
 
+  void removeLogin(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   await prefs.remove('isLogin');
+  }
   
-
 }

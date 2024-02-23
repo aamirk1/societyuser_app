@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/auth/login_page.dart';
 import 'package:societyuser_app/auth/splash_service.dart';
@@ -9,11 +10,17 @@ import 'package:societyuser_app/screen/HomeScreen/home_screen.dart';
 
 // ignore: must_be_immutable
 class MyDrawer extends StatefulWidget {
-  MyDrawer({Key? key, this.flatno, this.username, societyName})
+  MyDrawer(
+      {Key? key,
+      required this.flatno,
+      required this.username,
+      required this.societyName,
+      required this.mobile})
       : super(key: key);
-  String? flatno;
-  String? username;
-  String? societyName;
+  String flatno;
+  String username;
+  String societyName;
+  String mobile;
   print(value) => print('flatno: $flatno');
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -25,13 +32,15 @@ class _MyDrawerState extends State<MyDrawer> {
 
   final TextEditingController flatnoController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
   String flatno = '';
 
   @override
   void initState() {
     super.initState();
-    flatnoController.text = widget.flatno!;
-    usernameController.text = widget.username!;
+    flatnoController.text = widget.flatno;
+    usernameController.text = widget.username;
+    mobileController.text = widget.mobile;
   }
 
   @override
@@ -65,6 +74,12 @@ class _MyDrawerState extends State<MyDrawer> {
                       fontSize: 14,
                     ),
                   ),
+                  Text(
+                    'Mobile No.: ${mobileController.text}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -92,7 +107,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return  memberLedger();
+                  return memberLedger(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },
@@ -104,7 +122,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return circular_notice();
+                  return circular_notice(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },
@@ -128,7 +149,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return Complaints();
+                  return Complaints(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },
@@ -140,7 +164,10 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return nocPage();
+                  return nocPage(
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username);
                 }),
               );
             },
@@ -149,17 +176,22 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () {
-              // Handle Logout item tap
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return const loginScreen();
-                }),
-              );
+              signOut(context);
             },
           ),
         ],
       ),
     );
+  }
+
+  Future<void> signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    SplashService().removeLogin(context);
+
+    // ignore: use_build_context_synchronously
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const loginScreen()),
+        (route) => false);
   }
 }

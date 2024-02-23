@@ -1,10 +1,11 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
-import 'package:societyuser_app/homeButtonScreen/complaint/complaints.dart';
+import 'package:societyuser_app/provider/AllComplaintProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class ApplyComplaints extends StatefulWidget {
@@ -244,10 +245,8 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
   }
 
   Future<void> storeUserData(
-    BuildContext context,
-    String complaintsType,
-    String text,
-  ) async {
+      BuildContext context, String complaintsType, String text) async {
+    final provider = Provider.of<AllComplaintProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
       await firestore
@@ -261,12 +260,20 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
         'complaintsType': complaintsType,
         'text': text,
       });
+
+      await firestore
+          .collection('complaints')
+          .doc(widget.societyName)
+          .collection('flatno')
+          .doc(widget.flatno)
+          .set({"flatno": widget.flatno});
+
+      provider.addSingleList({'complaintsType': complaintsType});
       // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return Complaints();
-      }));
+      Navigator.pop(context);
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     } on FirebaseException catch (e) {
-      // ignore: avoid_print
       print('Error storing data: $e');
     }
   }

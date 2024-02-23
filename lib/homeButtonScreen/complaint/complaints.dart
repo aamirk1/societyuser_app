@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:societyuser_app/common_widget/colors.dart';
 import 'package:societyuser_app/homeButtonScreen/complaint/applyComplaint.dart';
 import 'package:societyuser_app/homeButtonScreen/complaint/complaintsResponse.dart';
+import 'package:societyuser_app/provider/AllComplaintProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class Complaints extends StatefulWidget {
@@ -38,81 +40,93 @@ class _ComplaintsState extends State<Complaints> {
       // drawer: const MyDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Column(
-          children: [
-            Card(
-              elevation: 5,
-              shadowColor: Colors.grey,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+        child: SingleChildScrollView(
+          child: Card(
+            elevation: 5,
+            shadowColor: Colors.grey,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
               ),
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Dev Accounts -',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.purple),
-                        ),
-                        Text(
-                          ' Society Manager App',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.purple),
-                        ),
-                      ],
-                    ),
+            ),
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Dev Accounts -',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple),
+                      ),
+                      Text(
+                        ' Society Manager App',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          padding: const EdgeInsets.all(2.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Memeber Name: ${widget.username}"),
-                              Text("Flat No.: ${widget.flatno}"),
-                              Text("Society Name: ${widget.societyName}"),
-                            ],
-                          ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.10,
+                        padding: const EdgeInsets.all(2.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Memeber Name: ${widget.username}"),
+                            Text("Flat No.: ${widget.flatno}"),
+                            Text("Society Name: ${widget.societyName}"),
+                          ],
                         ),
-                        const Divider(
-                          color: Colors.grey,
-                          thickness: 2,
-                        ),
-                        SizedBox(
+                      ),
+                      const Divider(
+                        color: Colors.grey,
+                        thickness: 2,
+                      ),
+                      Consumer<AllComplaintProvider>(
+                          builder: (context, value, child) {
+                        return SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.64,
+                          height: MediaQuery.of(context).size.height * 0.69,
                           child: ListView.builder(
-                            itemCount: complaintsData.length,
+                            itemCount: value.complaintList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Column(
                                 children: [
                                   ListTile(
                                       title: TextButton(
                                           onPressed: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return const ViewComplaintsResponse();
-                                            }));
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return ViewComplaints(
+                                                    complaintsType:
+                                                        value.complaintList[
+                                                                index]
+                                                            ['complaintsType'],
+                                                    text: value.complaintList[
+                                                        index]['text'],
+                                                  );
+                                                },
+                                              ),
+                                            ).whenComplete(() => fetchData());
                                           },
                                           child: Text(
-                                            complaintsData[index],
+                                            value.complaintList[index]
+                                                ['complaintsType'],
                                             style: const TextStyle(
                                                 color: Colors.black),
                                           ))),
@@ -123,14 +137,14 @@ class _ComplaintsState extends State<Complaints> {
                               );
                             },
                           ),
-                        ),
-                      ],
-                    ),
+                        );
+                      })
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
 
@@ -152,6 +166,7 @@ class _ComplaintsState extends State<Complaints> {
   }
 
   Future<void> fetchData() async {
+    final provider = Provider.of<AllComplaintProvider>(context, listen: false);
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('complaints')
@@ -161,9 +176,9 @@ class _ComplaintsState extends State<Complaints> {
           .collection('typeofcomplaints')
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        for (var doc in querySnapshot.docs) {
-          complaintsData.add(doc.id);
-        }
+        List<dynamic> tempData =
+            querySnapshot.docs.map((e) => e.data()).toList();
+        provider.setBuilderList(tempData);
       }
     } catch (e) {
       // ignore: avoid_print

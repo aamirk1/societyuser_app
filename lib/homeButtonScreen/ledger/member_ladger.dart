@@ -8,10 +8,14 @@ import 'package:societyuser_app/homeButtonScreen/ledger/ledgerReceiptDetails.dar
 
 // ignore: camel_case_types, must_be_immutable
 class memberLedger extends StatefulWidget {
-  memberLedger({super.key, this.flatno, this.societyName, this.username});
-  String? flatno;
-  String? societyName;
-  String? username;
+  memberLedger(
+      {super.key,
+      required this.flatno,
+      required this.societyName,
+      required this.username});
+  String flatno;
+  String societyName;
+  String username;
 
   @override
   State<memberLedger> createState() => _memberLedgerState();
@@ -19,6 +23,7 @@ class memberLedger extends StatefulWidget {
 
 // ignore: camel_case_types
 class _memberLedgerState extends State<memberLedger> {
+  List<int> listOfIndex = [];
   final TextEditingController totalAmountController = TextEditingController();
   final TextEditingController electricController = TextEditingController();
   final TextEditingController billnoController = TextEditingController();
@@ -29,6 +34,7 @@ class _memberLedgerState extends State<memberLedger> {
   String billno = '';
   String water = '';
   bool isLoading = true;
+  // ignore: non_constant_identifier_names
   int BillMonthLength = 0;
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
 
@@ -39,8 +45,8 @@ class _memberLedgerState extends State<memberLedger> {
   List<dynamic> colums = [
     'Date',
     'Particulars',
-    'Bills/Debits',
-    'Credits / Receipts',
+    'Bills\nDebits',
+    'Credits\nReceipts',
     'Balance',
   ];
   String flatno = '';
@@ -56,9 +62,9 @@ class _memberLedgerState extends State<memberLedger> {
   initState() {
     super.initState();
     // LedgerList('siddivinayak');
-    getBill(widget.societyName ?? '', widget.flatno ?? '').whenComplete(() {
-      getReceipt(widget.societyName ?? '', widget.flatno ?? '')
-          .whenComplete(() {
+    getBill(widget.societyName, widget.flatno).whenComplete(() {
+      getReceipt(widget.societyName, widget.flatno).whenComplete(() {
+        setListOfIndex();
         isLoading = false;
         setState(() {});
       });
@@ -95,8 +101,7 @@ class _memberLedgerState extends State<memberLedger> {
                         ),
                         child: DataTable(
                           // dataRowMinHeight: 10,
-                          columnSpacing:
-                              MediaQuery.of(context).size.width * 0.01,
+                          columnSpacing: 5,
                           columns: List.generate(5, (index) {
                             return DataColumn(
                               label: Text(
@@ -106,11 +111,10 @@ class _memberLedgerState extends State<memberLedger> {
                               ),
                             );
                           }),
-                          rows: List.generate(rows.length, (index1) {
+                          rows: List.generate(rows.length * 2, (index1) {
                             return DataRow(
                               cells: List.generate(rows[0].length, (index2) {
                                 // print(rows[index2]);
-                                print(allRecepts[index1][index2]);
                                 return DataCell(
                                   index1.isEven
                                       ? index2 == 1
@@ -126,13 +130,13 @@ class _memberLedgerState extends State<memberLedger> {
                                                       societyName:
                                                           widget.societyName,
                                                       BillData: allDataWithBill[
-                                                          index1],
+                                                          listOfIndex[index1]],
                                                     );
                                                   }),
                                                 );
                                               },
                                               child: Text(
-                                                'Bill No. \n ${rows[index1][index2]}',
+                                                'Bill No.\n ${rows[listOfIndex[index1]][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,
@@ -140,7 +144,10 @@ class _memberLedgerState extends State<memberLedger> {
                                                         FontWeight.bold),
                                               ),
                                             )
-                                          : Text(rows[index1][index2] ?? 'N/A',
+                                          : Text(
+                                              rows[listOfIndex[index1]]
+                                                      [index2] ??
+                                                  '0',
                                               style: const TextStyle(
                                                 fontSize: 10,
                                               ))
@@ -156,15 +163,16 @@ class _memberLedgerState extends State<memberLedger> {
                                                       name: widget.username,
                                                       societyName:
                                                           widget.societyName,
-                                                      ReceiptData:
+                                                      receiptData:
                                                           allDataWithReceipt[
-                                                              index1],
+                                                              listOfIndex[
+                                                                  index1]],
                                                     );
                                                   }),
                                                 );
                                               },
                                               child: Text(
-                                                'Receipt No. \n ${allRecepts[index1][index2]}',
+                                                'Receipt No.\n ${allRecepts[listOfIndex[index1]][index2]}',
                                                 style: const TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.black,
@@ -173,8 +181,9 @@ class _memberLedgerState extends State<memberLedger> {
                                               ),
                                             )
                                           : Text(
-                                              allRecepts[index1][index2] ??
-                                                  'N/A',
+                                              allRecepts[listOfIndex[index1]]
+                                                      [index2] ??
+                                                  '0',
                                               style: const TextStyle(
                                                 fontSize: 10,
                                               ),
@@ -222,10 +231,10 @@ class _memberLedgerState extends State<memberLedger> {
 
           if (flatno == data['Flat No.']) {
             allDataWithBill.add(data);
-            row.add(data['Flat No.']);
+            row.add(data['Bill Date']);
             row.add(data['Bill No']);
-            row.add(data['Maintenance Charges']);
-            row.add(data['Municipal Tax']);
+            row.add(data['Bill Amount']);
+            row.add(data['0']);
             row.add(data['Bill Amount']);
 
             rows.add(row);
@@ -235,10 +244,15 @@ class _memberLedgerState extends State<memberLedger> {
         }
       }
     }
-    print('bill print $allDataWithBill');
     isLoading = false;
     setState(() {});
-    print(rows.length);
+  }
+
+  void setListOfIndex() {
+    for (int i = 0; i < rows.length; i++) {
+      listOfIndex.add(i);
+      listOfIndex.add(i);
+    }
   }
 
   Future<void> getReceipt(String societyname, String flatno) async {
@@ -272,8 +286,8 @@ class _memberLedgerState extends State<memberLedger> {
             allDataWithReceipt.add(data);
             receipt.add(data['Receipt Date']);
             receipt.add(data['Flat No.']);
-            receipt.add(data['ChqNo']);
-            receipt.add(data['Bank Name']);
+            receipt.add(data['0']);
+            receipt.add(data['Amount']);
             receipt.add(data['Amount']);
             allRecepts.add(receipt);
             break;
@@ -287,20 +301,35 @@ class _memberLedgerState extends State<memberLedger> {
     // print('hellllloooo $allRecepts');
     isLoading = false;
     setState(() {});
-    print(allRecepts.length);
+    // print(allRecepts.length);
   }
 
-  Future<void> creditNodeData(String societyName, String monthyear, String name,
-      String particulartype) async {
+  Future<void> creditNodeData() async {
+    QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
+        .collection('ladgerReceipt')
+        .doc(widget.societyName)
+        .collection('month')
+        .get();
+    List<dynamic> monthList =
+        societyQuerySnapshot.docs.map((e) => e.id).toList();
+
+    for (var i = 0; i < monthList.length; i++) {
+      DocumentSnapshot data = await FirebaseFirestore.instance
+          .collection('ladgerReceipt')
+          .doc(widget.societyName)
+          .collection('month')
+          .doc(monthList[i])
+          .get();
+    }
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
         .collection('creditNode')
-        .doc(societyName)
+        .doc(widget.societyName)
         .collection('month')
         .doc(monthyear)
         .collection('memberName')
-        .doc(name)
+        .doc(widget.username)
         .collection('particular')
-        .doc(particulartype)
+        .doc(widget.flatno)
         .get();
 
     if (documentSnapshot.exists) {

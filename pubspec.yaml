@@ -42,6 +42,11 @@ dependencies:
   shared_preferences:
   intl: ^0.18.1
   number_to_character: ^0.0.12
+  provider: ^6.1.1
+  firebase_storage: ^11.6.0
+  syncfusion_flutter_pdfviewer: ^24.1.45
+  device_info_plus: ^9.1.1
+  flutter_downloader: ^1.11.6
 
 dev_dependencies:
   flutter_test:
