@@ -71,7 +71,6 @@ class _memberLedgerState extends State<memberLedger> {
     });
     creditNodeData();
     debitNodeData();
-    // creditNodeData(widget.societyName ?? '', widget.username ?? '');
   }
 
   @override
@@ -89,115 +88,125 @@ class _memberLedgerState extends State<memberLedger> {
           ? const Center(child: CircularProgressIndicator())
           : Center(
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      padding: const EdgeInsets.all(2.0),
-                      child: Card(
-                        elevation: 5,
-                        shadowColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: DataTable(
-                          // dataRowMinHeight: 10,
-                          columnSpacing: 5,
-                          columns: List.generate(5, (index) {
-                            return DataColumn(
-                              label: Text(
-                                colums[index],
-                                style: const TextStyle(
-                                    fontSize: 10, fontWeight: FontWeight.bold),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    padding: const EdgeInsets.all(2.0),
+                    child: Card(
+                      elevation: 5,
+                      shadowColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: DataTable(
+                        // dataRowMinHeight: 10,
+                        columnSpacing: 5,
+                        columns: List.generate(5, (index) {
+                          return DataColumn(
+                            label: Text(
+                              colums[index],
+                              style: const TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.bold),
+                            ),
+                          );
+                        }),
+                        rows: List.generate(
+                          rows.length * 2,
+                          (index1) {
+                            return DataRow(
+                              cells: List.generate(
+                                rows[0].length,
+                                (index2) {
+                                  // print(rows[index2]);
+                                  return DataCell(
+                                    index1.isEven
+                                        ? index2 == 1
+                                            ? TextButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return LedgerBillDetailsPage(
+                                                          flatno: widget.flatno,
+                                                          name: widget.username,
+                                                          societyName: widget
+                                                              .societyName,
+                                                          BillData:
+                                                              allDataWithBill[
+                                                                  listOfIndex[
+                                                                      index1]],
+                                                        );
+                                                      },
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  'Bill No.\n ${rows[listOfIndex[index1]][index2]}',
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )
+                                            : Text(
+                                                rows[listOfIndex[index1]]
+                                                        [index2] ??
+                                                    '0',
+                                                style: const TextStyle(
+                                                  fontSize: 10,
+                                                ))
+                                        : index2 == 1
+                                            ? TextButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                      return LedgerReceiptDetailsPage(
+                                                        flatno: widget.flatno,
+                                                        name: widget.username,
+                                                        societyName:
+                                                            widget.societyName,
+                                                        receiptData:
+                                                            allDataWithReceipt[
+                                                                listOfIndex[
+                                                                    index1]],
+                                                      );
+                                                    }),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  'Receipt No.\n ${allRecepts[listOfIndex[index1]][index2]}',
+                                                  style: const TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )
+                                            : Text(
+                                                allRecepts[listOfIndex[index1]]
+                                                        [index2] ??
+                                                    '0',
+                                                style: const TextStyle(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                  );
+                                },
                               ),
                             );
-                          }),
-                          rows: List.generate(rows.length * 2, (index1) {
-                            return DataRow(
-                              cells: List.generate(rows[0].length, (index2) {
-                                // print(rows[index2]);
-                                return DataCell(
-                                  index1.isEven
-                                      ? index2 == 1
-                                          ? TextButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                    return LedgerBillDetailsPage(
-                                                      flatno: widget.flatno,
-                                                      name: widget.username,
-                                                      societyName:
-                                                          widget.societyName,
-                                                      BillData: allDataWithBill[
-                                                          listOfIndex[index1]],
-                                                    );
-                                                  }),
-                                                );
-                                              },
-                                              child: Text(
-                                                'Bill No.\n ${rows[listOfIndex[index1]][index2]}',
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            )
-                                          : Text(
-                                              rows[listOfIndex[index1]]
-                                                      [index2] ??
-                                                  '0',
-                                              style: const TextStyle(
-                                                fontSize: 10,
-                                              ))
-                                      : index2 == 1
-                                          ? TextButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                    return LedgerReceiptDetailsPage(
-                                                      flatno: widget.flatno,
-                                                      name: widget.username,
-                                                      societyName:
-                                                          widget.societyName,
-                                                      receiptData:
-                                                          allDataWithReceipt[
-                                                              listOfIndex[
-                                                                  index1]],
-                                                    );
-                                                  }),
-                                                );
-                                              },
-                                              child: Text(
-                                                'Receipt No.\n ${allRecepts[listOfIndex[index1]][index2]}',
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            )
-                                          : Text(
-                                              allRecepts[listOfIndex[index1]]
-                                                      [index2] ??
-                                                  '0',
-                                              style: const TextStyle(
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                );
-                              }),
-                            );
-                          }),
+                          },
                         ),
                       ),
                     ),
-                  ]),
+                  ),
+                ],
+              ),
             ),
     );
   }
@@ -238,13 +247,10 @@ class _memberLedgerState extends State<memberLedger> {
             row.add(data['Bill Amount']);
             row.add(data['0']);
             row.add(data['Bill Amount']);
-
             rows.add(row);
-
             break;
           }
         }
-        print('Rows - $rows');
       }
     }
     isLoading = false;
@@ -260,9 +266,7 @@ class _memberLedgerState extends State<memberLedger> {
 
   Future<void> getReceipt(String societyname, String flatno) async {
     isLoading = true;
-
     phoneNum = await _splashService.getPhoneNum();
-
     QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
         .collection('ladgerReceipt')
         .doc(societyname)
@@ -301,7 +305,6 @@ class _memberLedgerState extends State<memberLedger> {
     for (var i = 0; i < BillMonthLength - monthList.length; i++) {
       allRecepts.add(['N/A', 'N/A', 'N/A', 'N/A', 'N/A']);
     }
-    // print('hellllloooo $allRecepts');
     isLoading = false;
     setState(() {});
     // print(allRecepts.length);
@@ -335,7 +338,6 @@ class _memberLedgerState extends State<memberLedger> {
         particulars = data['particular'];
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
-
         setState(() {
           isLoading = false;
         });
@@ -350,7 +352,7 @@ class _memberLedgerState extends State<memberLedger> {
         .collection('month')
         .get();
     monthList = societyQuerySnapshot.docs.map((e) => e.id).toList();
-    print(monthList);
+
     for (var i = 0; i < monthList.length; i++) {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('debitNode')
@@ -371,7 +373,6 @@ class _memberLedgerState extends State<memberLedger> {
         particulars = data['particular'];
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
-
         setState(() {
           isLoading = false;
         });

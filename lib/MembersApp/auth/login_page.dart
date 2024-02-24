@@ -287,21 +287,18 @@ class _loginScreenState extends State<loginScreen> {
 
         if (password == storedPassword) {
           storeLoginData(true, mobileController.text);
-          // Login successful
           SnackBar snackBar = const SnackBar(
             backgroundColor: Colors.green,
             content: Center(child: Text('Login successful')),
           );
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          // print('Login successful');
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),
               (route) => false);
 
-          // Navigate to the home screen or perform any other necessary actions
         } else {
           // Incorrect password
           SnackBar snackBar = const SnackBar(

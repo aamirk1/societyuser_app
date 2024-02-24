@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/MembersApp/auth/forgotPassword.dart';
 import 'package:societyuser_app/MembersApp/auth/signup_page.dart';
 import 'package:societyuser_app/MembersApp/screen/HomeScreen/home_screen.dart';
+import 'package:societyuser_app/VendorsApp/auth/Vendors_signupPage.dart';
 
 // ignore: camel_case_types
 class LoginAsVendors extends StatefulWidget {
@@ -162,7 +163,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                           }
                         },
                         child: const Text(
-                          'Login',
+                          'Login As Vendor',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
@@ -216,7 +217,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) {
-                        return const signUp();
+                        return const RegisterAsVendors();
                       }),
                     );
                   },

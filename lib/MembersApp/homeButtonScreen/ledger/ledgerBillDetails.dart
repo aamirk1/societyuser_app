@@ -19,9 +19,9 @@ class LedgerBillDetailsPage extends StatefulWidget {
 
   // ignore: non_constant_identifier_names
   Map<String, dynamic>? BillData;
-  String? societyName;
-  String? name;
-  String? flatno;
+  String societyName;
+  String name;
+  String flatno;
 
   @override
   State<LedgerBillDetailsPage> createState() => _LedgerBillDetailsPageState();
@@ -85,7 +85,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   initState() {
     fetchData(widget.BillData!);
     numbertochar();
-    getSociety(widget.societyName ?? '').whenComplete(() {});
+    getSociety(widget.societyName).whenComplete(() {});
     super.initState();
   }
 
@@ -274,7 +274,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                           children: [
                                             Text(":"),
                                             Text(":"),
-                                            Text(":")
+                                            Text(":"),
                                           ],
                                         ),
                                         Column(
