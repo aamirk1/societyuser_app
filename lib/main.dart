@@ -2,14 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
-import 'package:societyuser_app/provider/AllComplaintProvider.dart';
-import 'package:societyuser_app/provider/AllGatePassProvider.dart';
-import 'package:societyuser_app/provider/AllNocProvider.dart';
-import 'package:societyuser_app/provider/AllNoticeProvider.dart';
-import 'package:societyuser_app/provider/AllSendComplaintsProvider.dart';
-import 'package:societyuser_app/provider/emplist_builder_provider.dart';
-import 'package:societyuser_app/provider/list_builder_provider.dart';
-import 'package:societyuser_app/screen/splash_screen/splash_screen.dart';
+import 'package:societyuser_app/MembersApp/provider/AllComplaintProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/AllNocProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/AllNoticeProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/AllSendComplaintsProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/emplist_builder_provider.dart';
+import 'package:societyuser_app/MembersApp/provider/list_builder_provider.dart';
+import 'package:societyuser_app/MembersApp/screen/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
