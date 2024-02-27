@@ -7,27 +7,27 @@ import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 
 // ignore: must_be_immutable
-class LedgerBillDetailsPage extends StatefulWidget {
+class DebitNoteDetails extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  LedgerBillDetailsPage(
+  DebitNoteDetails(
       {super.key,
       // ignore: non_constant_identifier_names
-      required this.BillData,
+      required this.noteData,
       required this.societyName,
       required this.name,
       required this.flatno});
 
   // ignore: non_constant_identifier_names
-  Map<String, dynamic>? BillData;
+  Map<String, dynamic>? noteData;
   String societyName;
   String name;
   String flatno;
 
   @override
-  State<LedgerBillDetailsPage> createState() => _LedgerBillDetailsPageState();
+  State<DebitNoteDetails> createState() => _DebitNoteDetailsState();
 }
 
-class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
+class _DebitNoteDetailsState extends State<DebitNoteDetails> {
   final SplashService _splashService = SplashService();
 
   bool isLoading = true;
@@ -83,7 +83,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
 
   @override
   initState() {
-    fetchData(widget.BillData!);
+    fetchData(widget.noteData!);
     getSociety(widget.societyName).whenComplete(() {});
     super.initState();
   }
@@ -148,17 +148,17 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                   children: [
                                     Text("Flat No.: ${widget.flatno}"),
                                     Text(
-                                      "Bill No.: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}",
+                                      "Bill No.: ${widget.noteData!['Bill No'] == '' ? 'N/A' : widget.noteData!['Bill No']}",
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
                                     Text(
-                                      "Bill Date: ${widget.BillData!['Bill Date'] == '' ? 'N/A' : widget.BillData!['Bill Date']}",
+                                      "Bill Date: ${widget.noteData!['Bill Date'] == '' ? 'N/A' : widget.noteData!['Bill Date']}",
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
                                     Text(
-                                      "Due Date: ${widget.BillData!['Due Date'] == '' ? 'N/A' : widget.BillData!['Due Date']}",
+                                      "Due Date: ${widget.noteData!['Due Date'] == '' ? 'N/A' : widget.noteData!['Due Date']}",
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),

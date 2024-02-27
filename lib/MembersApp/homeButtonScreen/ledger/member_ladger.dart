@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
+import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/debitNoteDetails.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/ledgerBillDetails.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/ledgerReceiptDetails.dart';
 
@@ -13,6 +14,7 @@ class memberLedger extends StatefulWidget {
       required this.flatno,
       required this.societyName,
       required this.username});
+
   String flatno;
   String societyName;
   String username;
@@ -29,19 +31,23 @@ class _memberLedgerState extends State<memberLedger> {
   final TextEditingController billnoController = TextEditingController();
   final SplashService _splashService = SplashService();
   String monthyear = DateFormat('MMMM yyyy').format(DateTime.now());
+
   String electric = '';
   String totalAmount = '';
   String billno = '';
   String water = '';
   bool isLoading = true;
+
   // ignore: non_constant_identifier_names
-  int BillMonthLength = 0;
+
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
 
   //List of Data with Bill Number
   List<dynamic> allDataWithBill = [];
   List<dynamic> allDataWithReceipt = [];
   List<dynamic> monthList = [];
+  List<List<dynamic>> rowList = [];
+  List<String> particulartsLableList = [];
   List<dynamic> colums = [
     'Date',
     'Particulars',
@@ -55,22 +61,28 @@ class _memberLedgerState extends State<memberLedger> {
   String particulars = '';
   String amount = '';
   String month = '';
-  List<List<dynamic>> rows = [];
-  List<List<dynamic>> allRecepts = [];
+  List<List<dynamic>> billNoList = [];
+  List<List<dynamic>> creditList = [];
+  List<List<dynamic>> debitList = [];
+  List<List<dynamic>> receiptList = [];
+  List<dynamic> billMapData = [];
+  List<dynamic> receiptMapData = [];
+  Map<String, dynamic> debitMapData = {};
+  Map<String, dynamic> creditMapData = {};
+
   String phoneNum = '';
   @override
   initState() {
     super.initState();
     // LedgerList('siddivinayak');
-    getBill(widget.societyName, widget.flatno).whenComplete(() {
-      getReceipt(widget.societyName, widget.flatno).whenComplete(() {
-        setListOfIndex();
-        isLoading = false;
-        setState(() {});
-      });
+    getBill(widget.societyName, widget.flatno).whenComplete(() async {
+      await getReceipt(widget.societyName, widget.flatno);
+      await debitNoteData();
+      await creditNoteData();
+      mergeAllList();
+      isLoading = false;
+      setState(() {});
     });
-    creditNodeData();
-    debitNodeData();
   }
 
   @override
@@ -108,21 +120,24 @@ class _memberLedgerState extends State<memberLedger> {
                             label: Text(
                               colums[index],
                               style: const TextStyle(
-                                  fontSize: 10, fontWeight: FontWeight.bold),
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           );
                         }),
                         rows: List.generate(
-                          rows.length * 2,
+                          rowList.length,
                           (index1) {
                             return DataRow(
                               cells: List.generate(
-                                rows[0].length,
+                                rowList[0].length,
                                 (index2) {
                                   // print(rows[index2]);
                                   return DataCell(
-                                    index1.isEven
-                                        ? index2 == 1
+                                    index2 == 1
+                                        ? particulartsLableList[index1] ==
+                                                'Bill No.'
                                             ? TextButton(
                                                 onPressed: () {
                                                   Navigator.push(
@@ -134,17 +149,15 @@ class _memberLedgerState extends State<memberLedger> {
                                                           name: widget.username,
                                                           societyName: widget
                                                               .societyName,
-                                                          BillData:
-                                                              allDataWithBill[
-                                                                  listOfIndex[
-                                                                      index1]],
+                                                          BillData: billMapData[
+                                                              index1],
                                                         );
                                                       },
                                                     ),
                                                   );
                                                 },
                                                 child: Text(
-                                                  'Bill No.\n ${rows[listOfIndex[index1]][index2]}',
+                                                  '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
                                                   style: const TextStyle(
                                                       fontSize: 10,
                                                       color: Colors.black,
@@ -152,50 +165,104 @@ class _memberLedgerState extends State<memberLedger> {
                                                           FontWeight.bold),
                                                 ),
                                               )
-                                            : Text(
-                                                rows[listOfIndex[index1]]
-                                                        [index2] ??
-                                                    '0',
-                                                style: const TextStyle(
-                                                  fontSize: 10,
-                                                ))
-                                        : index2 == 1
-                                            ? TextButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                      return LedgerReceiptDetailsPage(
-                                                        flatno: widget.flatno,
-                                                        name: widget.username,
-                                                        societyName:
-                                                            widget.societyName,
-                                                        receiptData:
-                                                            allDataWithReceipt[
-                                                                listOfIndex[
-                                                                    index1]],
-                                                      );
-                                                    }),
-                                                  );
-                                                },
-                                                child: Text(
-                                                  'Receipt No.\n ${allRecepts[listOfIndex[index1]][index2]}',
-                                                  style: const TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              )
-                                            : Text(
-                                                allRecepts[listOfIndex[index1]]
-                                                        [index2] ??
-                                                    '0',
-                                                style: const TextStyle(
-                                                  fontSize: 10,
-                                                ),
-                                              ),
+                                            : particulartsLableList[index1] ==
+                                                    'Receipt No.'
+                                                ? TextButton(
+                                                    onPressed: () {
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) {
+                                                        return LedgerReceiptDetailsPage(
+                                                            flatno:
+                                                                widget.flatno,
+                                                            name:
+                                                                widget.username,
+                                                            societyName: widget
+                                                                .societyName,
+                                                            receiptData:
+                                                                receiptMapData[
+                                                                    index1]);
+                                                      }));
+                                                    },
+                                                    child: Text(
+                                                      '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
+                                                      style: const TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  )
+                                                : particulartsLableList[
+                                                            index1] ==
+                                                        'Debit Note'
+                                                    ? TextButton(
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                            return DebitNoteDetails(
+                                                                flatno: widget
+                                                                    .flatno,
+                                                                name: widget
+                                                                    .username,
+                                                                societyName: widget
+                                                                    .societyName,
+                                                                noteData:
+                                                                    debitMapData[
+                                                                        index1]);
+                                                          }));
+                                                        },
+                                                        child: Text(
+                                                          '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
+                                                          style: const TextStyle(
+                                                              fontSize: 10,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      )
+                                                    : TextButton(
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                            return LedgerReceiptDetailsPage(
+                                                                flatno: widget
+                                                                    .flatno,
+                                                                name: widget
+                                                                    .username,
+                                                                societyName: widget
+                                                                    .societyName,
+                                                                receiptData:
+                                                                    creditMapData[
+                                                                        index1]);
+                                                          }));
+                                                        },
+                                                        child: Text(
+                                                          '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
+                                                          style: const TextStyle(
+                                                              fontSize: 10,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      )
+                                        : Text(
+                                            rowList[index1][index2] ?? '0',
+                                            style: const TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
                                   );
                                 },
                               ),
@@ -208,10 +275,17 @@ class _memberLedgerState extends State<memberLedger> {
                 ],
               ),
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          mergeAllList();
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
   Future<void> getBill(String societyname, String flatno) async {
+    billNoList.clear();
     isLoading = true;
 
     phoneNum = await _splashService.getPhoneNum();
@@ -224,8 +298,6 @@ class _memberLedgerState extends State<memberLedger> {
     List<dynamic> monthList =
         societyQuerySnapshot.docs.map((e) => e.id).toList();
 
-    BillMonthLength = monthList.length;
-
     for (var i = 0; i < monthList.length; i++) {
       DocumentSnapshot data = await FirebaseFirestore.instance
           .collection('ladgerBill')
@@ -236,6 +308,8 @@ class _memberLedgerState extends State<memberLedger> {
       if (data.exists) {
         Map<String, dynamic> totalusers = data.data() as Map<String, dynamic>;
         List<dynamic> mapData = totalusers['data'];
+        billMapData = mapData;
+        billMapData.removeAt(0);
 
         for (var data in mapData) {
           List<dynamic> row = [];
@@ -247,24 +321,16 @@ class _memberLedgerState extends State<memberLedger> {
             row.add(data['Bill Amount']);
             row.add(data['0']);
             row.add(data['Bill Amount']);
-            rows.add(row);
+            billNoList.add(row);
             break;
           }
         }
       }
     }
-    isLoading = false;
-    setState(() {});
-  }
-
-  void setListOfIndex() {
-    for (int i = 0; i < rows.length; i++) {
-      listOfIndex.add(i);
-      listOfIndex.add(i);
-    }
   }
 
   Future<void> getReceipt(String societyname, String flatno) async {
+    receiptList.clear();
     isLoading = true;
     phoneNum = await _splashService.getPhoneNum();
     QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
@@ -285,6 +351,7 @@ class _memberLedgerState extends State<memberLedger> {
       if (data.exists) {
         Map<String, dynamic> totalusers = data.data() as Map<String, dynamic>;
         List<dynamic> mapData = totalusers['data'];
+        receiptMapData = mapData;
 
         for (var data in mapData) {
           List<dynamic> receipt = [];
@@ -296,58 +363,74 @@ class _memberLedgerState extends State<memberLedger> {
             receipt.add(data['0']);
             receipt.add(data['Amount']);
             receipt.add(data['Amount']);
-            allRecepts.add(receipt);
+            receiptList.add(receipt);
             break;
           }
         }
       }
     }
-    for (var i = 0; i < BillMonthLength - monthList.length; i++) {
-      allRecepts.add(['N/A', 'N/A', 'N/A', 'N/A', 'N/A']);
+    if (billNoList.length > receiptList.length) {
+      int loopLen = billNoList.length - receiptList.length;
+      for (var i = 0; i < loopLen; i++) {
+        receiptList.add(['N/A', 'N/A', 'N/A', 'N/A', 'N/A']);
+      }
     }
-    isLoading = false;
-    setState(() {});
     // print(allRecepts.length);
   }
 
-  Future<void> creditNodeData() async {
+  Future<void> creditNoteData() async {
+    creditList.clear();
     QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
-        .collection('creditNode')
+        .collection('creditNote')
         .doc(widget.societyName)
         .collection('month')
         .get();
     monthList = societyQuerySnapshot.docs.map((e) => e.id).toList();
-    print(monthList);
+
     for (var i = 0; i < monthList.length; i++) {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('creditNode')
+          .collection('creditNote')
           .doc(widget.societyName)
           .collection('month')
           .doc(monthList[i])
           .collection('memberName')
           .doc(widget.username)
-          .collection('particular')
+          .collection('noteNumber')
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
+        List<dynamic> singleRow = [];
         Map<String, dynamic> data =
             querySnapshot.docs.first.data() as Map<String, dynamic>;
+        creditMapData = data;
+
         flatno = data['Flat No.'];
         amount = data['amount'];
         date = data['date'];
         particulars = data['particular'];
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
-        setState(() {
-          isLoading = false;
-        });
+        singleRow.add(date2);
+        singleRow.add(particulars);
+        singleRow.add('0');
+        singleRow.add(amount);
+        singleRow.add(amount);
+        creditList.add(singleRow);
       }
     }
+    if (debitList.length > creditList.length) {
+      int loopLen = debitList.length - creditList.length;
+      for (var i = 0; i < loopLen; i++) {
+        creditList.add(['N/A', 'N/A', 'N/A', 'N/A', 'N/A']);
+      }
+    }
+    // print('creditList - ${creditList}');
   }
 
-  Future<void> debitNodeData() async {
+  Future<void> debitNoteData() async {
+    debitList.clear();
     QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
-        .collection('debitNode')
+        .collection('debitNote')
         .doc(widget.societyName)
         .collection('month')
         .get();
@@ -355,28 +438,52 @@ class _memberLedgerState extends State<memberLedger> {
 
     for (var i = 0; i < monthList.length; i++) {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('debitNode')
+          .collection('debitNote')
           .doc(widget.societyName)
           .collection('month')
           .doc(monthList[i])
           .collection('memberName')
           .doc(widget.username)
-          .collection('particular')
+          .collection('noteNumber')
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
+        List<dynamic> singleRow = [];
         Map<String, dynamic> data =
             querySnapshot.docs.first.data() as Map<String, dynamic>;
+        debitMapData = data;
         flatno = data['Flat No.'];
         amount = data['amount'];
         date = data['date'];
         particulars = data['particular'];
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
-        setState(() {
-          isLoading = false;
-        });
+        singleRow.add(date2);
+        singleRow.add(particulars);
+        singleRow.add(amount);
+        singleRow.add('0');
+        singleRow.add(amount);
+        debitList.add(singleRow);
       }
     }
+    // print('debitList - $debitList');
+  }
+
+  void mergeAllList() {
+    List<List<dynamic>> listOfRows = [];
+    for (int i = 0; i < billNoList.length; i++) {
+      listOfRows.add(billNoList[i]);
+      particulartsLableList.add('Bill No.');
+      listOfRows.add(receiptList[i]);
+      particulartsLableList.add('Receipt No.');
+      if (creditList.length >= i + 1) {
+        listOfRows.add(debitList[i]);
+        particulartsLableList.add('Debit Note');
+        listOfRows.add(creditList[i]);
+        particulartsLableList.add('Credit Note');
+      }
+    }
+    print('rowList - ${listOfRows}');
+    rowList = listOfRows;
   }
 }

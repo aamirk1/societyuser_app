@@ -8,27 +8,26 @@ import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 
 // ignore: must_be_immutable
-class LedgerReceiptDetailsPage extends StatefulWidget {
+class CreditNoteDetails extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  LedgerReceiptDetailsPage(
+  CreditNoteDetails(
       {super.key,
-      required this.receiptData,
+      required this.noteData,
       required this.societyName,
       required this.name,
       required this.flatno});
 
   // ignore: non_constant_identifier_names
-  Map<String, dynamic>? receiptData;
+  Map<String, dynamic>? noteData;
   String? societyName;
   String? name;
   String? flatno;
 
   @override
-  State<LedgerReceiptDetailsPage> createState() =>
-      _LedgerReceiptDetailsPageState();
+  State<CreditNoteDetails> createState() => _CreditNoteDetailsState();
 }
 
-class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
+class _CreditNoteDetailsState extends State<CreditNoteDetails> {
   final SplashService _splashService = SplashService();
 
   bool isLoading = true;
@@ -42,7 +41,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   String? state;
   String? pincode;
 
-  String? receiptNo = '';
+  String receiptNo = '';
   String? checkDate;
   String checkDate2 = '';
   String? cheqNo;
@@ -67,7 +66,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   List<dynamic> receiptDetails = [];
   @override
   initState() {
-    fetchData(widget.receiptData!);
+    fetchData(widget.noteData!);
     // numbertochar();
 
     getSociety(widget.societyName ?? '').whenComplete(() {});
@@ -236,10 +235,10 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   Future<void> fetchData(Map<String, dynamic> data) async {
     checkDate = data['ChqDate'] ?? "N/A";
     cheqNo = data['ChqNo'] ?? "N/A";
+    receiptNo = data['Receipt No'] ?? "N/A";
     amount = data['Amount'] ?? '0';
     bankName = data['Bank Name'] ?? "N/A";
     receiptDate = data['Receipt Date'] ?? "N/A";
-    receiptNo = data['Receipt No'] ?? "N/A";
 
     receiptDate2 =
         DateFormat('dd-MM-yyyy').format(DateTime.parse(receiptDate!));
@@ -250,9 +249,8 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
     receiptDetails.add(amount);
     receiptDetails.add(bankName);
     receiptDetails.add(receiptDate2);
-    receiptDetails.add(receiptNo);
     // print(receiptDetails);
-    setState(() {}); 
+    setState(() {});
     isLoading = false;
   }
 }
