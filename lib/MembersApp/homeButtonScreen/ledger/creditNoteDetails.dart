@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 // import 'package:number_to_character/number_to_character.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -10,18 +9,29 @@ import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 // ignore: must_be_immutable
 class CreditNoteDetails extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  CreditNoteDetails(
-      {super.key,
-      required this.noteData,
-      required this.societyName,
-      required this.name,
-      required this.flatno});
+  CreditNoteDetails({
+    super.key,
+    // ignore: non_constant_identifier_names
+    // required this.noteData,
+    required this.societyName,
+    required this.name,
+    required this.flatno,
+    required this.creditNoteNumber,
+    required this.date,
+    required this.amount,
+    required this.particulars,
+  });
 
   // ignore: non_constant_identifier_names
-  Map<String, dynamic>? noteData;
-  String? societyName;
-  String? name;
-  String? flatno;
+  // Map<String, dynamic>? noteData;
+  String societyName;
+  String name;
+  String flatno;
+
+  String? creditNoteNumber;
+  String date;
+  String amount;
+  String particulars;
 
   @override
   State<CreditNoteDetails> createState() => _CreditNoteDetailsState();
@@ -31,7 +41,6 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
   final SplashService _splashService = SplashService();
 
   bool isLoading = true;
-  // List<dynamic> a = widget.name.toString().split('');
   // ignore: non_constant_identifier_names
   String? society_name;
   String? email;
@@ -41,35 +50,24 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
   String? state;
   String? pincode;
 
-  String receiptNo = '';
-  String? checkDate;
-  String checkDate2 = '';
-  String? cheqNo;
-  String amount = '';
-  String? bankName;
-  String? receiptDate;
-  String? receiptDate2;
-  String? repairFund;
-  String? othercharges;
-  String? sinkingfund;
-  String? nonOccupancyChg;
-  String? interest;
-  String? towerBenefit;
+  List<String> colums = [
+    'Sr. No.',
+    'Particulars of \n Changes',
+    'Amount',
+  ];
+  List<dynamic> billDetails = [];
+
   // var converter = NumberToCharacterConverter('en');
   String words = '';
-
+  String phoneNum = '';
   // void numbertochar() {
-  //   words = converter.getTextForNumber(amount);
-  //   print(words);
+  //   words = converter.getTextForNumber(billAmount!);
   // }
 
-  List<dynamic> receiptDetails = [];
   @override
   initState() {
-    fetchData(widget.noteData!);
-    // numbertochar();
-
-    getSociety(widget.societyName ?? '').whenComplete(() {});
+    // fetchData(widget.);
+    getSociety(widget.societyName).whenComplete(() {});
     super.initState();
   }
 
@@ -78,14 +76,14 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
-        title: const Center(child: Text('Receipt Details')),
+        title: const Center(child: Text('Credit Note Details')),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Card(
-                elevation: 10,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.99,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
@@ -94,7 +92,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                         Text(
                           '$society_name',
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
+                              fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         Text("Registration Number: $regNo"),
                         Text(
@@ -103,103 +101,260 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                           height: 10,
                         ),
                         const Text(
-                          "RECEIPT",
+                          "CREDIT NOTE",
                           style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.bold),
+                              fontSize: 12, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Receipt No: $receiptNo',
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Date: $receiptDate2',
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Text("Received with Thanks From: ${widget.name}"),
-                        const SizedBox(
-                          height: 10,
+                        const Divider(
+                          color: Colors.black,
+                          thickness: 1,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Unit No.: ${widget.flatno}",
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Rs. $amount",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.90,
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              // Padding(
-                              //   padding: const EdgeInsets.all(8.0),
-                              //   child: Text("(Rupees $words only) "),
-                              // ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'By Cheque No.: $cheqNo',
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                              Text(
-                                'Date On: $checkDate2',
-                                style: const TextStyle(color: Colors.black),
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.50,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.09,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Flat No.: ${widget.flatno}",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  "Name: ${widget.name}",
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ]),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Note No.: ${widget.creditNoteNumber == '' ? 'N/A' : widget.creditNoteNumber}",
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 12),
+                                    ),
+                                    Text(
+                                      "Date: ${widget.date == '' ? 'N/A' : widget.date}",
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 12),
+                                    ),
+                                  ])
+                            ]),
+                        const Divider(
+                          color: Colors.black,
+                          thickness: 1,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Drawn on: $bankName '),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.50,
+                              child: SingleChildScrollView(
+                                child: DataTable(
+                                  dividerThickness: 0,
+                                  columnSpacing: 60,
+                                  columns: [
+                                    DataColumn(
+                                        label: Text(
+                                      colums[0],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      colums[1],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      colums[2],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                  ],
+                                  rows: List.generate(1, (index) {
+                                    return DataRow(cells: [
+                                      DataCell(
+                                        Text((index + 1).toString()),
+                                      ),
+                                      DataCell(
+                                        Text(widget.particulars),
+                                      ),
+                                      DataCell(
+                                        Text(widget.amount),
+                                      )
+                                    ]);
+                                  }),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
+                        const Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          child: Row(children: [
+                            // Expanded(
+                            //   child: SizedBox(
+                            //     width: MediaQuery.of(context).size.width * 0.50,
+                            //     child: Text(
+                            //       "Rupees $words Only",
+                            //       style: const TextStyle(
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 10),
+                            //     ),
+                            //   ),
+                            // ),
+                            // const VerticalDivider(
+                            //   thickness: 1,
+                            //   color: Colors.black,
+                            // ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Total",
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            // Text(
+                                            //   "Previous Dues",
+                                            //   style: TextStyle(fontSize: 10),
+                                            // ),
+                                            // Text(
+                                            //   "Intrest On Dues",
+                                            //   style: TextStyle(fontSize: 10),
+                                            // )
+                                          ],
+                                        ),
+                                        const Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(":"),
+                                            // Text(":"),
+                                            // Text(":"),
+                                          ],
+                                        ),
+                                        Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text("${widget.amount}",
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              // Text("$billAmount",
+                                              //     style: const TextStyle(
+                                              //         fontSize: 10)),
+                                              // Text(
+                                              //     "${interest == '' ? 0 : interest}",
+                                              //     style: const TextStyle(
+                                              //         fontSize: 10)),
+                                            ]),
+                                        const Divider(
+                                          color: Colors.black,
+                                          thickness: 1,
+                                        ),
+                                      ],
+                                    ),
+                                    // const Divider(
+                                    //     color: Colors.black, thickness: 1),
+                                    // Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.spaceBetween,
+                                    //     children: [
+                                    // const Column(
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.start,
+                                    //   children: [
+                                    //     Text(
+                                    //       "Total Dues Amount: ",
+                                    //       style: TextStyle(
+                                    //           fontWeight: FontWeight.bold,
+                                    //           fontSize: 12),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // Column(
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.end,
+                                    //   children: [
+                                    //     Text(
+                                    //       "${totalDues == '' ? 0 : totalDues}",
+                                    //       style: const TextStyle(
+                                    //           fontWeight:
+                                    //               FontWeight.bold),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // ])
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ]),
+                        ),
+                        const Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
+                        // SizedBox(
+                        //   width: MediaQuery.of(context).size.width * 0.99,
+                        //   child: RichText(
+                        //     text: TextSpan(children: [
+                        //       TextSpan(
+                        //         text:
+                        //             'Being add Rs. ${widget.amount}/- for ${widget.particulars}. For the month of ${widget.month} as per manager instruction date - ${widget.date}',
+                        //         style: const TextStyle(
+                        //             fontSize: 10, color: Colors.black),
+                        //       ),
+                        //     ]),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
@@ -211,7 +366,6 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
 
   Future<void> getSociety(String societyname) async {
     // ignore: unused_local_variable
-    String phoneNum = '';
 
     phoneNum = await _splashService.getPhoneNum();
 
@@ -228,28 +382,6 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
     city = societyData['city'];
     state = societyData['state'];
     pincode = societyData['pincode'];
-    setState(() {});
-    isLoading = false;
-  }
-
-  Future<void> fetchData(Map<String, dynamic> data) async {
-    checkDate = data['ChqDate'] ?? "N/A";
-    cheqNo = data['ChqNo'] ?? "N/A";
-    receiptNo = data['Receipt No'] ?? "N/A";
-    amount = data['Amount'] ?? '0';
-    bankName = data['Bank Name'] ?? "N/A";
-    receiptDate = data['Receipt Date'] ?? "N/A";
-
-    receiptDate2 =
-        DateFormat('dd-MM-yyyy').format(DateTime.parse(receiptDate!));
-    checkDate2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(checkDate!));
-
-    receiptDetails.add(checkDate2);
-    receiptDetails.add(cheqNo);
-    receiptDetails.add(amount);
-    receiptDetails.add(bankName);
-    receiptDetails.add(receiptDate2);
-    // print(receiptDetails);
     setState(() {});
     isLoading = false;
   }

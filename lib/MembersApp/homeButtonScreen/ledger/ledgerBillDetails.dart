@@ -9,19 +9,46 @@ import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 // ignore: must_be_immutable
 class LedgerBillDetailsPage extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  LedgerBillDetailsPage(
-      {super.key,
-      // ignore: non_constant_identifier_names
-      required this.BillData,
-      required this.societyName,
-      required this.name,
-      required this.flatno});
+  LedgerBillDetailsPage({
+    super.key,
+    required this.societyName,
+    required this.name,
+    required this.flatno,
+    required this.billDate,
+    required this.billNo,
+    required this.billAmount,
+    required this.dueDate,
+    required this.interest,
+    this.legalNoticeCharges,
+    this.maintenanceCharges,
+    this.mhadaLeaseRent,
+    this.nonOccupancyChg,
+    this.parkingCharges,
+    this.repairFund,
+    this.sinkingFund,
+    this.towerBenefit,
+    this.municipalTax,
+    this.othercharges,
+  });
 
-  // ignore: non_constant_identifier_names
-  Map<String, dynamic>? BillData;
   String societyName;
   String name;
   String flatno;
+  String billDate;
+  String billNo;
+  String billAmount;
+  String dueDate;
+  String interest;
+  String? legalNoticeCharges;
+  String? maintenanceCharges;
+  String? mhadaLeaseRent;
+  String? nonOccupancyChg;
+  String? parkingCharges;
+  String? repairFund;
+  String? sinkingFund;
+  String? towerBenefit;
+  String? municipalTax;
+  String? othercharges;
 
   @override
   State<LedgerBillDetailsPage> createState() => _LedgerBillDetailsPageState();
@@ -40,19 +67,6 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   String? state;
   String? pincode;
 
-  String? maintenanceCharges;
-  String? municipalTax;
-  String? legalNoticeCharges;
-  String? parkingCharges;
-  String? mhadaLeaseRent;
-  String? repairFund;
-  String? othercharges;
-  String? sinkingfund;
-  String? nonOccupancyChg;
-  int interest = 0;
-  String? towerBenefit;
-  int? billAmount = 0;
-  String? billDate;
   dynamic totalDues = 0.0;
   List<String> colums = [
     'Sr. No.',
@@ -72,8 +86,8 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
     'Interest',
     'Tower Benefit',
   ];
-  List<dynamic> billDetails = [];
 
+  List<String> valuesbill = [];
   // var converter = NumberToCharacterConverter('en');
   String words = '';
   String phoneNum = '';
@@ -83,7 +97,19 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
 
   @override
   initState() {
-    fetchData(widget.BillData!);
+    valuesbill.add(widget.maintenanceCharges ?? '0');
+    valuesbill.add(widget.municipalTax ?? '0');
+    valuesbill.add(widget.legalNoticeCharges ?? '0');
+    valuesbill.add(widget.parkingCharges ?? '0');
+    valuesbill.add(widget.mhadaLeaseRent ?? '0');
+    valuesbill.add(widget.repairFund ?? '0');
+    valuesbill.add(widget.othercharges ?? '0');
+    valuesbill.add(widget.sinkingFund ?? '0');
+    valuesbill.add(widget.nonOccupancyChg ?? '0');
+    valuesbill.add(widget.interest);
+    valuesbill.add(widget.towerBenefit ?? '0');
+    totalDues = int.parse(widget.billAmount) +
+        int.parse(widget.interest == '' ? '0' : widget.interest);
     getSociety(widget.societyName).whenComplete(() {});
     super.initState();
   }
@@ -148,17 +174,19 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                   children: [
                                     Text("Flat No.: ${widget.flatno}"),
                                     Text(
-                                      "Bill No.: ${widget.BillData!['Bill No'] == '' ? 'N/A' : widget.BillData!['Bill No']}",
+                                      "Bill No.: ${widget.billNo == '' ? 'N/A' : widget.billNo}",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Bill Date: ${widget.billDate == '' ? 'N/A' : widget.billDate}",
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
                                     Text(
-                                      "Bill Date: ${widget.BillData!['Bill Date'] == '' ? 'N/A' : widget.BillData!['Bill Date']}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
-                                    ),
-                                    Text(
-                                      "Due Date: ${widget.BillData!['Due Date'] == '' ? 'N/A' : widget.BillData!['Due Date']}",
+                                      "Due Date: ${widget.dueDate == '' ? 'N/A' : widget.dueDate}",
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
@@ -207,7 +235,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                         Text(particulars[index]),
                                       ),
                                       DataCell(
-                                        Text('0'),
+                                        Text(valuesbill[index]),
                                       )
                                     ]);
                                   }),
@@ -278,14 +306,14 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              Text("$billAmount",
+                                              Text("${widget.billAmount}",
                                                   style: const TextStyle(
                                                       fontSize: 10)),
-                                              Text("$billAmount",
+                                              Text("${widget.billAmount}",
                                                   style: const TextStyle(
                                                       fontSize: 10)),
                                               Text(
-                                                  "${interest == '' ? 0 : interest}",
+                                                  "${widget.interest == '' ? 0 : widget.interest}",
                                                   style: const TextStyle(
                                                       fontSize: 10)),
                                             ]),
@@ -387,40 +415,6 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
     city = societyData['city'];
     state = societyData['state'];
     pincode = societyData['pincode'];
-    setState(() {});
-    isLoading = false;
-  }
-
-  Future<void> fetchData(Map<String, dynamic> data) async {
-    maintenanceCharges = data[8] ?? "N/A";
-    municipalTax = data[5] ?? "N/A";
-    legalNoticeCharges = data[13] ?? "N/A";
-    parkingCharges = data[12] ?? "N/A";
-    mhadaLeaseRent = data[6] ?? "N/A";
-    repairFund = data[0] ?? "N/A";
-    othercharges = data[14] ?? "N/A";
-    sinkingfund = data[3] ?? "N/A";
-    nonOccupancyChg = data[1] ?? "N/A";
-    interest = data[10] ?? 0;
-    towerBenefit = data[4] ?? "N/A";
-    billAmount = data[2] ?? 0;
-
-    totalDues = billAmount! + interest;
-
-    billDetails.add(maintenanceCharges);
-    billDetails.add(municipalTax);
-    billDetails.add(legalNoticeCharges);
-    billDetails.add(parkingCharges);
-    billDetails.add(mhadaLeaseRent);
-    billDetails.add(repairFund);
-    billDetails.add(othercharges);
-    billDetails.add(sinkingfund);
-    billDetails.add(nonOccupancyChg);
-    billDetails.add(interest);
-    billDetails.add(towerBenefit);
-    billDetails.add(billAmount);
-    billDetails.add(totalDues);
-
     setState(() {});
     isLoading = false;
   }

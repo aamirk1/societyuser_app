@@ -12,16 +12,27 @@ class DebitNoteDetails extends StatefulWidget {
   DebitNoteDetails(
       {super.key,
       // ignore: non_constant_identifier_names
-      required this.noteData,
+      // required this.noteData,
       required this.societyName,
       required this.name,
-      required this.flatno});
+      required this.flatno,
+      required this.debitNoteNumber,
+      required this.date,
+      required this.amount,
+      required this.particulars,
+      required this.month});
 
   // ignore: non_constant_identifier_names
-  Map<String, dynamic>? noteData;
+  // Map<String, dynamic>? noteData;
   String societyName;
   String name;
   String flatno;
+
+  String? debitNoteNumber;
+  String date;
+  String amount;
+  String particulars;
+  String month;
 
   @override
   State<DebitNoteDetails> createState() => _DebitNoteDetailsState();
@@ -40,37 +51,10 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
   String? state;
   String? pincode;
 
-  String? maintenanceCharges;
-  String? municipalTax;
-  String? legalNoticeCharges;
-  String? parkingCharges;
-  String? mhadaLeaseRent;
-  String? repairFund;
-  String? othercharges;
-  String? sinkingfund;
-  String? nonOccupancyChg;
-  int interest = 0;
-  String? towerBenefit;
-  int? billAmount = 0;
-  String? billDate;
-  dynamic totalDues = 0.0;
   List<String> colums = [
     'Sr. No.',
     'Particulars of \n Changes',
     'Amount',
-  ];
-  List<String> particulars = [
-    'Maintenance Charges',
-    'Municipal Tax',
-    'Legal Notice Charges',
-    'Parking Charges',
-    'Mhada Lease Rent',
-    'repair Fund',
-    'Other Charges',
-    'Sinking Fund',
-    'Non Occupancy Chg',
-    'Interest',
-    'Tower Benefit',
   ];
   List<dynamic> billDetails = [];
 
@@ -83,7 +67,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
 
   @override
   initState() {
-    fetchData(widget.noteData!);
+    // fetchData(widget.);
     getSociety(widget.societyName).whenComplete(() {});
     super.initState();
   }
@@ -93,7 +77,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
-        title: const Center(child: Text('Bill Details')),
+        title: const Center(child: Text('Debit Note Details')),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -118,7 +102,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                           height: 10,
                         ),
                         const Text(
-                          "MAINTENANCE BILL",
+                          "DEBIT NOTE",
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
@@ -134,31 +118,50 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                   children: [
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.45,
-                                      child: Text(
-                                        "Name: ${widget.name}",
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
+                                          0.50,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.09,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Flat No.: ${widget.flatno}",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  "Name: ${widget.name}",
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     )
                                   ]),
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Flat No.: ${widget.flatno}"),
                                     Text(
-                                      "Bill No.: ${widget.noteData!['Bill No'] == '' ? 'N/A' : widget.noteData!['Bill No']}",
+                                      "Note No.: ${widget.debitNoteNumber == '' ? 'N/A' : widget.debitNoteNumber}",
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
                                     Text(
-                                      "Bill Date: ${widget.noteData!['Bill Date'] == '' ? 'N/A' : widget.noteData!['Bill Date']}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
-                                    ),
-                                    Text(
-                                      "Due Date: ${widget.noteData!['Due Date'] == '' ? 'N/A' : widget.noteData!['Due Date']}",
+                                      "Date: ${widget.date == '' ? 'N/A' : widget.date}",
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
@@ -177,7 +180,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                               child: SingleChildScrollView(
                                 child: DataTable(
                                   dividerThickness: 0,
-                                  columnSpacing: 35,
+                                  columnSpacing: 60,
                                   columns: [
                                     DataColumn(
                                         label: Text(
@@ -198,16 +201,16 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                           fontWeight: FontWeight.bold),
                                     )),
                                   ],
-                                  rows: List.generate(11, (index) {
+                                  rows: List.generate(1, (index) {
                                     return DataRow(cells: [
                                       DataCell(
                                         Text((index + 1).toString()),
                                       ),
                                       DataCell(
-                                        Text(particulars[index]),
+                                        Text(widget.particulars),
                                       ),
                                       DataCell(
-                                        Text('0'),
+                                        Text(widget.amount),
                                       )
                                     ]);
                                   }),
@@ -223,24 +226,24 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.10,
                           child: Row(children: [
-                            Expanded(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.50,
-                                child: Text(
-                                  "Rupees $words Only",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10),
-                                ),
-                              ),
-                            ),
-                            const VerticalDivider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
+                            // Expanded(
+                            //   child: SizedBox(
+                            //     width: MediaQuery.of(context).size.width * 0.50,
+                            //     child: Text(
+                            //       "Rupees $words Only",
+                            //       style: const TextStyle(
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 10),
+                            //     ),
+                            //   ),
+                            // ),
+                            // const VerticalDivider(
+                            //   thickness: 1,
+                            //   color: Colors.black,
+                            // ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(2.0),
+                                padding: const EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [
                                     Row(
@@ -253,16 +256,18 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                           children: [
                                             Text(
                                               "Total",
-                                              style: TextStyle(fontSize: 10),
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold),
                                             ),
-                                            Text(
-                                              "Previous Dues",
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                            Text(
-                                              "Intrest On Dues",
-                                              style: TextStyle(fontSize: 10),
-                                            )
+                                            // Text(
+                                            //   "Previous Dues",
+                                            //   style: TextStyle(fontSize: 10),
+                                            // ),
+                                            // Text(
+                                            //   "Intrest On Dues",
+                                            //   style: TextStyle(fontSize: 10),
+                                            // )
                                           ],
                                         ),
                                         const Column(
@@ -270,24 +275,26 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(":"),
-                                            Text(":"),
-                                            Text(":"),
+                                            // Text(":"),
+                                            // Text(":"),
                                           ],
                                         ),
                                         Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              Text("$billAmount",
+                                              Text("${widget.amount}",
                                                   style: const TextStyle(
-                                                      fontSize: 10)),
-                                              Text("$billAmount",
-                                                  style: const TextStyle(
-                                                      fontSize: 10)),
-                                              Text(
-                                                  "${interest == '' ? 0 : interest}",
-                                                  style: const TextStyle(
-                                                      fontSize: 10)),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              // Text("$billAmount",
+                                              //     style: const TextStyle(
+                                              //         fontSize: 10)),
+                                              // Text(
+                                              //     "${interest == '' ? 0 : interest}",
+                                              //     style: const TextStyle(
+                                              //         fontSize: 10)),
                                             ]),
                                         const Divider(
                                           color: Colors.black,
@@ -295,37 +302,37 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                         ),
                                       ],
                                     ),
-                                    const Divider(
-                                        color: Colors.black, thickness: 1),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Total Dues Amount: ",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                "${totalDues == '' ? 0 : totalDues}",
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ])
+                                    // const Divider(
+                                    //     color: Colors.black, thickness: 1),
+                                    // Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.spaceBetween,
+                                    //     children: [
+                                    // const Column(
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.start,
+                                    //   children: [
+                                    //     Text(
+                                    //       "Total Dues Amount: ",
+                                    //       style: TextStyle(
+                                    //           fontWeight: FontWeight.bold,
+                                    //           fontSize: 12),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // Column(
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.end,
+                                    //   children: [
+                                    //     Text(
+                                    //       "${totalDues == '' ? 0 : totalDues}",
+                                    //       style: const TextStyle(
+                                    //           fontWeight:
+                                    //               FontWeight.bold),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // ])
                                   ],
                                 ),
                               ),
@@ -337,29 +344,18 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                           thickness: 1,
                         ),
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.99,
-                            child: RichText(
-                                text: TextSpan(children: [
-                              const TextSpan(
-                                text:
-                                    'Please pay your dues on or before Due Date. Otherwise Simple interest @21%p.a. will be charged on Arrears. Please Pay by cross cheques or via NEFT only in favouring ',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.black),
-                              ),
+                          width: MediaQuery.of(context).size.width * 0.99,
+                          child: RichText(
+                            text: TextSpan(children: [
                               TextSpan(
-                                text: '$society_name',
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const TextSpan(
                                 text:
-                                    ' and mention your flat number. If you have any descrepancy in the bill please contact society office.',
-                                style: TextStyle(
+                                    'Being add Rs. ${widget.amount}/- for ${widget.particulars}. For the month of ${widget.month} as per manager instruction date - ${widget.date}',
+                                style: const TextStyle(
                                     fontSize: 10, color: Colors.black),
-                              )
-                            ])))
+                              ),
+                            ]),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -387,40 +383,6 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
     city = societyData['city'];
     state = societyData['state'];
     pincode = societyData['pincode'];
-    setState(() {});
-    isLoading = false;
-  }
-
-  Future<void> fetchData(Map<String, dynamic> data) async {
-    maintenanceCharges = data[8] ?? "N/A";
-    municipalTax = data[5] ?? "N/A";
-    legalNoticeCharges = data[13] ?? "N/A";
-    parkingCharges = data[12] ?? "N/A";
-    mhadaLeaseRent = data[6] ?? "N/A";
-    repairFund = data[0] ?? "N/A";
-    othercharges = data[14] ?? "N/A";
-    sinkingfund = data[3] ?? "N/A";
-    nonOccupancyChg = data[1] ?? "N/A";
-    interest = data[10] ?? 0;
-    towerBenefit = data[4] ?? "N/A";
-    billAmount = data[2] ?? 0;
-
-    totalDues = billAmount! + interest;
-
-    billDetails.add(maintenanceCharges);
-    billDetails.add(municipalTax);
-    billDetails.add(legalNoticeCharges);
-    billDetails.add(parkingCharges);
-    billDetails.add(mhadaLeaseRent);
-    billDetails.add(repairFund);
-    billDetails.add(othercharges);
-    billDetails.add(sinkingfund);
-    billDetails.add(nonOccupancyChg);
-    billDetails.add(interest);
-    billDetails.add(towerBenefit);
-    billDetails.add(billAmount);
-    billDetails.add(totalDues);
-
     setState(() {});
     isLoading = false;
   }

@@ -10,18 +10,31 @@ import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 // ignore: must_be_immutable
 class LedgerReceiptDetailsPage extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  LedgerReceiptDetailsPage(
-      {super.key,
-      required this.receiptData,
-      required this.societyName,
-      required this.name,
-      required this.flatno});
+  LedgerReceiptDetailsPage({
+    super.key,
+    // required this.receiptData,
+    required this.societyName,
+    required this.name,
+    required this.flatno,
+    required this.receiptNo,
+    required this.checkDate,
+    required this.cheqNo,
+    required this.amount,
+    required this.bankName,
+    required this.receiptDate,
+  });
 
   // ignore: non_constant_identifier_names
-  Map<String, dynamic>? receiptData;
+  // Map<String, dynamic>? receiptData;
   String? societyName;
   String? name;
   String? flatno;
+  String receiptNo;
+  String checkDate;
+  String cheqNo;
+  String amount;
+  String bankName;
+  String receiptDate;
 
   @override
   State<LedgerReceiptDetailsPage> createState() =>
@@ -41,21 +54,9 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   String? city;
   String? state;
   String? pincode;
-
-  String? receiptNo = '';
-  String? checkDate;
-  String checkDate2 = '';
-  String? cheqNo;
-  String amount = '';
-  String? bankName;
-  String? receiptDate;
   String? receiptDate2;
-  String? repairFund;
-  String? othercharges;
-  String? sinkingfund;
-  String? nonOccupancyChg;
-  String? interest;
-  String? towerBenefit;
+  String checkDate2 = '';
+
   // var converter = NumberToCharacterConverter('en');
   String words = '';
 
@@ -67,7 +68,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   List<dynamic> receiptDetails = [];
   @override
   initState() {
-    fetchData(widget.receiptData!);
+    // fetchData(widget.receiptData!);
     // numbertochar();
 
     getSociety(widget.societyName ?? '').whenComplete(() {});
@@ -76,6 +77,10 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    receiptDate2 =
+        DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.receiptDate));
+    checkDate2 =
+        DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.checkDate));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
@@ -115,13 +120,13 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Receipt No: $receiptNo',
+                              'Receipt No: ${widget.receiptNo}',
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'Date: $receiptDate2',
+                              'Receipt Date: $receiptDate2',
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
@@ -151,7 +156,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Rs. $amount",
+                              "Rs. ${widget.amount}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -182,7 +187,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'By Cheque No.: $cheqNo',
+                                'By Cheque No.: ${widget.cheqNo}',
                                 style: const TextStyle(color: Colors.black),
                               ),
                               Text(
@@ -198,7 +203,7 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text('Drawn on: $bankName '),
+                            Text('Drawn on: ${widget.bankName} '),
                           ],
                         ),
                       ],
@@ -230,29 +235,6 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
     state = societyData['state'];
     pincode = societyData['pincode'];
     setState(() {});
-    isLoading = false;
-  }
-
-  Future<void> fetchData(Map<String, dynamic> data) async {
-    checkDate = data['ChqDate'] ?? "N/A";
-    cheqNo = data['ChqNo'] ?? "N/A";
-    amount = data['Amount'] ?? '0';
-    bankName = data['Bank Name'] ?? "N/A";
-    receiptDate = data['Receipt Date'] ?? "N/A";
-    receiptNo = data['Receipt No'] ?? "N/A";
-
-    receiptDate2 =
-        DateFormat('dd-MM-yyyy').format(DateTime.parse(receiptDate!));
-    checkDate2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(checkDate!));
-
-    receiptDetails.add(checkDate2);
-    receiptDetails.add(cheqNo);
-    receiptDetails.add(amount);
-    receiptDetails.add(bankName);
-    receiptDetails.add(receiptDate2);
-    receiptDetails.add(receiptNo);
-    // print(receiptDetails);
-    setState(() {}); 
     isLoading = false;
   }
 }

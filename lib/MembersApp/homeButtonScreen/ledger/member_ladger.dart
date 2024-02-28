@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
+import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/creditNoteDetails.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/debitNoteDetails.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/ledgerBillDetails.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/ledgerReceiptDetails.dart';
@@ -59,16 +60,14 @@ class _memberLedgerState extends State<memberLedger> {
   String date = '';
   String date2 = '';
   String particulars = '';
+  String debitnoteNumber = '';
+  String creditnoteNumber = '';
   String amount = '';
   String month = '';
   List<List<dynamic>> billNoList = [];
   List<List<dynamic>> creditList = [];
   List<List<dynamic>> debitList = [];
   List<List<dynamic>> receiptList = [];
-  List<dynamic> billMapData = [];
-  List<dynamic> receiptMapData = [];
-  Map<String, dynamic> debitMapData = {};
-  Map<String, dynamic> creditMapData = {};
 
   String phoneNum = '';
   @override
@@ -131,7 +130,7 @@ class _memberLedgerState extends State<memberLedger> {
                           (index1) {
                             return DataRow(
                               cells: List.generate(
-                                rowList[0].length,
+                                5,
                                 (index2) {
                                   // print(rows[index2]);
                                   return DataCell(
@@ -149,8 +148,51 @@ class _memberLedgerState extends State<memberLedger> {
                                                           name: widget.username,
                                                           societyName: widget
                                                               .societyName,
-                                                          BillData: billMapData[
-                                                              index1],
+                                                          billDate:
+                                                              rowList[index1]
+                                                                  [0],
+                                                          billNo:
+                                                              rowList[index1]
+                                                                  [1],
+                                                          billAmount:
+                                                              rowList[index1]
+                                                                  [2],
+                                                          dueDate:
+                                                              rowList[index1]
+                                                                  [5],
+                                                          interest:
+                                                              rowList[index1]
+                                                                  [6],
+                                                          legalNoticeCharges:
+                                                              rowList[index1]
+                                                                  [7],
+                                                          maintenanceCharges:
+                                                              rowList[index1]
+                                                                  [8],
+                                                          mhadaLeaseRent:
+                                                              rowList[index1]
+                                                                  [9],
+                                                          municipalTax:
+                                                              rowList[index1]
+                                                                  [10],
+                                                          nonOccupancyChg:
+                                                              rowList[index1]
+                                                                  [11],
+                                                          othercharges:
+                                                              rowList[index1]
+                                                                  [12],
+                                                          parkingCharges:
+                                                              rowList[index1]
+                                                                  [13],
+                                                          repairFund:
+                                                              rowList[index1]
+                                                                  [14],
+                                                          sinkingFund:
+                                                              rowList[index1]
+                                                                  [15],
+                                                          towerBenefit:
+                                                              rowList[index1]
+                                                                  [16],
                                                         );
                                                       },
                                                     ),
@@ -174,15 +216,31 @@ class _memberLedgerState extends State<memberLedger> {
                                                               builder:
                                                                   (context) {
                                                         return LedgerReceiptDetailsPage(
-                                                            flatno:
-                                                                widget.flatno,
-                                                            name:
-                                                                widget.username,
-                                                            societyName: widget
-                                                                .societyName,
-                                                            receiptData:
-                                                                receiptMapData[
-                                                                    index1]);
+                                                          flatno: widget.flatno,
+                                                          name: widget.username,
+                                                          societyName: widget
+                                                              .societyName,
+                                                          receiptNo:
+                                                              rowList[index1]
+                                                                  [7],
+                                                          receiptDate:
+                                                              rowList[index1]
+                                                                  [0],
+                                                          amount:
+                                                              rowList[index1]
+                                                                  [3],
+                                                          checkDate:
+                                                              rowList[index1]
+                                                                  [6],
+                                                          cheqNo:
+                                                              rowList[index1]
+                                                                  [8],
+                                                          bankName:
+                                                              rowList[index1]
+                                                                  [5],
+
+                                                          //  receiptData: {},
+                                                        );
                                                       }));
                                                     },
                                                     child: Text(
@@ -205,15 +263,25 @@ class _memberLedgerState extends State<memberLedger> {
                                                                   builder:
                                                                       (context) {
                                                             return DebitNoteDetails(
-                                                                flatno: widget
-                                                                    .flatno,
-                                                                name: widget
-                                                                    .username,
-                                                                societyName: widget
-                                                                    .societyName,
-                                                                noteData:
-                                                                    debitMapData[
-                                                                        index1]);
+                                                              flatno:
+                                                                  widget.flatno,
+                                                              name: widget
+                                                                  .username,
+                                                              societyName: widget
+                                                                  .societyName,
+                                                              amount: rowList[
+                                                                  index1][3],
+                                                              date: rowList[
+                                                                  index1][0],
+                                                              debitNoteNumber:
+                                                                  rowList[index1]
+                                                                      [2],
+                                                              particulars:
+                                                                  rowList[index1]
+                                                                      [1],
+                                                              month: rowList[
+                                                                  index1][6],
+                                                            );
                                                           }));
                                                         },
                                                         child: Text(
@@ -234,16 +302,25 @@ class _memberLedgerState extends State<memberLedger> {
                                                               MaterialPageRoute(
                                                                   builder:
                                                                       (context) {
-                                                            return LedgerReceiptDetailsPage(
-                                                                flatno: widget
-                                                                    .flatno,
-                                                                name: widget
-                                                                    .username,
-                                                                societyName: widget
-                                                                    .societyName,
-                                                                receiptData:
-                                                                    creditMapData[
-                                                                        index1]);
+                                                            return CreditNoteDetails(
+                                                              flatno:
+                                                                  widget.flatno,
+                                                              name: widget
+                                                                  .username,
+                                                              societyName: widget
+                                                                  .societyName,
+                                                              amount: rowList[
+                                                                  index1][4],
+                                                              date: rowList[
+                                                                  index1][0],
+                                                              creditNoteNumber:
+                                                                  rowList[index1]
+                                                                      [2],
+                                                              particulars:
+                                                                  rowList[index1]
+                                                                      [1],
+                                                            
+                                                            );
                                                           }));
                                                         },
                                                         child: Text(
@@ -308,19 +385,30 @@ class _memberLedgerState extends State<memberLedger> {
       if (data.exists) {
         Map<String, dynamic> totalusers = data.data() as Map<String, dynamic>;
         List<dynamic> mapData = totalusers['data'];
-        billMapData = mapData;
-        billMapData.removeAt(0);
 
         for (var data in mapData) {
           List<dynamic> row = [];
 
           if (flatno == data['Flat No.']) {
             allDataWithBill.add(data);
-            row.add(data['Bill Date']);
-            row.add(data['Bill No']);
-            row.add(data['Bill Amount']);
+            row.add(data['Bill Date'] ?? 'N/A');
+            row.add(data['Bill No'] ?? 'N/A');
+            row.add(data['Bill Amount'] ?? 'N/A');
             row.add(data['0']);
-            row.add(data['Bill Amount']);
+            row.add(data['Bill Amount'] ?? 'N/A');
+            row.add(data['Due Date'] ?? 'N/A');
+            row.add(data['Interest'] ?? 'N/A');
+            row.add(data['Legal Notice Charges'] ?? 'N/A');
+            row.add(data['Maintenance Charges'] ?? 'N/A');
+            row.add(data['Mhada Lease Rent'] ?? 'N/A');
+            row.add(data['Municipal Tax'] ?? 'N/A');
+            row.add(data['Non Occupancy Chg'] ?? 'N/A');
+            row.add(data['Other Charges'] ?? 'N/A');
+            row.add(data['Parking Charges'] ?? 'N/A');
+            row.add(data['Repair Fund'] ?? 'N/A');
+            row.add(data['Sinking Fund'] ?? 'N/A');
+            row.add(data['TOWER BENEFIT'] ?? 'N/A');
+
             billNoList.add(row);
             break;
           }
@@ -351,18 +439,21 @@ class _memberLedgerState extends State<memberLedger> {
       if (data.exists) {
         Map<String, dynamic> totalusers = data.data() as Map<String, dynamic>;
         List<dynamic> mapData = totalusers['data'];
-        receiptMapData = mapData;
 
         for (var data in mapData) {
           List<dynamic> receipt = [];
 
           if (flatno == data['Flat No.']) {
             allDataWithReceipt.add(data);
-            receipt.add(data['Receipt Date']);
-            receipt.add(data['Flat No.']);
+            receipt.add(data['Receipt Date'] ?? 'N/A');
+            receipt.add(data['Flat No.'] ?? 'N/A');
             receipt.add(data['0']);
-            receipt.add(data['Amount']);
-            receipt.add(data['Amount']);
+            receipt.add(data['Amount'] ?? 'N/A');
+            receipt.add(data['Amount'] ?? 'N/A');
+            receipt.add(data['Bank Name'] ?? 'N/A');
+            receipt.add(data['ChqDate'] ?? 'N/A');
+            receipt.add(data['Receipt No'] ?? 'N/A');
+            receipt.add(data['ChqNo'] ?? 'N/A');
             receiptList.add(receipt);
             break;
           }
@@ -402,19 +493,21 @@ class _memberLedgerState extends State<memberLedger> {
         List<dynamic> singleRow = [];
         Map<String, dynamic> data =
             querySnapshot.docs.first.data() as Map<String, dynamic>;
-        creditMapData = data;
 
         flatno = data['Flat No.'];
         amount = data['amount'];
         date = data['date'];
         particulars = data['particular'];
+        creditnoteNumber = data['noteNumber'];
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
         singleRow.add(date2);
         singleRow.add(particulars);
+        singleRow.add(creditnoteNumber);
         singleRow.add('0');
         singleRow.add(amount);
         singleRow.add(amount);
+        singleRow.add(monthyear);
         creditList.add(singleRow);
       }
     }
@@ -451,18 +544,20 @@ class _memberLedgerState extends State<memberLedger> {
         List<dynamic> singleRow = [];
         Map<String, dynamic> data =
             querySnapshot.docs.first.data() as Map<String, dynamic>;
-        debitMapData = data;
         flatno = data['Flat No.'];
         amount = data['amount'];
         date = data['date'];
         particulars = data['particular'];
+        debitnoteNumber = data['noteNumber'];
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
         singleRow.add(date2);
         singleRow.add(particulars);
+        singleRow.add(debitnoteNumber);
         singleRow.add(amount);
         singleRow.add('0');
         singleRow.add(amount);
+        singleRow.add(monthyear);
         debitList.add(singleRow);
       }
     }
