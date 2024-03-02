@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:societyuser_app/MembersApp/auth/login_page.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:societyuser_app/VendorsApp/auth/Vendors_loginPage.dart';
 
 // ignore: camel_case_types
 class RegisterAsVendors extends StatefulWidget {
@@ -17,6 +18,9 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController companyNameController = TextEditingController();
+
+  List<String> searchedList = [];
   final _formKey = GlobalKey<FormState>();
   bool validate = false;
   String mobile = '';
@@ -24,6 +28,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   String password = '';
   String confirmPassword = '';
   String errorMessage = "";
+  List<dynamic> tempList = [];
   void validatePassword() {
     if (passwordController.text != confirmPasswordController.text) {
       setState(() {
@@ -46,6 +51,11 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       // drawer: const MyDrawer(),
@@ -62,24 +72,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // const Text(
-            //   "Society",
-            //   style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 40,
-            //       fontWeight: FontWeight.bold),
-            // ),
-            // const Text(
-            //   "Manager",
-            //   style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 30,
-            //       fontWeight: FontWeight.bold),
-            // ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            const Text('Sign Up',
+            const Text('Register as Vendor',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Colors.white,
@@ -92,6 +85,37 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
               key: _formKey,
               child: Column(
                 children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 12,
+                    height: MediaQuery.of(context).size.height * 0.09,
+                    padding: const EdgeInsets.all(8),
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: companyNameController,
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .copyWith(fontSize: 14, color: Colors.white),
+                          decoration: const InputDecoration(
+                              labelText: 'Select Company Name',
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        return await getCompanyList(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.toString()),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        companyNameController.text = suggestion.toString();
+
+                        getEmail();
+                      },
+                    ),
+                  ),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.next,
@@ -264,7 +288,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                           }
                         },
                         child: const Text(
-                          'Sign Up',
+                          'Register',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
@@ -278,7 +302,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const loginScreen();
+                          return const LoginAsVendors();
                         }));
                       },
                       child: const Text(
@@ -296,31 +320,64 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
     );
   }
 
+  getCompanyList(String pattern) async {
+    searchedList.clear();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('vendorEmployeeList').get();
+
+    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
+    // print(tempList);
+
+    for (int i = 0; i < tempList.length; i++) {
+      if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
+        searchedList.add(tempList[i]);
+      }
+    }
+    // print(searchedList.length);
+    return searchedList;
+  }
+
+  Future<void> getEmail() async {
+    QuerySnapshot EmailList = await FirebaseFirestore.instance
+        .collection('vendorEmployeeList')
+        .doc(companyNameController.text)
+        .collection('employeeList')
+        .get();
+    tempList = EmailList.docs.map((e) => e.id).toList();
+  }
+
   Future<void> storeUserData(BuildContext context, String mobile, String email,
       String password, String confirmPassword) async {
-    try {
-      // Create a new document in the "users" collection
-      await firestore.collection('users').doc(mobile).set({
-        'Mobile No.:': mobile,
-        'email': email,
-        'password': password,
-        'confirmPassword': confirmPassword
-      });
-      // ignore: use_build_context_synchronously
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return const loginScreen();
-        }),
-        (route) => false,
-      );
-      setState(() {
-        errorMessage = '';
-      });
-    } on FirebaseException catch (e) {
-      setState(() {
-        errorMessage = e.message!;
-      });
+    for (var i = 0; i < tempList.length; i++) {
+      if (tempList[i]
+          .toLowerCase()
+          .contains(emailController.text.toLowerCase())) {
+        emailController.text = tempList[i];
+        try {
+          // Create a new document in the "users" collection
+          await firestore.collection('vendorsLoginDetails').doc(email).set({
+            'Mobile No.:': mobile,
+            'email': email,
+            'password': password,
+            'confirmPassword': confirmPassword
+          });
+          // ignore: use_build_context_synchronously
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const LoginAsVendors();
+            }),
+            (route) => false,
+          );
+          setState(() {
+            errorMessage = '';
+          });
+        } on FirebaseException catch (e) {
+          setState(() {
+            errorMessage = e.message!;
+          });
+        }
+      }
     }
   }
 }

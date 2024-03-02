@@ -176,7 +176,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.40,
+                              height: MediaQuery.of(context).size.height * 0.50,
                               child: SingleChildScrollView(
                                 child: DataTable(
                                   dividerThickness: 0,
@@ -224,7 +224,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                           thickness: 1,
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.10,
+                          height: MediaQuery.of(context).size.height * 0.05,
                           child: Row(children: [
                             // Expanded(
                             //   child: SizedBox(

@@ -175,7 +175,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.50,
+                              height: MediaQuery.of(context).size.height * 0.52,
                               child: SingleChildScrollView(
                                 child: DataTable(
                                   dividerThickness: 0,

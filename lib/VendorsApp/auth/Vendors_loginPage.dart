@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/MembersApp/auth/forgotPassword.dart';
-import 'package:societyuser_app/MembersApp/auth/signup_page.dart';
-import 'package:societyuser_app/MembersApp/screen/HomeScreen/home_screen.dart';
+import 'package:societyuser_app/VendorsApp/VendorsHomeScreen/VendorHomeScreen.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_signupPage.dart';
 
 // ignore: camel_case_types
@@ -18,7 +16,7 @@ class LoginAsVendors extends StatefulWidget {
 class _LoginAsVendorsState extends State<LoginAsVendors> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController mobileController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   String? userFlatNumber;
@@ -30,7 +28,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
 
   @override
   void dispose() {
-    mobileController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -67,14 +65,6 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 20,
-            ),
-            const Text('Welcome Back',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(
               height: 10,
             ),
             Form(
@@ -84,13 +74,13 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.next,
-                    controller: mobileController,
+                    controller: emailController,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                         color: Colors.white,
                       )),
-                      labelText: 'Mobile No.',
+                      labelText: 'Email',
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
@@ -106,7 +96,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter Mobile No.';
+                        return 'Please enter Email Id';
                       }
                       return null;
                     },
@@ -158,12 +148,12 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            login(mobileController.text,
-                                passwordController.text, context);
+                            login(emailController.text, passwordController.text,
+                                context);
                           }
                         },
                         child: const Text(
-                          'Login As Vendor',
+                          'Login as Vendors',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
@@ -194,12 +184,12 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) {
-                        return const signUp();
+                        return const RegisterAsVendors();
                       }),
                     );
                   },
                   child: const Text(
-                    "Vendor Register",
+                    "Register as Vendors",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -222,11 +212,14 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                     );
                   },
                   child: const Text(
-                    "Sign Up",
+                    "Register as Vendors",
                     style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),
@@ -234,20 +227,13 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
     );
   }
 
-  void storeLoginData(bool isLogin, String phoneNum) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('phoneNum');
-    prefs.setBool('isLogin', isLogin);
-    prefs.setString('phoneNum', phoneNum);
-  }
-
   Future<void> login(
-      String mobile, String password, BuildContext context) async {
+      String email, String password, BuildContext context) async {
     try {
       // Fetch the user document from Firestore based on the provided username
       final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(mobile)
+          .collection('vendorsLoginDetails')
+          .doc(email)
           .get();
 
       if (userDoc.exists) {
@@ -255,22 +241,17 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
         final storedPassword = userDoc.data()!['password'];
 
         if (password == storedPassword) {
-          storeLoginData(true, mobileController.text);
-          // Login successful
           SnackBar snackBar = const SnackBar(
             backgroundColor: Colors.green,
             content: Center(child: Text('Login successful')),
           );
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          // print('Login successful');
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(builder: (context) => const VendorHomeScreen()),
               (route) => false);
-
-          // Navigate to the home screen or perform any other necessary actions
         } else {
           // Incorrect password
           SnackBar snackBar = const SnackBar(

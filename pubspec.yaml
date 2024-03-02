@@ -46,6 +46,8 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^24.1.45
   device_info_plus: ^9.1.1
   flutter_downloader: ^1.11.6
+  email_auth: ^1.1.1
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

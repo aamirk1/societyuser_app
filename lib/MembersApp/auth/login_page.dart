@@ -298,7 +298,6 @@ class _loginScreenState extends State<loginScreen> {
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),
               (route) => false);
-
         } else {
           // Incorrect password
           SnackBar snackBar = const SnackBar(
