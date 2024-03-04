@@ -5,12 +5,8 @@ import 'package:flutter/material.dart';
 class SettingScreen extends StatefulWidget {
   SettingScreen(
       {super.key,
-      required this.flatno,
-      required this.societyName,
-      required this.username});
-  String flatno;
-  String societyName;
-  String username;
+      required this.email,});
+  String email;
   @override
   State<SettingScreen> createState() => _SettingScreenState();
 }

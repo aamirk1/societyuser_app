@@ -142,23 +142,9 @@ class _SendComplaintsState extends State<SendComplaints> {
   void storeUserData(String text, String problemsType) async {
     try {
       // Create a new document in the "users" collection
+
       await firestore
-          .collection('sencomplaintsForVendors')
-          .doc(widget.societyName)
-          .collection('flatno')
-          .doc(widget.flatno)
-          .collection('vendorCompanyName')
-          .doc(widget.companyName)
-          .collection('vendorName')
-          .doc(widget.name)
-          .collection('problemsType')
-          .doc(problemsType)
-          .set({
-        'problemsType': problemsType,
-        'text': text,
-      });
-      await firestore
-          .collection('sencomplaintsForVendors')
+          .collection('sendComplaintsForVendors')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
@@ -173,6 +159,21 @@ class _SendComplaintsState extends State<SendComplaints> {
         'vendorCompanyName': widget.companyName,
         'vendorName': widget.name,
         'problemsType': problemsType
+      });
+      await firestore
+          .collection('sendComplaintsForVendors')
+          .doc(widget.societyName)
+          .set({
+        "societyName": widget.societyName,
+      });
+
+      await firestore
+          .collection('sendComplaintsForVendors')
+          .doc(widget.societyName)
+          .collection('flatno')
+          .doc(widget.flatno)
+          .set({
+        "flatno": widget.flatno,
       });
 
       // ignore: use_build_context_synchronously

@@ -250,7 +250,10 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const VendorHomeScreen()),
+              MaterialPageRoute(
+                  builder: (context) => VendorHomeScreen(
+                        email: email,
+                      )),
               (route) => false);
         } else {
           // Incorrect password

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_loginPage.dart';
 
 // ignore: camel_case_types
@@ -354,8 +355,10 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
           .contains(emailController.text.toLowerCase())) {
         emailController.text = tempList[i];
         try {
+          storeCompanyInSharedPref(companyNameController.text);
           // Create a new document in the "users" collection
           await firestore.collection('vendorsLoginDetails').doc(email).set({
+            "companyName": companyNameController.text,
             'Mobile No.:': mobile,
             'email': email,
             'password': password,
@@ -379,5 +382,10 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
         }
       }
     }
+  }
+
+  void storeCompanyInSharedPref(String companyName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("companyName", companyName);
   }
 }

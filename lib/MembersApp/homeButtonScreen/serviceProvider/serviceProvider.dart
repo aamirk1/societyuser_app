@@ -9,12 +9,13 @@ import 'package:societyuser_app/MembersApp/provider/list_builder_provider.dart';
 
 // ignore: must_be_immutable
 class ServiceProvider extends StatefulWidget {
-   
-  ServiceProvider(
-      {super.key,
-      required this.flatno,
-      required this.societyName,
-      required this.username});
+  ServiceProvider({
+    super.key,
+    required this.flatno,
+    required this.societyName,
+    required this.username,
+  });
+  String? email;
   String flatno;
   String societyName;
   String username;

@@ -11,7 +11,6 @@ import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/member_ladger
 import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/others/others.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/resident/resident_management.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/serviceProvider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'CIRCULAR/NOTICE',
     'NOC MANAGEMENT',
     'GRIEVANCE / COMPLAINT',
-    'RESIDENT MANAGEMENT',
+    // 'RESIDENT MANAGEMENT',
     'SERVICE PROVIDER MANAGEMENT',
     'GATE PASS',
     'OTHERS'
@@ -98,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
           societyName: society,
           username: name,
         ),
-    (flat, society, username) => const ResidentManagement(),
+    // (flat, society, username) => const ResidentManagement(),
     (flatno, society, name) => ServiceProvider(
           flatno: flatno,
           societyName: society,

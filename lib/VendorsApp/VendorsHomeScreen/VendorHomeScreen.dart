@@ -8,9 +8,8 @@ import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/settings.dart';
 
 class VendorHomeScreen extends StatefulWidget {
-  const VendorHomeScreen({
-    super.key,
-  });
+  String? email;
+  VendorHomeScreen({super.key, this.email});
 
   @override
   State<VendorHomeScreen> createState() => _VendorHomeScreenState();
@@ -53,18 +52,17 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
   }
 
   List<String> buttons = ['SERVICE REQUEST', 'SETTINGS', 'OTHERS'];
-  List<Widget Function(String, String, String)> screens = [
-    (flatno, society, name) => ServiceRequest(
-          flatno: flatno,
-          societyName: society,
-          username: name,
+  List<
+      Widget Function(
+        String,
+      )> screens = [
+    (email) => ServiceRequest(
+          email: email,
         ),
-    (flatno, society, name) => SettingScreen(
-          flatno: flatno,
-          societyName: society,
-          username: name,
+    (email) => SettingScreen(
+          email: email,
         ),
-    (flat, society, username) => const Others(),
+    (email) => const Others(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -151,13 +149,12 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                                 ),
                                 onPressed: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => screens[index](
-                                            flatnoController.text,
-                                            _societyNameController.text,
-                                            usernameController.text),
-                                      ));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          screens[index](widget.email!),
+                                    ),
+                                  );
                                   // if (isSocietySelected) {
 
                                   //   );
