@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/MembersApp/auth/forgotPassword.dart';
 import 'package:societyuser_app/VendorsApp/VendorsHomeScreen/VendorHomeScreen.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_signupPage.dart';
@@ -247,6 +248,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
           );
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          fetchVendorDetails(email);
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
@@ -280,5 +282,24 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
       // ignore: avoid_print
       print('Error: $e');
     }
+  }
+
+  Future<void> fetchVendorDetails(String currentEmail) async {
+    DocumentSnapshot flatNoQuery = await FirebaseFirestore.instance
+        .collection('vendorsLoginDetails')
+        .doc(currentEmail)
+        .get();
+
+    Map<String, dynamic> vendorDetails = {};
+    String companyName = '';
+    vendorDetails = flatNoQuery.data() as Map<String, dynamic>;
+    print(vendorDetails);
+    companyName = vendorDetails['companyName'];
+    storeCompanyInSharedPref(companyName);
+  }
+
+  void storeCompanyInSharedPref(String companyName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("companyName", companyName);
   }
 }

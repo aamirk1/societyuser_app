@@ -10,7 +10,6 @@ import 'package:societyuser_app/MembersApp/homeButtonScreen/gatePass/gatePass.da
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/member_ladger.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/notice/circular_notice.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/others/others.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/serviceProvider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -74,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // 'RESIDENT MANAGEMENT',
     'SERVICE PROVIDER MANAGEMENT',
     'GATE PASS',
-    'OTHERS'
+    // 'OTHERS'
   ];
   List<Widget Function(String, String, String)> screens = [
     (flatno, society, name) => memberLedger(
@@ -108,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
           societyName: society,
           username: name,
         ),
-    (flat, society, username) => const Others(),
+    // (flat, society, username) => const Others(),
   ];
   @override
   Widget build(BuildContext context) {

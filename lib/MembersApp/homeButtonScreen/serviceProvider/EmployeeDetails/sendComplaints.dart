@@ -31,7 +31,7 @@ class SendComplaints extends StatefulWidget {
 }
 
 class _SendComplaintsState extends State<SendComplaints> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController textController = TextEditingController();
   bool isLoading = false;
   TextEditingController problemsType = TextEditingController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -79,7 +79,7 @@ class _SendComplaintsState extends State<SendComplaints> {
                                 TextField(
                                   textInputAction: TextInputAction.done,
                                   keyboardType: TextInputType.multiline,
-                                  controller: controller,
+                                  controller: textController,
                                   decoration: const InputDecoration(
                                       border: OutlineInputBorder()),
                                   maxLines: 6,
@@ -117,7 +117,7 @@ class _SendComplaintsState extends State<SendComplaints> {
                                               Colors.green)),
                                   onPressed: () async {
                                     storeUserData(
-                                        controller.text, problemsType.text);
+                                        textController.text, problemsType.text);
                                   },
                                   child: const Text(
                                     'Submit',
@@ -155,6 +155,7 @@ class _SendComplaintsState extends State<SendComplaints> {
           .collection('problemsType')
           .doc(problemsType)
           .set({
+        'text': text,
         "flatno": widget.flatno,
         'vendorCompanyName': widget.companyName,
         'vendorName': widget.name,

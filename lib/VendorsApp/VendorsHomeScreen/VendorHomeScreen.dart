@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
-import 'package:societyuser_app/MembersApp/common_widget/drawer.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/others/others.dart';
-import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest/serviceRequest.dart';
+import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest/serviceRequestOfFlatNo.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/settings.dart';
 
+// ignore: must_be_immutable
 class VendorHomeScreen extends StatefulWidget {
   String? email;
   VendorHomeScreen({super.key, this.email});
@@ -19,7 +19,7 @@ bool isSocietySelected = false;
 
 class _VendorHomeScreenState extends State<VendorHomeScreen> {
   final SplashService _splashService = SplashService();
-  final TextEditingController _societyNameController = TextEditingController();
+  final TextEditingController societyNameController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
   final TextEditingController billAmountController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -56,7 +56,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
       Widget Function(
         String,
       )> screens = [
-    (email) => ServiceRequest(
+    (email) => ServiceRequestFlatNo(
           email: email,
         ),
     (email) => SettingScreen(
@@ -74,11 +74,11 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      drawer: MyDrawer(
-          flatno: flatno,
-          username: name,
-          societyName: _societyNameController.text,
-          mobile: mobile),
+      // drawer: MyDrawer(
+      //     flatno: flatno,
+      //     username: name,
+      //     societyName: _societyNameController.text,
+      //     mobile: mobile),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SizedBox(

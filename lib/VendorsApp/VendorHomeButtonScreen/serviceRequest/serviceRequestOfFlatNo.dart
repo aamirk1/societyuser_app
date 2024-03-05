@@ -6,18 +6,19 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/provider/list_builder_provider.dart';
+import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest/ListOfServiceRequestType.dart';
 
 // ignore: must_be_immutable
-class ServiceRequest extends StatefulWidget {
-  ServiceRequest({super.key, required this.email});
+class ServiceRequestFlatNo extends StatefulWidget {
+  ServiceRequestFlatNo({super.key, required this.email});
   String email;
 
   @override
-  State<ServiceRequest> createState() => _ServiceRequestState();
+  State<ServiceRequestFlatNo> createState() => _ServiceRequestFlatNoState();
 }
 
-class _ServiceRequestState extends State<ServiceRequest> {
-  TextEditingController companyNameController = TextEditingController();
+class _ServiceRequestFlatNoState extends State<ServiceRequestFlatNo> {
+  TextEditingController societyNameController = TextEditingController();
 
   Map<String, dynamic> vendorDetails = {};
   String companyName = '';
@@ -47,13 +48,13 @@ class _ServiceRequestState extends State<ServiceRequest> {
               padding: const EdgeInsets.all(8),
               child: TypeAheadField(
                 textFieldConfiguration: TextFieldConfiguration(
-                    controller: companyNameController,
+                    controller: societyNameController,
                     style: DefaultTextStyle.of(context).style.copyWith(
                         fontSize: 14, color: Color.fromARGB(255, 3, 3, 3)),
                     decoration: const InputDecoration(
                         labelText: 'Select Society',
                         labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 0, 0, 0),
                         ),
                         border: OutlineInputBorder())),
                 suggestionsCallback: (pattern) async {
@@ -65,31 +66,46 @@ class _ServiceRequestState extends State<ServiceRequest> {
                   );
                 },
                 onSuggestionSelected: (suggestion) {
-                  companyNameController.text = suggestion.toString();
-                  fetchFlatNoList(companyNameController.text);
+                  societyNameController.text = suggestion.toString();
+                  fetchFlatNoList(societyNameController.text);
                 },
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 12,
               height: MediaQuery.of(context).size.height * 0.09,
               child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: allFlatNo.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 5,
-                      child: ListTile(
+                shrinkWrap: true,
+                itemCount: allFlatNo.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 5,
+                    child: ListTile(
                         title: Text(
                           allFlatNo[index],
                           style: const TextStyle(color: Colors.black),
                         ),
-                      ),
-                    );
-                  }),
+                        onTap: () {
+                          print('clicked');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ListOfServiceRequestType(
+                                  email: widget.email,
+                                  flatNo: allFlatNo[index],
+                                  societyName: societyNameController.text,
+                                );
+                              },
+                            ),
+                          );
+                        }),
+                  );
+                },
+              ),
             ),
           )
         ]),
@@ -124,18 +140,13 @@ class _ServiceRequestState extends State<ServiceRequest> {
 
   fetchFlatNoList(String selectedSociety) async {
     QuerySnapshot flatNoList = await FirebaseFirestore.instance
-        .collection('sencomplaintsForVendors')
+        .collection('sendComplaintsForVendors')
         .doc(selectedSociety)
         .collection('flatno')
         .get();
-    List<dynamic> tempList = flatNoList.docs.map((e) => e.id).toList();
-    // print(tempList);
+    allFlatNo = flatNoList.docs.map((e) => e.id).toList();
+    print(allFlatNo);
 
-    for (int i = 0; i < tempList.length; i++) {
-      if (tempList[i]) {
-        allFlatNo.add(tempList[i]);
-      }
-    }
     return allFlatNo;
   }
 

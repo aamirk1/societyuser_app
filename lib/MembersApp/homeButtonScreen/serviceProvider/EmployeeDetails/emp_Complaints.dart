@@ -191,7 +191,7 @@ class _Complaints_ListState extends State<Complaints_List> {
     });
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('sencomplaintsForVendors')
+          .collection('sendComplaintsForVendors')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
