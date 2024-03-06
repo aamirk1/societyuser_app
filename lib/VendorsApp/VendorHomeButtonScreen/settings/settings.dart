@@ -2,6 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/changePassword.dart';
+import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/profile.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_loginPage.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -15,13 +17,15 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  List<String> buttons = ['SERVICE REQUEST', 'SETTINGS'];
+  List<String> buttons = ['Profile', 'Change Password'];
   List<
       Widget Function(
         String,
       )> screens = [
-    (email) => LoginAsVendors(),
-    (email) => SettingScreen(
+    (email) => Profile(
+          email: email,
+        ),
+    (email) => ChangePassword(
           email: email,
         ),
   ];

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_loginPage.dart';
 
@@ -21,7 +21,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController companyNameController = TextEditingController();
 
-  List<String> searchedList = [];
+  List<String> companyNameList = [];
   final _formKey = GlobalKey<FormState>();
   bool validate = false;
   String mobile = '';
@@ -30,6 +30,8 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   String confirmPassword = '';
   String errorMessage = "";
   List<dynamic> tempList = [];
+  bool isLoading = true;
+  String? selectedCompanyName;
   void validatePassword() {
     if (passwordController.text != confirmPasswordController.text) {
       setState(() {
@@ -53,6 +55,11 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
 
   @override
   void initState() {
+    getCompanyList().whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
     super.initState();
   }
 
@@ -87,46 +94,103 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
               child: Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 12,
-                    height: MediaQuery.of(context).size.height * 0.09,
-                    padding: const EdgeInsets.all(8),
-                    child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: companyNameController,
-                          style: DefaultTextStyle.of(context)
-                              .style
-                              .copyWith(fontSize: 14, color: Colors.white),
-                          decoration: const InputDecoration(
-                              labelText: 'Select Company Name',
-                              labelStyle: TextStyle(
-                                color: Colors.white,
+                    color: Colors.white,
+                    height: 40,
+                    width: MediaQuery.of(context).size.width,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: const Text(
+                          'Select Company Name',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                          ),
+                        ),
+                        items: companyNameList
+                            .map((item) => DropdownMenuItem(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black),
+                                  ),
+                                ))
+                            .toList(),
+                        value: selectedCompanyName,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCompanyName = value;
+                          });
+                          getEmail(value!);
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          decoration: BoxDecoration(),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          height: 40,
+                          width: 200,
+                        ),
+                        dropdownStyleData: const DropdownStyleData(
+                          maxHeight: 200,
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          height: 40,
+                        ),
+                        dropdownSearchData: DropdownSearchData(
+                          searchController: companyNameController,
+                          searchInnerWidgetHeight: 50,
+                          searchInnerWidget: Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                              bottom: 4,
+                              right: 8,
+                              left: 8,
+                            ),
+                            child: TextFormField(
+                              expands: true,
+                              maxLines: null,
+                              controller: companyNameController,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 8,
+                                ),
+                                hintText: 'Search company name...',
+                                hintStyle: const TextStyle(fontSize: 12),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
-                              border: OutlineInputBorder())),
-                      suggestionsCallback: (pattern) async {
-                        return await getCompanyList(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.toString()),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        companyNameController.text = suggestion.toString();
-
-                        getEmail();
-                      },
+                            ),
+                          ),
+                          searchMatchFn: (item, searchValue) {
+                            return item.value.toString().contains(searchValue);
+                          },
+                        ),
+                        //This to clear the search value when you close the menu
+                        onMenuStateChange: (isOpen) {
+                          if (!isOpen) {
+                            companyNameController.clear();
+                          }
+                        },
+                      ),
                     ),
                   ),
+                  const SizedBox(height: 10),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.next,
                     controller: mobileController,
+                    maxLength: 10,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                         color: Colors.white,
                       )),
                       labelText: 'Mobile No.',
+
                       labelStyle: TextStyle(
                         color: Colors.white,
                       ),
@@ -279,7 +343,8 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                           ),
                         ),
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate() &&
+                              selectedCompanyName != null) {
                             await storeUserData(
                                 context,
                                 mobileController.text,
@@ -321,27 +386,20 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
     );
   }
 
-  getCompanyList(String pattern) async {
-    searchedList.clear();
+  Future<List<String>> getCompanyList() async {
+    companyNameList.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('vendorEmployeeList').get();
 
-    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
-    // print(tempList);
+    companyNameList = querySnapshot.docs.map((e) => e.id).toList();
 
-    for (int i = 0; i < tempList.length; i++) {
-      if (tempList[i].toLowerCase().contains(pattern.toLowerCase())) {
-        searchedList.add(tempList[i]);
-      }
-    }
-    // print(searchedList.length);
-    return searchedList;
+    return companyNameList;
   }
 
-  Future<void> getEmail() async {
+  Future<void> getEmail(String companyName) async {
     QuerySnapshot EmailList = await FirebaseFirestore.instance
         .collection('vendorEmployeeList')
-        .doc(companyNameController.text)
+        .doc(companyName)
         .collection('employeeList')
         .get();
     tempList = EmailList.docs.map((e) => e.id).toList();
@@ -355,11 +413,11 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
           .contains(emailController.text.toLowerCase())) {
         emailController.text = tempList[i];
         try {
-          storeCompanyInSharedPref(companyNameController.text);
+          storeCompanyInSharedPref(selectedCompanyName!);
           // Create a new document in the "users" collection
           await firestore.collection('vendorsLoginDetails').doc(email).set({
-            "companyName": companyNameController.text,
-            'Mobile No.:': mobile,
+            "companyName": selectedCompanyName,
+            'Mobile No.': mobile,
             'email': email,
             'password': password,
             'confirmPassword': confirmPassword

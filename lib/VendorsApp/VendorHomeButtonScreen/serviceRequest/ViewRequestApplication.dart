@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ViewRequestApplication extends StatefulWidget {
   ViewRequestApplication(
       {super.key,
@@ -68,7 +69,7 @@ class _ViewRequestApplicationState extends State<ViewRequestApplication> {
                                         fontSize: 15,
                                         color: Colors.black),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
@@ -92,16 +93,16 @@ class _ViewRequestApplicationState extends State<ViewRequestApplication> {
                               onPressed: () {},
                               child: const Text('Complete'),
                             ),
-                            SizedBox(
-                              width: 10,
+                            const SizedBox(
+                              width: 20,
                             ),
                             ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                Colors.amber,
+                                Color.fromARGB(255, 255, 189, 7),
                               )),
                               onPressed: () {},
-                              child: const Text('Pending'),
+                              child: const Text('Processing'),
                             )
                           ],
                         ),

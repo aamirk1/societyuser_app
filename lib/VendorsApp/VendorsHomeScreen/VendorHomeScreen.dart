@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/others/others.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest/serviceRequestOfFlatNo.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/settings.dart';
 
@@ -51,7 +50,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
     super.initState();
   }
 
-  List<String> buttons = ['SERVICE REQUEST', 'SETTINGS', 'OTHERS'];
+  List<String> buttons = ['SERVICE REQUEST', 'SETTINGS'];
   List<
       Widget Function(
         String,
@@ -62,7 +61,6 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
     (email) => SettingScreen(
           email: email,
         ),
-    (email) => const Others(),
   ];
   @override
   Widget build(BuildContext context) {

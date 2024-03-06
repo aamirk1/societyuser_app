@@ -156,7 +156,8 @@ class _SendComplaintsState extends State<SendComplaints> {
           .doc(problemsType)
           .set({
         'text': text,
-        "flatno": widget.flatno,
+        'phone': widget.phone,
+        'flatno': widget.flatno,
         'vendorCompanyName': widget.companyName,
         'vendorName': widget.name,
         'problemsType': problemsType
