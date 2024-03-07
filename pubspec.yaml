@@ -48,7 +48,8 @@ dependencies:
   flutter_downloader: ^1.11.6
   dropdown_button2: ^2.3.9
   url_launcher: 
-  
+  permission_handler: 
+  lecle_downloads_path_provider: 
 dev_dependencies:
   flutter_test:
     sdk: flutter
