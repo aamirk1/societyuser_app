@@ -127,8 +127,8 @@ class _ComplaintsState extends State<Complaints> {
                                           child: Text(
                                             value.complaintList[index]
                                                 ['complaintsType'],
-                                            style: const TextStyle(
-                                                color: Colors.black),
+                                            style:  TextStyle(
+                                                color: textColor),
                                           ))),
                                   const Divider(
                                     color: Colors.grey,

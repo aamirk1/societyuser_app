@@ -67,15 +67,15 @@ class _ViewNocState extends State<ViewNoc> {
                                 children: [
                                   Text(
                                     widget.nocType,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
-                                        color: Colors.black),
+                                        color: textColor),
                                   ),
                                   Text(
                                     widget.text,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Colors.black),
+                                    style: TextStyle(
+                                        fontSize: 12, color: textColor),
                                   ),
                                 ],
                               ),

@@ -8,8 +8,6 @@ import 'package:societyuser_app/MembersApp/homeButtonScreen/gatePass/applyGatePa
 import 'package:societyuser_app/MembersApp/homeButtonScreen/gatePass/viewGatePassResponse.dart';
 import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
 
-
-
 // ignore: camel_case_types, must_be_immutable
 class GatePass extends StatefulWidget {
   GatePass({super.key, this.flatno, this.societyName, this.username});
@@ -134,8 +132,8 @@ class _GatePassState extends State<GatePass> {
                                       child: Text(
                                         value.gatePassList[index]
                                             ['gatePassType'],
-                                        style: const TextStyle(
-                                            color: Colors.black),
+                                        style:
+                                             TextStyle(color: textColor),
                                       ),
                                     ),
                                   ),

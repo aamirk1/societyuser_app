@@ -106,7 +106,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                           return ListTile(
                             title: Text(
                               suggestion.toString(),
-                              style: const TextStyle(color: Colors.black),
+                              style:  TextStyle(color: textColor),
                             ),
                           );
                         },
@@ -178,10 +178,10 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                     child: Center(
                       child: Text(
                         selectedValue.toString(),
-                        style: const TextStyle(
+                        style:  TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
-                            color: Colors.black),
+                            color: textColor),
                       ),
                     ),
                   ),

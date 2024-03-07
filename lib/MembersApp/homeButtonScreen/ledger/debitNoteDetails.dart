@@ -106,8 +106,8 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         Row(
@@ -157,18 +157,18 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                   children: [
                                     Text(
                                       "Note No.: ${widget.debitNoteNumber == '' ? 'N/A' : widget.debitNoteNumber}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
+                                      style:  TextStyle(
+                                          color: textColor, fontSize: 12),
                                     ),
                                     Text(
                                       "Date: ${widget.date == '' ? 'N/A' : widget.date}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
+                                      style:  TextStyle(
+                                          color: textColor, fontSize: 12),
                                     ),
                                   ])
                             ]),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         Row(
@@ -219,8 +219,8 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                             ),
                           ],
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         SizedBox(
@@ -239,7 +239,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                             // ),
                             // const VerticalDivider(
                             //   thickness: 1,
-                            //   color: Colors.black,
+                            //   color: textColor,
                             // ),
                             Expanded(
                               child: Padding(
@@ -296,14 +296,14 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                               //     style: const TextStyle(
                                               //         fontSize: 10)),
                                             ]),
-                                        const Divider(
-                                          color: Colors.black,
+                                         Divider(
+                                          color: textColor,
                                           thickness: 1,
                                         ),
                                       ],
                                     ),
                                     // const Divider(
-                                    //     color: Colors.black, thickness: 1),
+                                    //     color: textColor, thickness: 1),
                                     // Row(
                                     //     mainAxisAlignment:
                                     //         MainAxisAlignment.spaceBetween,
@@ -339,8 +339,8 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                             ),
                           ]),
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         SizedBox(
@@ -350,8 +350,8 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                               TextSpan(
                                 text:
                                     'Being add Rs. ${widget.amount}/- for ${widget.particulars}. For the month of ${widget.month} as per manager instruction date - ${widget.date}',
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.black),
+                                style:  TextStyle(
+                                    fontSize: 10, color: textColor),
                               ),
                             ]),
                           ),

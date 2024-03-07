@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/EmployeeDetails/emp_Complaints.dart';
+import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/ComplaintForvendors/emp_Complaints.dart';
 import 'package:societyuser_app/MembersApp/provider/emplist_builder_provider.dart';
 
 // ignore: must_be_immutable
@@ -71,7 +71,7 @@ class _ViewEmployeeState extends State<ViewEmployee> {
                           ),
                           title: Text(
                             value.empList[index]['empName'],
-                            style: const TextStyle(color: Colors.black),
+                            style:  TextStyle(color: textColor),
                           ),
                           subtitle: Text(
                             value.empList[index]['empDesignation'],

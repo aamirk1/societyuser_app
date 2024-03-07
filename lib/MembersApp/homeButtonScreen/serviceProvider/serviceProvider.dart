@@ -55,7 +55,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
                           minVerticalPadding: 0.3,
                           title: Text(
                             value.list[index]['companyName'],
-                            style: const TextStyle(color: Colors.black),
+                            style:  TextStyle(color: textColor),
                           ),
                           // trailing: IconButton(
                           //   onPressed: () {

@@ -47,122 +47,95 @@ class _ServiceRequestFlatNoState extends State<ServiceRequestFlatNo> {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 2),
-          //   child: Container(
-          //     width: MediaQuery.of(context).size.width * 12,
-          //     height: MediaQuery.of(context).size.height * 0.09,
-          //     padding: const EdgeInsets.all(8),
-          //     child: TypeAheadField(
-          //       textFieldConfiguration: TextFieldConfiguration(
-          //           controller: societyNameController,
-          //           style: DefaultTextStyle.of(context).style.copyWith(
-          //               fontSize: 14, color: Color.fromARGB(255, 3, 3, 3)),
-          //           decoration: const InputDecoration(
-          //               labelText: 'Select Society',
-          //               labelStyle: TextStyle(
-          //                 color: Color.fromARGB(255, 0, 0, 0),
-          //               ),
-          //               border: OutlineInputBorder())),
-          //       suggestionsCallback: (pattern) async {
-          //         return await getSocietyName();
-          //       },
-          //       itemBuilder: (context, suggestion) {
-          //         return ListTile(
-          //           title: Text(suggestion.toString()),
-          //         );
-          //       },
-          //       onSuggestionSelected: (suggestion) {
-          //         societyNameController.text = suggestion.toString();
-          //         fetchFlatNoList(societyNameController.text);
-          //       },
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 10),
-          Container(
-            color: Colors.white,
-            height: 40,
-            width: MediaQuery.of(context).size.width,
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton2<String>(
-                isExpanded: true,
-                hint: const Text(
-                  'Select society name',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
-                ),
-                items: allSociety
-                    .map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.black),
-                          ),
-                        ))
-                    .toList(),
-                value: selectedSocietyName,
-                onChanged: (value) {
-                  fetchFlatNoList(value!).whenComplete(() {
-                    setState(() {
-                      selectedSocietyName = value;
-                    });
-                  });
-                },
-                buttonStyleData: const ButtonStyleData(
-                  decoration: BoxDecoration(),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  height: 40,
-                  width: 200,
-                ),
-                dropdownStyleData: const DropdownStyleData(
-                  maxHeight: 200,
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: societyNameController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: TextFormField(
-                      expands: true,
-                      maxLines: null,
-                      controller: societyNameController,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 8,
-                        ),
-                        hintText: 'Search society name...',
-                        hintStyle: const TextStyle(fontSize: 12),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              elevation: 5,
+              child: Container(
+                color: Colors.white,
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2<String>(
+                    isExpanded: true,
+                    hint:  Text(
+                      'Select society name',
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 14,
                       ),
                     ),
+                    items: allSociety
+                        .map((item) => DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style:  TextStyle(
+                                    fontSize: 14, color: textColor),
+                              ),
+                            ))
+                        .toList(),
+                    value: selectedSocietyName,
+                    onChanged: (value) {
+                      fetchFlatNoList(value!).whenComplete(() {
+                        setState(() {
+                          selectedSocietyName = value;
+                        });
+                      });
+                    },
+                    buttonStyleData: const ButtonStyleData(
+                      decoration: BoxDecoration(),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      height: 40,
+                      width: 200,
+                    ),
+                    dropdownStyleData: const DropdownStyleData(
+                      maxHeight: 200,
+                    ),
+                    menuItemStyleData: const MenuItemStyleData(
+                      height: 40,
+                    ),
+                    dropdownSearchData: DropdownSearchData(
+                      searchController: societyNameController,
+                      searchInnerWidgetHeight: 50,
+                      searchInnerWidget: Container(
+                        height: 50,
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          bottom: 4,
+                          right: 8,
+                          left: 8,
+                        ),
+                        child: TextFormField(
+                          expands: true,
+                          maxLines: null,
+                          controller: societyNameController,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 8,
+                            ),
+                            hintText: 'Search society name...',
+                            hintStyle: const TextStyle(fontSize: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ),
+                      searchMatchFn: (item, searchValue) {
+                        return item.value.toString().contains(searchValue);
+                      },
+                    ),
+                    //This to clear the search value when you close the menu
+                    onMenuStateChange: (isOpen) {
+                      if (!isOpen) {
+                        societyNameController.clear();
+                      }
+                    },
                   ),
-                  searchMatchFn: (item, searchValue) {
-                    return item.value.toString().contains(searchValue);
-                  },
                 ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    societyNameController.clear();
-                  }
-                },
               ),
             ),
           ),
@@ -181,7 +154,7 @@ class _ServiceRequestFlatNoState extends State<ServiceRequestFlatNo> {
                     child: ListTile(
                         title: Text(
                           allFlatNo[index],
-                          style: const TextStyle(color: Colors.black),
+                          style:  TextStyle(color: textColor),
                         ),
                         onTap: () {
                           Navigator.push(

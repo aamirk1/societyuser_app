@@ -148,8 +148,8 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         Row(
@@ -175,25 +175,25 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                     Text("Flat No.: ${widget.flatno}"),
                                     Text(
                                       "Bill No.: ${widget.billNo == '' ? 'N/A' : widget.billNo}",
-                                      style: const TextStyle(
-                                        color: Colors.black,
+                                      style:  TextStyle(
+                                        color: textColor,
                                         fontSize: 12,
                                       ),
                                     ),
                                     Text(
                                       "Bill Date: ${widget.billDate == '' ? 'N/A' : widget.billDate}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
+                                      style:  TextStyle(
+                                          color: textColor, fontSize: 12),
                                     ),
                                     Text(
                                       "Due Date: ${widget.dueDate == '' ? 'N/A' : widget.dueDate}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
+                                      style:  TextStyle(
+                                          color: textColor, fontSize: 12),
                                     ),
                                   ])
                             ]),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         Row(
@@ -244,8 +244,8 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                             ),
                           ],
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         SizedBox(
@@ -262,9 +262,9 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                 ),
                               ),
                             ),
-                            const VerticalDivider(
+                             VerticalDivider(
                               thickness: 1,
-                              color: Colors.black,
+                              color: textColor,
                             ),
                             Expanded(
                               child: Padding(
@@ -317,14 +317,14 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                                   style: const TextStyle(
                                                       fontSize: 10)),
                                             ]),
-                                        const Divider(
-                                          color: Colors.black,
+                                         Divider(
+                                          color: textColor,
                                           thickness: 1,
                                         ),
                                       ],
                                     ),
-                                    const Divider(
-                                        color: Colors.black, thickness: 1),
+                                     Divider(
+                                        color: textColor, thickness: 1),
                                     Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -360,32 +360,32 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                             ),
                           ]),
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.99,
                             child: RichText(
                                 text: TextSpan(children: [
-                              const TextSpan(
+                               TextSpan(
                                 text:
                                     'Please pay your dues on or before Due Date. Otherwise Simple interest @21%p.a. will be charged on Arrears. Please Pay by cross cheques or via NEFT only in favouring ',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.black),
+                                style:
+                                    TextStyle(fontSize: 10, color: textColor),
                               ),
                               TextSpan(
                                 text: '$society_name',
-                                style: const TextStyle(
-                                    color: Colors.black,
+                                style:  TextStyle(
+                                    color: textColor,
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold),
                               ),
-                              const TextSpan(
+                               TextSpan(
                                 text:
                                     ' and mention your flat number. If you have any descrepancy in the bill please contact society office.',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.black),
+                                style:
+                                    TextStyle(fontSize: 10, color: textColor),
                               )
                             ])))
                       ],

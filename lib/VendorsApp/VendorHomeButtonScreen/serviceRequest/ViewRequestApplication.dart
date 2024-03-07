@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:societyuser_app/membersApp/common_widget/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class ViewRequestApplication extends StatefulWidget {
@@ -26,12 +28,18 @@ class ViewRequestApplication extends StatefulWidget {
 class _ViewRequestApplicationState extends State<ViewRequestApplication> {
   bool isLoading = true;
   Map<String, dynamic> allData = {};
-
+  bool _hasCallSupport = false;
   @override
   void initState() {
     getAllData().whenComplete(() {
       setState(() {
         isLoading = false;
+      });
+    });
+
+    canLaunchUrl(Uri(scheme: 'tel', path: '123')).then((bool result) {
+      setState(() {
+        _hasCallSupport = result;
       });
     });
     super.initState();
@@ -47,67 +55,99 @@ class _ViewRequestApplicationState extends State<ViewRequestApplication> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.98,
                   height: MediaQuery.of(context).size.height * 0.98,
-                  child: Card(
-                    elevation: 5,
-                    child: Column(
-                      children: [
-                        SingleChildScrollView(
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 20),
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.85,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    allData['problemsType'],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.black),
+                  child: Column(
+                    children: [
+                      SingleChildScrollView(
+                        child: Container(
+                          margin:  EdgeInsets.only(top: 20),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.78,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  allData['problemsType'],
+                                  style:  TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: textColor),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  allData['text'],
+                                  style:  TextStyle(
+                                    fontSize: 12,
+                                    color: textColor,
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    allData['text'],
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Colors.black),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                           Text(
+                            'Member No.: ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: textColor),
+                          ),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
                                 Colors.green,
-                              )),
-                              onPressed: () {},
-                              child: const Text('Complete'),
+                              ),
                             ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 255, 189, 7),
-                              )),
-                              onPressed: () {},
-                              child: const Text('Processing'),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                            onPressed: _hasCallSupport
+                                ? () => setState(() {
+                                      _makePhoneCall(allData['phone']);
+                                    })
+                                : null,
+                            child: _hasCallSupport
+                                ? Text(allData['phone'])
+                                : const Text('Calling not supported'),
+                          ),
+                        ],
+                      ),
+                      // const SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     ElevatedButton(
+                      //       style: ButtonStyle(
+                      //           backgroundColor: MaterialStateProperty.all(
+                      //         Colors.green,
+                      //       )),
+                      //       onPressed: () {},
+                      //       child: const Text('Complete'),
+                      //     ),
+                      //     const SizedBox(
+                      //       width: 20,
+                      //     ),
+                      //     ElevatedButton(
+                      //       style: ButtonStyle(
+                      //           backgroundColor: MaterialStateProperty.all(
+                      //         Color.fromARGB(255, 255, 189, 7),
+                      //       )),
+                      //       onPressed: () {},
+                      //       child: const Text('Processing'),
+                      //     )
+                      //   ],
+                      // ),
+                    ],
                   ),
                 ),
               ),
@@ -130,5 +170,13 @@ class _ViewRequestApplicationState extends State<ViewRequestApplication> {
         .get();
 
     allData = requestTypeQuery.data() as Map<String, dynamic>;
+  }
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 }

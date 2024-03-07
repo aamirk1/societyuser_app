@@ -185,9 +185,9 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
+                  child:  Text(
                     'OK',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: textColor),
                   )),
               // TextButton(
               //     onPressed: () {
@@ -321,7 +321,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
 //                         },
 //                         child: const Text(
 //                           'OK',
-//                           style: TextStyle(color: Colors.black),
+//                           style: TextStyle(color: textColor),
 //                         )),
 //                     // TextButton(
 //                     //     onPressed: () {

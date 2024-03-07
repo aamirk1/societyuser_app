@@ -3,7 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/EmployeeDetails/sendComplaints.dart';
+import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/ComplaintForvendors/sendComplaints.dart';
+import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/ComplaintForvendors/viewComplaintApplication.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class Complaints_List extends StatefulWidget {
@@ -123,24 +124,23 @@ class _Complaints_ListState extends State<Complaints_List> {
                                 ListTile(
                                   title: TextButton(
                                     onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) {
-                                      //       return ViewGatePass(
-
-                                      //         text:
-                                      //             value.sendComplaints[index]
-                                      //                 ['text'],
-                                      //       );
-                                      //     },
-                                      //   ),
-                                      // );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return ViewComplaintApplication(
+                                                requestType: allData[index]
+                                                        ['problemsType']
+                                                    .toString(),
+                                                text: allData[index]['text']
+                                                    .toString());
+                                          },
+                                        ),
+                                      );
                                     },
                                     child: Text(
                                       allData[index]['problemsType'].toString(),
-                                      style:
-                                          const TextStyle(color: Colors.black),
+                                      style:  TextStyle(color: textColor),
                                     ),
                                   ),
                                 ),

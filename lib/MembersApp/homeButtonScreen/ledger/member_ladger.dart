@@ -200,9 +200,9 @@ class _memberLedgerState extends State<memberLedger> {
                                                 },
                                                 child: Text(
                                                   '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                  style: const TextStyle(
+                                                  style:  TextStyle(
                                                       fontSize: 10,
-                                                      color: Colors.black,
+                                                      color: textColor,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -245,9 +245,9 @@ class _memberLedgerState extends State<memberLedger> {
                                                     },
                                                     child: Text(
                                                       '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                      style: const TextStyle(
+                                                      style:  TextStyle(
                                                           fontSize: 10,
-                                                          color: Colors.black,
+                                                          color: textColor,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
@@ -286,10 +286,9 @@ class _memberLedgerState extends State<memberLedger> {
                                                         },
                                                         child: Text(
                                                           '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                          style: const TextStyle(
+                                                          style:  TextStyle(
                                                               fontSize: 10,
-                                                              color:
-                                                                  Colors.black,
+                                                              color: textColor,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
@@ -319,16 +318,14 @@ class _memberLedgerState extends State<memberLedger> {
                                                               particulars:
                                                                   rowList[index1]
                                                                       [1],
-                                                            
                                                             );
                                                           }));
                                                         },
                                                         child: Text(
                                                           '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                          style: const TextStyle(
+                                                          style:  TextStyle(
                                                               fontSize: 10,
-                                                              color:
-                                                                  Colors.black,
+                                                              color: textColor,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),

@@ -121,14 +121,14 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                           children: [
                             Text(
                               'Receipt No: ${widget.receiptNo}',
-                              style: const TextStyle(
-                                  color: Colors.black,
+                              style:  TextStyle(
+                                  color: textColor,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Receipt Date: $receiptDate2',
-                              style: const TextStyle(
-                                  color: Colors.black,
+                              style:  TextStyle(
+                                  color: textColor,
                                   fontWeight: FontWeight.bold),
                             )
                           ],
@@ -188,11 +188,11 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                             children: [
                               Text(
                                 'By Cheque No.: ${widget.cheqNo}',
-                                style: const TextStyle(color: Colors.black),
+                                style:  TextStyle(color: textColor),
                               ),
                               Text(
                                 'Date On: $checkDate2',
-                                style: const TextStyle(color: Colors.black),
+                                style:  TextStyle(color: textColor),
                               )
                             ],
                           ),

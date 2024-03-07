@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_loginPage.dart';
+import 'package:societyuser_app/membersApp/common_widget/colors.dart';
 
 // ignore: camel_case_types
 class RegisterAsVendors extends StatefulWidget {
@@ -100,10 +101,10 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2<String>(
                         isExpanded: true,
-                        hint: const Text(
+                        hint:  Text(
                           'Select Company Name',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: textColor,
                             fontSize: 14,
                           ),
                         ),
@@ -112,8 +113,8 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                                   value: item,
                                   child: Text(
                                     item,
-                                    style: const TextStyle(
-                                        fontSize: 14, color: Colors.black),
+                                    style:  TextStyle(
+                                        fontSize: 14, color: textColor),
                                   ),
                                 ))
                             .toList(),

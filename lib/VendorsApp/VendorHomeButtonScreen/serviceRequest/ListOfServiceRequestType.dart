@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest/ViewRequestApplication.dart';
+import 'package:societyuser_app/membersApp/common_widget/colors.dart';
 
 // ignore: must_be_immutable
 class ListOfServiceRequestType extends StatefulWidget {
@@ -63,7 +64,7 @@ class _ListOfServiceRequestTypeState extends State<ListOfServiceRequestType> {
                           child: ListTile(
                               title: Text(
                                 allRequest[index],
-                                style: const TextStyle(color: Colors.black),
+                                style:  TextStyle(color: textColor),
                               ),
                               onTap: () {
                                 Navigator.push(

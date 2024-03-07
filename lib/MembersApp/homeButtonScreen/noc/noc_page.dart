@@ -127,8 +127,8 @@ class _nocPageState extends State<nocPage> {
                                       },
                                       child: Text(
                                         value.nocList[index]['nocType'],
-                                        style: const TextStyle(
-                                            color: Colors.black),
+                                        style:
+                                             TextStyle(color: textColor),
                                       ),
                                     ),
                                     subtitle: value.nocList[index]['date'],

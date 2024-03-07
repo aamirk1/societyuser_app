@@ -99,7 +99,7 @@ class _apply_nocState extends State<apply_noc> {
                           return ListTile(
                             title: Text(
                               suggestion.toString(),
-                              style: const TextStyle(color: Colors.black),
+                              style:  TextStyle(color: textColor),
                             ),
                           );
                         },
@@ -159,10 +159,10 @@ class _apply_nocState extends State<apply_noc> {
                   child: Center(
                     child: Text(
                       selectedValue.toString(),
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black),
+                          color: textColor),
                     ),
                   ),
                 ),

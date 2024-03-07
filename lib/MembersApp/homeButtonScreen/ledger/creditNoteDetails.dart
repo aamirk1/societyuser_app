@@ -105,8 +105,8 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         Row(
@@ -156,18 +156,18 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                                   children: [
                                     Text(
                                       "Note No.: ${widget.creditNoteNumber == '' ? 'N/A' : widget.creditNoteNumber}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
+                                      style:  TextStyle(
+                                          color: textColor, fontSize: 12),
                                     ),
                                     Text(
                                       "Date: ${widget.date == '' ? 'N/A' : widget.date}",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
+                                      style:  TextStyle(
+                                          color: textColor, fontSize: 12),
                                     ),
                                   ])
                             ]),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         Row(
@@ -218,8 +218,8 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                             ),
                           ],
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         SizedBox(
@@ -238,7 +238,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                             // ),
                             // const VerticalDivider(
                             //   thickness: 1,
-                            //   color: Colors.black,
+                            //   color: textColor,
                             // ),
                             Expanded(
                               child: Padding(
@@ -295,14 +295,14 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                                               //     style: const TextStyle(
                                               //         fontSize: 10)),
                                             ]),
-                                        const Divider(
-                                          color: Colors.black,
+                                         Divider(
+                                          color: textColor,
                                           thickness: 1,
                                         ),
                                       ],
                                     ),
                                     // const Divider(
-                                    //     color: Colors.black, thickness: 1),
+                                    //     color: textColor, thickness: 1),
                                     // Row(
                                     //     mainAxisAlignment:
                                     //         MainAxisAlignment.spaceBetween,
@@ -338,8 +338,8 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                             ),
                           ]),
                         ),
-                        const Divider(
-                          color: Colors.black,
+                         Divider(
+                          color: textColor,
                           thickness: 1,
                         ),
                         // SizedBox(
@@ -350,7 +350,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                         //         text:
                         //             'Being add Rs. ${widget.amount}/- for ${widget.particulars}. For the month of ${widget.month} as per manager instruction date - ${widget.date}',
                         //         style: const TextStyle(
-                        //             fontSize: 10, color: Colors.black),
+                        //             fontSize: 10, color: textColor),
                         //       ),
                         //     ]),
                         //   ),

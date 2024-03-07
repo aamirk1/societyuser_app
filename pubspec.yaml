@@ -47,6 +47,7 @@ dependencies:
   device_info_plus: ^9.1.1
   flutter_downloader: ^1.11.6
   dropdown_button2: ^2.3.9
+  url_launcher: 
   
 dev_dependencies:
   flutter_test:
