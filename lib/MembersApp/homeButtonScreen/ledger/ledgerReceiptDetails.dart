@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 // import 'package:number_to_character/number_to_character.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -54,7 +53,6 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   String? city;
   String? state;
   String? pincode;
-  String? receiptDate2;
   String checkDate2 = '';
 
   // var converter = NumberToCharacterConverter('en');
@@ -77,10 +75,6 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    receiptDate2 =
-        DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.receiptDate));
-    checkDate2 =
-        DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.checkDate));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
@@ -121,13 +115,13 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                           children: [
                             Text(
                               'Receipt No: ${widget.receiptNo}',
-                              style:  TextStyle(
+                              style: TextStyle(
                                   color: textColor,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'Receipt Date: $receiptDate2',
-                              style:  TextStyle(
+                              'Receipt Date: ${widget.receiptDate}',
+                              style: TextStyle(
                                   color: textColor,
                                   fontWeight: FontWeight.bold),
                             )
@@ -188,11 +182,11 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                             children: [
                               Text(
                                 'By Cheque No.: ${widget.cheqNo}',
-                                style:  TextStyle(color: textColor),
+                                style: TextStyle(color: textColor),
                               ),
                               Text(
-                                'Date On: $checkDate2',
-                                style:  TextStyle(color: textColor),
+                                'Date On: ${widget.checkDate}',
+                                style: TextStyle(color: textColor),
                               )
                             ],
                           ),

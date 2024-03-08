@@ -200,7 +200,7 @@ class _memberLedgerState extends State<memberLedger> {
                                                 },
                                                 child: Text(
                                                   '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                  style:  TextStyle(
+                                                  style: TextStyle(
                                                       fontSize: 10,
                                                       color: textColor,
                                                       fontWeight:
@@ -244,8 +244,8 @@ class _memberLedgerState extends State<memberLedger> {
                                                       }));
                                                     },
                                                     child: Text(
-                                                      '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                      style:  TextStyle(
+                                                      '${particulartsLableList[index1]}\n ${rowList[index1][7]}',
+                                                      style: TextStyle(
                                                           fontSize: 10,
                                                           color: textColor,
                                                           fontWeight:
@@ -285,8 +285,8 @@ class _memberLedgerState extends State<memberLedger> {
                                                           }));
                                                         },
                                                         child: Text(
-                                                          '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                          style:  TextStyle(
+                                                          '${particulartsLableList[index1]}\n${rowList[index1][6]}',
+                                                          style: TextStyle(
                                                               fontSize: 10,
                                                               color: textColor,
                                                               fontWeight:
@@ -322,8 +322,8 @@ class _memberLedgerState extends State<memberLedger> {
                                                           }));
                                                         },
                                                         child: Text(
-                                                          '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                          style:  TextStyle(
+                                                          '${particulartsLableList[index1]}\n ${rowList[index1][6]}',
+                                                          style: TextStyle(
                                                               fontSize: 10,
                                                               color: textColor,
                                                               fontWeight:
@@ -349,12 +349,6 @@ class _memberLedgerState extends State<memberLedger> {
                 ],
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          mergeAllList();
-        },
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
@@ -388,6 +382,7 @@ class _memberLedgerState extends State<memberLedger> {
 
           if (flatno == data['Flat No.']) {
             allDataWithBill.add(data);
+
             row.add(data['Bill Date'] ?? 'N/A');
             row.add(data['Bill No'] ?? 'N/A');
             row.add(data['Bill Amount'] ?? 'N/A');
@@ -442,7 +437,10 @@ class _memberLedgerState extends State<memberLedger> {
 
           if (flatno == data['Flat No.']) {
             allDataWithReceipt.add(data);
-            receipt.add(data['Receipt Date'] ?? 'N/A');
+
+            String Receiptdate2 = DateFormat('dd-MM-yyyy')
+                .format(DateTime.parse(data['Receipt Date']));
+            receipt.add(Receiptdate2);
             receipt.add(data['Flat No.'] ?? 'N/A');
             receipt.add(data['0']);
             receipt.add(data['Amount'] ?? 'N/A');
@@ -500,11 +498,11 @@ class _memberLedgerState extends State<memberLedger> {
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
         singleRow.add(date2);
         singleRow.add(particulars);
-        singleRow.add(creditnoteNumber);
         singleRow.add('0');
         singleRow.add(amount);
         singleRow.add(amount);
         singleRow.add(monthyear);
+        singleRow.add(creditnoteNumber);
         creditList.add(singleRow);
       }
     }
@@ -550,11 +548,11 @@ class _memberLedgerState extends State<memberLedger> {
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
         singleRow.add(date2);
         singleRow.add(particulars);
-        singleRow.add(debitnoteNumber);
         singleRow.add(amount);
         singleRow.add('0');
         singleRow.add(amount);
         singleRow.add(monthyear);
+        singleRow.add(debitnoteNumber);
         debitList.add(singleRow);
       }
     }

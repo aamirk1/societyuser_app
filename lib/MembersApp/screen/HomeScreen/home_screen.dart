@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -46,8 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Boolean value fro updating and setting user role in database
   bool userExist = false;
-  List<dynamic> societyList = [];
+  List<String> societyList = [];
   List<dynamic> memberList = [];
+
+  String? selectedSocietyName;
   String name = '';
   String username = '';
   String status = '';
@@ -62,6 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _splashService.getPhoneNum();
+    getSocietyList().whenComplete(() {
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -178,45 +183,140 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.06,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: TypeAheadField(
-                                    textFieldConfiguration:
-                                        TextFieldConfiguration(
-                                            controller: _societyNameController,
-                                            decoration: const InputDecoration(
-                                                labelText: 'Select Society',
-                                                border: OutlineInputBorder())),
-                                    suggestionsCallback: (pattern) async {
-                                      return await getSocietyList();
-                                    },
-                                    itemBuilder: (context, suggestion) {
-                                      return ListTile(
-                                        title: Text(
-                                          suggestion.toString(),
-                                          style: TextStyle(color: textColor),
+                            Container(
+                              color: Colors.white,
+                              height: 40,
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton2<String>(
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'Select Society Name',
+                                    style: TextStyle(
+                                      color: textColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  items: societyList
+                                      .map((item) => DropdownMenuItem(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: textColor),
+                                            ),
+                                          ))
+                                      .toList(),
+                                  value: selectedSocietyName,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedSocietyName = value;
+                                    });
+                                    getMemberName(value!).whenComplete(() {
+                                      getCurrentBill(value);
+                                      isSocietySelected = true;
+                                    });
+                                  },
+                                  buttonStyleData: const ButtonStyleData(
+                                    decoration: BoxDecoration(),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                    height: 40,
+                                    width: 200,
+                                  ),
+                                  dropdownStyleData: const DropdownStyleData(
+                                    maxHeight: 200,
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    height: 40,
+                                  ),
+                                  dropdownSearchData: DropdownSearchData(
+                                    searchController: _societyNameController,
+                                    searchInnerWidgetHeight: 50,
+                                    searchInnerWidget: Container(
+                                      height: 50,
+                                      padding: const EdgeInsets.only(
+                                        top: 8,
+                                        bottom: 4,
+                                        right: 8,
+                                        left: 8,
+                                      ),
+                                      child: TextFormField(
+                                        expands: true,
+                                        maxLines: null,
+                                        controller: _societyNameController,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 8,
+                                          ),
+                                          hintText: 'Search society name...',
+                                          hintStyle:
+                                              const TextStyle(fontSize: 12),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
                                         ),
-                                      );
-                                    },
-                                    onSuggestionSelected: (suggestion) {
-                                      _societyNameController.text =
-                                          suggestion.toString();
-                                      getMemberName(suggestion.toString())
-                                          .whenComplete(() {
-                                        getCurrentBill(suggestion.toString());
-                                        isSocietySelected = true;
-                                      });
+                                      ),
+                                    ),
+                                    searchMatchFn: (item, searchValue) {
+                                      return item.value
+                                          .toString()
+                                          .contains(searchValue);
                                     },
                                   ),
+                                  //This to clear the search value when you close the menu
+                                  onMenuStateChange: (isOpen) {
+                                    if (!isOpen) {
+                                      _societyNameController.clear();
+                                    }
+                                  },
                                 ),
                               ),
                             ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(4.0),
+                            //   child: SizedBox(
+                            //     width: MediaQuery.of(context).size.width * 0.90,
+                            //     height:
+                            //         MediaQuery.of(context).size.height * 0.06,
+                            //     child: Padding(
+                            //       padding: const EdgeInsets.all(4.0),
+                            //       child: TypeAheadField(
+                            //         textFieldConfiguration:
+                            //             TextFieldConfiguration(
+                            //                 controller: _societyNameController,
+                            //                 decoration: const InputDecoration(
+                            //                     labelText: 'Select Society',
+                            //                     border: OutlineInputBorder())),
+                            //         suggestionsCallback: (pattern) async {
+                            //           return await getSocietyList();
+                            //         },
+                            //         itemBuilder: (context, suggestion) {
+                            //           return ListTile(
+                            //             title: Text(
+                            //               suggestion.toString(),
+                            //               style: TextStyle(color: textColor),
+                            //             ),
+                            //           );
+                            //         },
+                            //         onSuggestionSelected: (suggestion) {
+                            //           _societyNameController.text =
+                            //               suggestion.toString();
+                            //           getMemberName(suggestion.toString())
+                            //               .whenComplete(() {
+                            //             getCurrentBill(suggestion.toString());
+                            //             isSocietySelected = true;
+                            //           });
+                            //         },
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         isLoading
@@ -239,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .width *
                                               0.90,
                                           child: Text(
-                                              "Society Name: ${_societyNameController.text}"),
+                                              "Society Name: $selectedSocietyName"),
                                         ),
                                       ),
                                     ],
@@ -335,8 +435,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       MaterialPageRoute(builder: (context) {
                                         return memberLedger(
                                           flatno: flatnoController.text,
-                                          societyName:
-                                              _societyNameController.text,
+                                          societyName: selectedSocietyName!,
                                           username: usernameController.text,
                                         );
                                       }),
@@ -388,7 +487,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => screens[index](
                                           flatnoController.text,
-                                          _societyNameController.text,
+                                          selectedSocietyName!,
                                           usernameController.text),
                                     ),
                                   );
@@ -406,7 +505,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<List<dynamic>> getSocietyList() async {
+  Future<List<String>> getSocietyList() async {
     String phoneNum = '';
     List<dynamic> temp = [];
     phoneNum = await _splashService.getPhoneNum();
@@ -438,9 +537,9 @@ class _HomeScreenState extends State<HomeScreen> {
         temp.add(allSociety[i]);
       }
     }
-    societyList = temp;
+    societyList = temp.map((e) => e.toString()).toList();
     if (societyList.isEmpty) {
-      societyList.add(['No Data Found']);
+      societyList.add(['No Data Found'].toString());
     }
     return societyList;
   }
@@ -528,7 +627,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore.instance
         .collection('ladgerBill')
-        .doc(_societyNameController.text)
+        .doc(selectedSociety)
         .collection('month')
         .doc(currentmonth)
         .get();
