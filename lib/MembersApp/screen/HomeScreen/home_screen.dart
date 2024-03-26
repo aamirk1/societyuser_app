@@ -421,13 +421,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )),
                           DataColumn(
-                              label: Text('Rs: ${billAmountController.text}')),
+                              label: billAmountController.text.isEmpty
+                                  ? const Text('Rs: 0')
+                                  : Text('Rs: ${billAmountController.text}')),
                         ],
                         dividerThickness: 2,
                         rows: [
                           DataRow(cells: [
                             DataCell(
                               TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                ),
                                 onPressed: () {
                                   if (isSocietySelected) {
                                     Navigator.push(
@@ -444,11 +449,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     customDialogBox();
                                   }
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Ledger',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: textColor),
+                                      color: Colors.white),
                                 ),
                               ),
                             ),
@@ -470,16 +475,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 5,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.95,
+                Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
                     height: MediaQuery.of(context).size.height * 0.5,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(70))),
                     child: ListView.builder(
                         itemCount: buttons.length,
                         itemBuilder: (context, index) {
                           return ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: buttonColor,
-                              ),
+                                  backgroundColor: buttonColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
                               onPressed: () {
                                 if (isSocietySelected) {
                                   Navigator.push(

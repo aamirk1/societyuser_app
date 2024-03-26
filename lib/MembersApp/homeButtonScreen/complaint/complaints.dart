@@ -79,15 +79,27 @@ class _ComplaintsState extends State<Complaints> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
+                        padding: const EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.10,
-                        padding: const EdgeInsets.all(2.0),
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        // padding: const EdgeInsets.all(2.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Memeber Name: ${widget.username}"),
-                            Text("Flat No.: ${widget.flatno}"),
-                            Text("Society Name: ${widget.societyName}"),
+                            _buildInfoRow(
+                                Icons.person, "Member Name", widget.username!),
+                            _buildInfoRow(
+                                Icons.home, "Flat No.", widget.flatno!),
+                            _buildInfoRow(Icons.home, "Society Name",
+                                widget.societyName!),
+                            // Text("Memeber Name: ${widget.username}"),
+                            // Text("Flat No.: ${widget.flatno}"),
+                            // Text("Society Name: ${widget.societyName}"),
                           ],
                         ),
                       ),
@@ -127,8 +139,7 @@ class _ComplaintsState extends State<Complaints> {
                                           child: Text(
                                             value.complaintList[index]
                                                 ['complaintsType'],
-                                            style:  TextStyle(
-                                                color: textColor),
+                                            style: TextStyle(color: textColor),
                                           ))),
                                   const Divider(
                                     color: Colors.grey,
@@ -162,6 +173,33 @@ class _ComplaintsState extends State<Complaints> {
           child: const Icon(Icons.add),
         ),
       ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 30),
+        const SizedBox(width: 20.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+            const SizedBox(height: 4.0),
+            Text(
+              value,
+              style: const TextStyle(fontSize: 14.0),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

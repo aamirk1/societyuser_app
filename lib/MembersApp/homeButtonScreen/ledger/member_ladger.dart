@@ -112,6 +112,8 @@ class _memberLedgerState extends State<memberLedger> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: DataTable(
+                        headingRowColor: MaterialStatePropertyAll(
+                            Color.fromARGB(255, 48, 51, 228)),
                         // dataRowMinHeight: 10,
                         columnSpacing: 5,
                         columns: List.generate(5, (index) {
@@ -119,6 +121,7 @@ class _memberLedgerState extends State<memberLedger> {
                             label: Text(
                               colums[index],
                               style: const TextStyle(
+                                color: Colors.white,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -138,6 +141,10 @@ class _memberLedgerState extends State<memberLedger> {
                                         ? particulartsLableList[index1] ==
                                                 'Bill No.'
                                             ? TextButton(
+                                                style: TextButton.styleFrom(
+                                                    backgroundColor:
+                                                        Color.fromARGB(
+                                                            255, 22, 76, 224)),
                                                 onPressed: () {
                                                   Navigator.push(
                                                     context,
@@ -202,7 +209,9 @@ class _memberLedgerState extends State<memberLedger> {
                                                   '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
                                                   style: TextStyle(
                                                       fontSize: 10,
-                                                      color: textColor,
+                                                      // backgroundColor:
+                                                      //     Colors.amber,
+                                                      color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -210,6 +219,10 @@ class _memberLedgerState extends State<memberLedger> {
                                             : particulartsLableList[index1] ==
                                                     'Receipt No.'
                                                 ? TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                22, 76, 224)),
                                                     onPressed: () {
                                                       Navigator.push(context,
                                                           MaterialPageRoute(
@@ -247,7 +260,7 @@ class _memberLedgerState extends State<memberLedger> {
                                                       '${particulartsLableList[index1]}\n ${rowList[index1][7]}',
                                                       style: TextStyle(
                                                           fontSize: 10,
-                                                          color: textColor,
+                                                          color: Colors.white,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
@@ -256,6 +269,14 @@ class _memberLedgerState extends State<memberLedger> {
                                                             index1] ==
                                                         'Debit Note'
                                                     ? TextButton(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                                backgroundColor:
+                                                                    Color.fromARGB(
+                                                                        255,
+                                                                        22,
+                                                                        76,
+                                                                        244)),
                                                         onPressed: () {
                                                           Navigator.push(
                                                               context,
@@ -288,13 +309,22 @@ class _memberLedgerState extends State<memberLedger> {
                                                           '${particulartsLableList[index1]}\n${rowList[index1][6]}',
                                                           style: TextStyle(
                                                               fontSize: 10,
-                                                              color: textColor,
+                                                              color:
+                                                                  Colors.white,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
                                                         ),
                                                       )
                                                     : TextButton(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                                backgroundColor:
+                                                                    Color.fromARGB(
+                                                                        255,
+                                                                        22,
+                                                                        76,
+                                                                        244)),
                                                         onPressed: () {
                                                           Navigator.push(
                                                               context,
@@ -325,7 +355,8 @@ class _memberLedgerState extends State<memberLedger> {
                                                           '${particulartsLableList[index1]}\n ${rowList[index1][6]}',
                                                           style: TextStyle(
                                                               fontSize: 10,
-                                                              color: textColor,
+                                                              color:
+                                                                  Colors.white,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),

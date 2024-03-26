@@ -99,13 +99,13 @@ class _apply_nocState extends State<apply_noc> {
                           return ListTile(
                             title: Text(
                               suggestion.toString(),
-                              style:  TextStyle(color: textColor),
+                              style: TextStyle(color: textColor),
                             ),
                           );
                         },
                         onSuggestionSelected: (suggestion) {
                           noctypeController.text = suggestion.toString();
-                          switch (suggestion.toString()) {
+                            switch (suggestion.toString()) {
                             case 'SALE NOC':
                               _showDialog(
                                   widget.application[0], saleController);
@@ -159,9 +159,9 @@ class _apply_nocState extends State<apply_noc> {
                   child: Center(
                     child: Text(
                       selectedValue.toString(),
-                      style:  TextStyle(
+                      style: TextStyle(
                           fontSize: 15,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.bold,//
                           color: textColor),
                     ),
                   ),

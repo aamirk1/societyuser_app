@@ -9,7 +9,8 @@ import 'package:societyuser_app/MembersApp/provider/AllNoticeProvider.dart';
 import 'package:societyuser_app/MembersApp/provider/AllSendComplaintsProvider.dart';
 import 'package:societyuser_app/MembersApp/provider/emplist_builder_provider.dart';
 import 'package:societyuser_app/MembersApp/provider/list_builder_provider.dart';
-import 'package:societyuser_app/MembersApp/screen/splash_screen/splash_screen.dart';
+
+import 'MembersApp/screen/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,19 +38,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AllNoticeProvider()),
-        ChangeNotifierProvider(create: (_) => AllNocProvider()),
-        ChangeNotifierProvider(create: (_) => AllComplaintProvider()),
-        ChangeNotifierProvider(create: (_) => AllGatePassProvider()),
-        ChangeNotifierProvider(create: (_) => ListBuilderProvider()),
-        ChangeNotifierProvider(create: (_) => EmpListBuilderProvider()),
-        ChangeNotifierProvider(create: (_) => AllSendComplaintsProvider()),
-      ],
-      child: const MaterialApp(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AllNoticeProvider()),
+          ChangeNotifierProvider(create: (_) => AllNocProvider()),
+          ChangeNotifierProvider(create: (_) => AllComplaintProvider()),
+          ChangeNotifierProvider(create: (_) => AllGatePassProvider()),
+          ChangeNotifierProvider(create: (_) => ListBuilderProvider()),
+          ChangeNotifierProvider(create: (_) => EmpListBuilderProvider()),
+          ChangeNotifierProvider(create: (_) => AllSendComplaintsProvider()),
+        ],
+        child: MaterialApp(
           title: 'Society User App',
+          theme: ThemeData(
+              colorScheme: const ColorScheme.light(error: Colors.white)),
           debugShowCheckedModeBanner: false,
-          home: SplashScreen()),
-    );
+          home: //const signUp(),
+          SplashScreen()
+          ),
+        );
   }
 }

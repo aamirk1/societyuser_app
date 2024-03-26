@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/complaint/complaints.dart';
@@ -21,7 +24,7 @@ class MyDrawer extends StatefulWidget {
   String username;
   String societyName;
   String mobile;
-  print(value) => print('flatno: $flatno');
+
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
@@ -34,6 +37,17 @@ class _MyDrawerState extends State<MyDrawer> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   String flatno = '';
+  File? _image;
+
+  Future<void> _getImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -46,23 +60,33 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Padding(
-              padding: const EdgeInsets.all(6.0),
+      child: Container(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center, //
                 children: [
-                  const CircleAvatar(
-                      radius: 30,
-                      child: Icon(
-                        Icons.person,
-                        size: 30,
-                      )),
+                  UserAccountsDrawerHeader(
+                    accountName: const Text("User Name"),
+                    accountEmail: const Text("Shashankgreat.com"),
+                    currentAccountPicture: CircleAvatar(
+                        backgroundImage:
+                            _image != null ? FileImage(_image!) : null,
+                        child:
+                            _image == null ? const Icon(Icons.person) : null),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.edit),
+                    title: const Text("Update your profle picture"),
+                    onTap: _getImage,
+                  ),
+                  const   SizedBox(
+                    height: 10,
+                  ),
                   Text(
-                    'Name: ${usernameController.text}',
+                    usernameController.text,
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -83,103 +107,103 @@ class _MyDrawerState extends State<MyDrawer> {
                 ],
               ),
             ),
-          ),
-          const Divider(
-            color: Colors.grey,
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
-            onTap: () {
-              // Handle Home item tap
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.admin_panel_settings_outlined),
-            title: const Text('Member Ladger'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return memberLedger(
-                      flatno: widget.flatno,
-                      societyName: widget.societyName,
-                      username: widget.username);
-                }),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.admin_panel_settings_outlined),
-            title: const Text('Circular Notice'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return circular_notice(
-                      flatno: widget.flatno,
-                      societyName: widget.societyName,
-                      username: widget.username);
-                }),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) {
-              //     return const serviceProvider();
-              //   }),
-              // );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.home_repair_service),
-            title: const Text('Complaints'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return Complaints(
-                      flatno: widget.flatno,
-                      societyName: widget.societyName,
-                      username: widget.username);
-                }),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.build_circle_outlined),
-            title: const Text('NOC Page'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return nocPage(
-                      flatno: widget.flatno,
-                      societyName: widget.societyName,
-                      username: widget.username);
-                }),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            onTap: () {
-              signOut(context);
-            },
-          ),
-        ],
+            const Divider(
+              color: Colors.grey,
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                // Handle Home item tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.admin_panel_settings_outlined),
+              title: const Text('Member Ladger'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return memberLedger(
+                        flatno: widget.flatno,
+                        societyName: widget.societyName,
+                        username: widget.username);
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.admin_panel_settings_outlined),
+              title: const Text('Circular Notice'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return circular_notice(
+                        flatno: widget.flatno,
+                        societyName: widget.societyName,
+                        username: widget.username);
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) {
+                //     return const serviceProvider();
+                //   }),
+                // );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.home_repair_service),
+              title: const Text('Complaints'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return Complaints(
+                        flatno: widget.flatno,
+                        societyName: widget.societyName,
+                        username: widget.username);
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.build_circle_outlined),
+              title: const Text('NOC Page'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return nocPage(
+                        flatno: widget.flatno,
+                        societyName: widget.societyName,
+                        username: widget.username);
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+                signOut(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -190,7 +214,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
     // ignore: use_build_context_synchronously
     Navigator.pushAndRemoveUntil(
-        context,
+        context, 
         MaterialPageRoute(builder: (context) => const loginScreen()),
         (route) => false);
   }

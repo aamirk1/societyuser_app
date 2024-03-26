@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:societyuser_app/membersApp/common_widget/colors.dart';
 
 // ignore: must_be_immutable
 class ChangePassword extends StatefulWidget {
@@ -34,6 +35,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: appBarBgColor,
         title: const Text('Reset Password'),
       ),
       body: Padding(
@@ -83,6 +85,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               const SizedBox(height: 24.0),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: buttonColor,
+                ),
                 onPressed: _submitForm,
                 child: const Text('Change Password'),
               ),

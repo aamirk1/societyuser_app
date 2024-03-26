@@ -11,6 +11,7 @@ import 'package:societyuser_app/MembersApp/provider/AllNoticeProvider.dart';
 // ignore: camel_case_types
 class circular_notice extends StatefulWidget {
   circular_notice({super.key, this.flatno, this.societyName, this.username});
+
   String? flatno;
   String? societyName;
   String? username;
@@ -25,9 +26,18 @@ class _circular_noticeState extends State<circular_notice> {
   List<String> fileList = [];
   List<dynamic> urlList = [];
   String url = '';
+  bool _isLoading = true;
 
   @override
   void initState() {
+    Future.delayed(
+      Duration(milliseconds: 1000),
+      () {
+        setState(() {
+          _isLoading = false;
+        });
+      },
+    );
     super.initState();
     getNotice(widget.societyName);
     getNoticePdf(widget.societyName);
@@ -44,136 +54,175 @@ class _circular_noticeState extends State<circular_notice> {
         ),
       ),
       // drawer: const MyDrawer(),
-      body: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Dev Accounts -',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Dev Accounts -',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple),
+                        ),
+                        Text(
+                          ' Society Manager App',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple),
+                        ),
+                      ],
                     ),
-                    Text(
-                      ' Society Manager App',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.10,
-                      padding: const EdgeInsets.all(2.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Memeber Name: ${widget.username}"),
-                          Text("Flat No.: ${widget.flatno}"),
-                          Text("Society Name: ${widget.societyName}"),
-                        ],
-                      ),
-                    ),
-                    const Divider(
-                      color: Colors.grey,
-                      thickness: 2,
-                    ),
-                    Material(
-                      child: SingleChildScrollView(
-                        child: Consumer<AllNoticeProvider>(
-                          builder: (context, value, child) => Column(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8.0),
+                          margin: const EdgeInsets.symmetric(vertical: 8.0),// down 2 lines
+                           width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: value.noticeList.length,
-                                  itemBuilder: (context, index) {
-                                    return Card(
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(1.0),
-                                        child: ListTile(
-                                          minVerticalPadding: 0.3,
-                                          title: Text(
-                                            value.noticeList[index]['title'],
-                                            style: TextStyle(color: textColor),
-                                          ),
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                                return ViewNotice(
-                                                    society: widget.societyName,
-                                                    title:
-                                                        value.noticeList[index]
-                                                            ['title'],
-                                                    notice:
-                                                        value.noticeList[index]
-                                                            ['notice'],
-                                                    date:
-                                                        value.noticeList[index]
-                                                            ['date']);
-                                              }),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                              ListView.builder(
-                                  // itemCount: value.noticePdfList.length,
-                                  itemCount: fileList.length,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return Card(
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(1.0),
-                                        child: ListTile(
-                                          minVerticalPadding: 0.3,
-                                          title: Text(
-                                            fileList[index].toString(),
-                                            style: TextStyle(color: textColor),
-                                          ),
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return MyPdfViewer(
-                                                downloadUrl: urlList[index],
-                                                pdfPath: urlList[index],
-                                              );
-                                            }));
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                  })
+                              _buildInfoRow(Icons.person, "Member Name",
+                                  widget.username!),
+                              _buildInfoRow(
+                                  Icons.home, "Flat No.", widget.flatno!),
+                              _buildInfoRow(Icons.location_city, "Society Name",
+                                  widget.societyName!),
                             ],
                           ),
                         ),
-                      ),
+                        const Divider(
+                          color: Colors.grey,
+                          thickness: 2,
+                        ),
+                        Material(
+                          child: SingleChildScrollView(
+                            child: Consumer<AllNoticeProvider>(
+                              builder: (context, value, child) => Column(
+                                children: [
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: value.noticeList.length,
+                                      itemBuilder: (context, index) {
+                                        return Card(
+                                          elevation: 5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(1.0),
+                                            child: ListTile(
+                                              minVerticalPadding: 0.3,
+                                              title: Text(
+                                                value.noticeList[index]
+                                                    ['title'],
+                                                style:
+                                                    TextStyle(color: textColor),
+                                              ),
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                    return ViewNotice(
+                                                        society:
+                                                            widget.societyName,
+                                                        title: value.noticeList[
+                                                            index]['title'],
+                                                        notice: value
+                                                                .noticeList[
+                                                            index]['notice'],
+                                                        date: value.noticeList[
+                                                            index]['date']);
+                                                  }),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                  ListView.builder(
+                                      // itemCount: value.noticePdfList.length,
+                                      itemCount: fileList.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return Card(
+                                          elevation: 5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(1.0),
+                                            child: ListTile(
+                                              minVerticalPadding: 0.3,
+                                              title: Text(
+                                                fileList[index].toString(),
+                                                style:
+                                                    TextStyle(color: textColor),
+                                              ),
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return MyPdfViewer(
+                                                    downloadUrl: urlList[index],
+                                                    pdfPath: urlList[index],
+                                                  );
+                                                }));
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      })
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              )),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 30),
+        const SizedBox(width: 20.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
               ),
-            ],
-          )),
+            ),
+            const SizedBox(height: 4.0),
+            Text(
+              value,
+              style: const TextStyle(fontSize: 14.0),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

@@ -140,7 +140,8 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 4),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(
+                                  backgroundColor: buttonColor,
+                                  minimumSize: Size(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                                       MediaQuery.of(context).size.width,
                                       MediaQuery.of(context).size.height *
                                           0.06),
@@ -185,7 +186,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child:  Text(
+                  child: Text(
                     'OK',
                     style: TextStyle(color: textColor),
                   )),

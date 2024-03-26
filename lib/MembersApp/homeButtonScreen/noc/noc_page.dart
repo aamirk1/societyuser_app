@@ -79,15 +79,23 @@ class _nocPageState extends State<nocPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.10,
-                        padding: const EdgeInsets.all(2.0),
+                        padding: const EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
+                        width: MediaQuery.of(context).size.width, //up 2lines
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        // padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Memeber Name: ${widget.username}"),
-                            Text("Flat No.: ${widget.flatno}"),
-                            Text("Society Name: ${widget.societyName}"),
+                            _buildInfoRow(
+                                Icons.person, "Member Name", widget.username!),
+                            _buildInfoRow(
+                                Icons.home, "Flat No.", widget.flatno!),
+                            _buildInfoRow(Icons.location_city, "Society Name",
+                                widget.societyName!),
                           ],
                         ),
                       ),
@@ -163,6 +171,33 @@ class _nocPageState extends State<nocPage> {
           child: const Icon(Icons.add),
         ),
       ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 30),
+        const SizedBox(width: 20.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+            const SizedBox(height: 4.0),
+            Text(
+              value,
+              style: const TextStyle(fontSize: 14.0),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

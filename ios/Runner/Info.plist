@@ -46,6 +46,11 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Allow the app to save profile pictures to the photo library</string>
+<key>PHOTO_LIBRARY_USAGE_DESCRIPTION</key>
+<string>Allow access to the photo library to select profile pictures</string>
+
 	<true/>
 </dict>
 </plist>

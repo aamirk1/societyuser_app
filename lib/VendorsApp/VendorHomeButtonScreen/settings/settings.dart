@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/changePassword.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/profile.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_loginPage.dart';
+import 'package:societyuser_app/membersApp/common_widget/colors.dart';
 
 class SettingScreen extends StatefulWidget {
   SettingScreen({
@@ -33,6 +34,7 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: appBarBgColor,
         title: const Text(
           'Settings',
         ),
@@ -107,6 +109,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 4),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
+                                  backgroundColor: buttonColor,
                                   minimumSize: Size(
                                       MediaQuery.of(context).size.width,
                                       MediaQuery.of(context).size.height *

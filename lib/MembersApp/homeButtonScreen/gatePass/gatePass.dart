@@ -82,14 +82,20 @@ class _GatePassState extends State<GatePass> {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.10,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         padding: const EdgeInsets.all(2.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Memeber Name: ${widget.username}"),
-                            Text("Flat No.: ${widget.flatno}"),
-                            Text("Society Name: ${widget.societyName}"),
+                            _buildInfoRow(
+                                Icons.person, "Member Name", widget.username!),
+                            _buildInfoRow(
+                                Icons.house, "Flat No.", widget.flatno!),
+                            _buildInfoRow(Icons.home, "Society Name",
+                                widget.societyName!),
+                            // Text("Memeber Name: ${widget.username}"),
+                            // Text("Flat No.: ${widget.flatno}"),
+                            // Text("Society Name: ${widget.societyName}"),
                           ],
                         ),
                       ),
@@ -132,8 +138,7 @@ class _GatePassState extends State<GatePass> {
                                       child: Text(
                                         value.gatePassList[index]
                                             ['gatePassType'],
-                                        style:
-                                             TextStyle(color: textColor),
+                                        style: TextStyle(color: textColor),
                                       ),
                                     ),
                                   ),
@@ -168,6 +173,32 @@ class _GatePassState extends State<GatePass> {
           child: const Icon(Icons.add),
         ),
       ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 30),
+        SizedBox(width: 20.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+            Text(
+              value,
+              style: TextStyle(fontSize: 14.0),
+            )
+          ],
+        )
+      ],
     );
   }
 

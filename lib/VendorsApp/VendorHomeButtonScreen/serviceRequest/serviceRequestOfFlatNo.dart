@@ -42,8 +42,9 @@ class _ServiceRequestFlatNoState extends State<ServiceRequestFlatNo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Service Provider'),
+        
         backgroundColor: appBarBgColor,
+        title: const Text('All Service Provider'),
       ),
       body: SingleChildScrollView(
         child: Column(children: [

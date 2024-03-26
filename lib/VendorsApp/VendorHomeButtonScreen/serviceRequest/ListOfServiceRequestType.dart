@@ -43,9 +43,10 @@ class _ListOfServiceRequestTypeState extends State<ListOfServiceRequestType> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: appBarBgColor,
           title: const Text(
-        'All Type of Service Request',
-      )),
+            'All Type of Service Request',
+          )),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -64,7 +65,7 @@ class _ListOfServiceRequestTypeState extends State<ListOfServiceRequestType> {
                           child: ListTile(
                               title: Text(
                                 allRequest[index],
-                                style:  TextStyle(color: textColor),
+                                style: TextStyle(color: textColor),
                               ),
                               onTap: () {
                                 Navigator.push(
