@@ -80,62 +80,68 @@ class _apply_nocState extends State<apply_noc> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: TypeAheadField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                            controller: noctypeController,
-                            decoration: const InputDecoration(
-                                labelText: 'Select Noc Type',
-                                border: OutlineInputBorder())),
-                        suggestionsCallback: (pattern) async {
-                          // return await getSocietyList();
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: noctypeController,
+                          decoration: const InputDecoration(
+                              labelText: 'Select Noc Type',
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        // return await getSocietyList();
 
-                          return widget.items;
-                        },
-                        itemBuilder: (context, suggestion) {
-                          return ListTile(
-                            title: Text(
-                              suggestion.toString(),
-                              style: TextStyle(color: textColor),
+                        return widget.items;
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                suggestion.toString(),
+                                style: TextStyle(color: textColor),
+                              ),
                             ),
-                          );
-                        },
-                        onSuggestionSelected: (suggestion) {
-                          noctypeController.text = suggestion.toString();
-                            switch (suggestion.toString()) {
-                            case 'SALE NOC':
-                              _showDialog(
-                                  widget.application[0], saleController);
-                              break;
-                            case 'GAS NOC':
-                              _showDialog(widget.application[1], gasController);
-                              break;
-                            case 'ELECTRIC METER NOC':
-                              _showDialog(
-                                  widget.application[2], electricController);
-                              break;
-                            case 'PASSPORT NOC':
-                              _showDialog(
-                                  widget.application[3], passportController);
-                              break;
-                            case 'RENOVATION NOC':
-                              _showDialog(
-                                  widget.application[4], renovationController);
-                              break;
-                            case 'NOC FOR GIFT DEED':
-                              _showDialog(
-                                  widget.application[5], giftController);
-                              break;
-                            case 'BANK':
-                              _showDialog(
-                                  widget.application[6], bankController);
-                              break;
-                          }
-                        }),
-                  ))
+                            Divider(
+                              color: textColor,
+                              thickness: 1,
+                            ),
+                          ],
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        noctypeController.text = suggestion.toString();
+                        switch (suggestion.toString()) {
+                          case 'SALE NOC':
+                            _showDialog(widget.application[0], saleController);
+                            break;
+                          case 'GAS NOC':
+                            _showDialog(widget.application[1], gasController);
+                            break;
+                          case 'ELECTRIC METER NOC':
+                            _showDialog(
+                                widget.application[2], electricController);
+                            break;
+                          case 'PASSPORT NOC':
+                            _showDialog(
+                                widget.application[3], passportController);
+                            break;
+                          case 'RENOVATION NOC':
+                            _showDialog(
+                                widget.application[4], renovationController);
+                            break;
+                          case 'NOC FOR GIFT DEED':
+                            _showDialog(widget.application[5], giftController);
+                            break;
+                          case 'BANK':
+                            _showDialog(widget.application[6], bankController);
+                            break;
+                        }
+                      }),
+                ),
+              )
             ],
           ),
         ),
@@ -161,7 +167,7 @@ class _apply_nocState extends State<apply_noc> {
                       selectedValue.toString(),
                       style: TextStyle(
                           fontSize: 15,
-                          fontWeight: FontWeight.bold,//
+                          fontWeight: FontWeight.bold, //
                           color: textColor),
                     ),
                   ),

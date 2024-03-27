@@ -140,7 +140,7 @@ class _Complaints_ListState extends State<Complaints_List> {
                                     },
                                     child: Text(
                                       allData[index]['problemsType'].toString(),
-                                      style:  TextStyle(color: textColor),
+                                      style: TextStyle(color: textColor),
                                     ),
                                   ),
                                 ),
@@ -161,8 +161,9 @@ class _Complaints_ListState extends State<Complaints_List> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 5.0),
+        padding:  EdgeInsets.only(bottom: 5.0),
         child: FloatingActionButton(
+          backgroundColor: buttonColor,
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return SendComplaints(
@@ -179,7 +180,11 @@ class _Complaints_ListState extends State<Complaints_List> {
               fetchData();
             });
           },
-          child: const Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            size: 30,
+            color: buttonTextColor,
+          ),
         ),
       ),
     );

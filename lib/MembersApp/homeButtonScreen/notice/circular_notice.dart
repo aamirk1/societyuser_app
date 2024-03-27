@@ -90,11 +90,12 @@ class _circular_noticeState extends State<circular_notice> {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(8.0),
-                          margin: const EdgeInsets.symmetric(vertical: 8.0),// down 2 lines
-                           width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.2,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8.0), // down 2 lines
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Column(

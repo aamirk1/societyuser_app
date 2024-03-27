@@ -84,7 +84,7 @@ class _ComplaintsState extends State<Complaints> {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height * 0.2,
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         // padding: const EdgeInsets.all(2.0),
@@ -107,47 +107,67 @@ class _ComplaintsState extends State<Complaints> {
                         color: Colors.grey,
                         thickness: 2,
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Consumer<AllComplaintProvider>(
                           builder: (context, value, child) {
                         return SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.69,
-                          child: ListView.builder(
-                            itemCount: value.complaintList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Column(
-                                children: [
-                                  ListTile(
-                                      title: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) {
-                                                  return ViewComplaints(
-                                                    complaintsType:
-                                                        value.complaintList[
-                                                                index]
-                                                            ['complaintsType'],
-                                                    text: value.complaintList[
-                                                        index]['text'],
-                                                  );
-                                                },
-                                              ),
-                                            ).whenComplete(() => fetchData());
-                                          },
-                                          child: Text(
-                                            value.complaintList[index]
-                                                ['complaintsType'],
-                                            style: TextStyle(color: textColor),
-                                          ))),
-                                  const Divider(
-                                    color: Colors.grey,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                          child: GridView.builder(
+                              itemCount: value.complaintList.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisSpacing: 10.0,
+                                      crossAxisSpacing: 10.0,
+                                      childAspectRatio: 1.1,
+                                      crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      border: Border.all(color: textColor)),
+                                  child: Column(children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return ViewComplaints(
+                                                  complaintsType:
+                                                      value.complaintList[index]
+                                                          ['complaintsType'],
+                                                  text:
+                                                      value.complaintList[index]
+                                                          ['text'],
+                                                );
+                                              },
+                                            ),
+                                          ).whenComplete(() => fetchData());
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            getIcon(value.complaintList[index]
+                                                ['complaintsType']),
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+                                            Text(
+                                              value.complaintList[index]
+                                                  ['complaintsType'],
+                                              style:
+                                                  TextStyle(color: textColor),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        )),
+                                  ]),
+                                );
+                              }),
                         );
                       })
                     ],
@@ -160,8 +180,9 @@ class _ComplaintsState extends State<Complaints> {
       ),
 
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 5),
+        padding: EdgeInsets.only(bottom: 5),
         child: FloatingActionButton(
+          backgroundColor: buttonColor,
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return ApplyComplaints(
@@ -170,7 +191,11 @@ class _ComplaintsState extends State<Complaints> {
               );
             }));
           },
-          child: const Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            size: 30,
+            color: buttonTextColor,
+          ),
         ),
       ),
     );
@@ -221,6 +246,63 @@ class _ComplaintsState extends State<Complaints> {
     } catch (e) {
       // ignore: avoid_print
       print('Error fetching data: $e');
+    }
+  }
+
+  Widget getIcon(String iconName) {
+    switch (iconName) {
+      case "House Keeping Complaint":
+        return const Icon(
+          Icons.home_max_rounded,
+          size: 30,
+        );
+      case "Security Issues":
+        return const Icon(
+          Icons.security_rounded,
+          size: 30,
+        );
+      case "Parking Issue":
+        return const Icon(
+          Icons.car_repair_rounded,
+          size: 30,
+        );
+      case "Admin Issue":
+        return const Icon(
+          Icons.person_2_sharp,
+          size: 30,
+        );
+      case "Accounts Issue":
+        return const Icon(
+          Icons.account_balance_rounded,
+          size: 30,
+        );
+      case "Vendor Complaints":
+        return const Icon(
+          Icons.person_3_rounded,
+          size: 30,
+        );
+      case "Water Related":
+        return const Icon(
+          Icons.water_rounded,
+          size: 30,
+        );
+      case "Leackage Related":
+        return const Icon(
+          Icons.water_drop_rounded,
+        );
+      case "Pet Animals Related":
+        return const Icon(
+          Icons.gif_box_rounded,
+        );
+      case "Others":
+        return const Icon(
+          Icons.gif_box_rounded,
+        );
+      default:
+        return const Icon(
+          Icons.construction_rounded,
+          size: 30,
+        );
     }
   }
 }

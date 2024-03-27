@@ -46,6 +46,8 @@ class _MyDrawerState extends State<MyDrawer> {
       setState(() {
         _image = File(pickedFile.path);
       });
+    } else {
+      print('No image selected.');
     }
   }
 
@@ -68,42 +70,71 @@ class _MyDrawerState extends State<MyDrawer> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center, //
                 children: [
-                  UserAccountsDrawerHeader(
-                    accountName: const Text("User Name"),
-                    accountEmail: const Text("Shashankgreat.com"),
-                    currentAccountPicture: CircleAvatar(
-                        backgroundImage:
-                            _image != null ? FileImage(_image!) : null,
-                        child:
-                            _image == null ? const Icon(Icons.person) : null),
+                  InkWell(
+                    onTap: () {
+                      _getImage();
+                    },
+                    child: CircleAvatar(
+                        radius: 35,
+                        child: _image != null
+                            ? Image.memory(_image!.readAsBytesSync())
+                            : const Icon(Icons.person)),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.edit),
-                    title: const Text("Update your profle picture"),
-                    onTap: _getImage,
-                  ),
-                  const   SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    usernameController.text,
-                    style: const TextStyle(
-                      fontSize: 14,
+                  Container(
+                    margin: const EdgeInsets.all(3.0),
+                    child: Text(
+                      widget.username.toString(),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Flat No.: ${flatnoController.text}',
-                    style: const TextStyle(
-                      fontSize: 14,
+                  Container(
+                    margin: const EdgeInsets.all(3.0),
+                    child: Text(
+                      "Flat No. ${widget.flatno}",
                     ),
                   ),
-                  Text(
-                    'Mobile No.: ${mobileController.text}',
-                    style: const TextStyle(
-                      fontSize: 14,
+                  Container(
+                    margin: const EdgeInsets.all(3.0),
+                    child: Text(
+                      "Mobile No. ${widget.mobile}",
                     ),
                   ),
+
+                  // UserAccountsDrawerHeader(
+                  //   accountName: const Text("User Name"),
+                  //   accountEmail: const Text("Shashankgreat.com"),
+                  //   currentAccountPicture: CircleAvatar(
+                  //       backgroundImage:
+                  //           _image != null ? FileImage(_image!) : null,
+                  //       child:
+                  //           _image == null ? const Icon(Icons.person) : null),
+                  // ),
+                  // ListTile(
+                  //   leading: const Icon(Icons.edit),
+                  //   title: const Text("Update your profle picture"),
+                  //   onTap: _getImage,
+                  // ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Text(
+                  //   usernameController.text,
+                  //   style: const TextStyle(
+                  //     fontSize: 14,
+                  //   ),
+                  // ),
+                  //const SizedBox(height: 4),
+                  // Text(
+                  //   'Flat No.: ${flatnoController.text}',
+                  //   style: const TextStyle(
+                  //     fontSize: 14,
+                  //   ),
+                  // ),
+                  // Text(
+                  //   'Mobile No.: ${mobileController.text}',
+                  //   style: const TextStyle(
+                  //     fontSize: 14,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -214,7 +245,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
     // ignore: use_build_context_synchronously
     Navigator.pushAndRemoveUntil(
-        context, 
+        context,
         MaterialPageRoute(builder: (context) => const loginScreen()),
         (route) => false);
   }
