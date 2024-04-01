@@ -51,134 +51,147 @@ class _GatePassState extends State<GatePass> {
           : Padding(
               padding: const EdgeInsets.all(4.0),
               child: SingleChildScrollView(
-                child: Card(
-                  elevation: 5,
-                  shadowColor: Colors.grey,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Dev Accounts -',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.purple),
-                            ),
-                            Text(
-                              ' Society Manager App',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.purple),
-                            ),
-                          ],
+                child: Column(
+                  children: [
+                    Card(
+                      elevation: 5,
+                      shadowColor: Colors.grey,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Dev Accounts -',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.purple),
+                                ),
+                                Text(
+                                  ' Society Manager App',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.purple),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.2,
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      buildInfoRow(context, Icons.person,
+                                          "Member Name", widget.username!),
+                                      buildInfoRow(context, Icons.house,
+                                          "Flat No.", widget.flatno!),
+                                      buildInfoRow(context, Icons.home,
+                                          "Society Name", widget.societyName!),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Consumer<AllGatePassProvider>(
+                        builder: (context, value, child) {
+                      return value.gatePassList.isEmpty
+                          ? Center(
+                              child: Container(
                               width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              padding: const EdgeInsets.all(2.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow(Icons.person, "Member Name",
-                                      widget.username!),
-                                  _buildInfoRow(
-                                      Icons.house, "Flat No.", widget.flatno!),
-                                  _buildInfoRow(Icons.home, "Society Name",
-                                      widget.societyName!),
-                                  // Text("Memeber Name: ${widget.username}"),
-                                  // Text("Flat No.: ${widget.flatno}"),
-                                  // Text("Society Name: ${widget.societyName}"),
-                                ],
+                              height: MediaQuery.of(context).size.height / 2,
+                              alignment: Alignment.center,
+                              child: const Text(
+                                'No Gate Pass Available.',
+                                style:
+                                    TextStyle(fontSize: 20, color: Colors.red),
                               ),
-                            ),
-                            const Divider(
-                              color: Colors.grey,
-                              thickness: 2,
-                            ),
-                            Consumer<AllGatePassProvider>(
-                                builder: (context, value, child) {
-                              return SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.69,
-                                child: GridView.builder(
-                                    itemCount: value.gatePassList.length,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                            mainAxisSpacing: 10.0,
-                                            crossAxisSpacing: 10.0,
-                                            childAspectRatio: 3,
-                                            crossAxisCount: 2),
-                                    itemBuilder: (context, index) {
-                                      return Column(children: [
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          color: checkResult[index]
-                                                      ['isApproved'] ==
-                                                  true
-                                              ? Color.fromARGB(255, 1, 150, 11)
-                                              : checkResult[index]
-                                                          ['isRejected'] ==
-                                                      true
-                                                  ? Colors.red[800]
-                                                  : Colors.yellow[800],
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return ViewGatePass(
-                                                      gatePassType:
-                                                          value.gatePassList[
-                                                                  index]
-                                                              ['gatePassType'],
-                                                      societyName:
-                                                          widget.societyName!,
-                                                      flatNo: widget.flatno!,
-                                                      text: value.gatePassList[
-                                                          index]['text'],
-                                                    );
-                                                  },
-                                                ),
-                                              ).whenComplete(() => fetchData());
-                                            },
-                                            child: Text(
-                                              value.gatePassList[index]
-                                                  ['gatePassType'],
-                                              style: TextStyle(
-                                                  color: buttonTextColor,
-                                                  fontSize: 15),
-                                            ),
+                            ))
+                          : SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.69,
+                              child: GridView.builder(
+                                  itemCount: value.gatePassList.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          mainAxisSpacing: 10.0,
+                                          crossAxisSpacing: 10.0,
+                                          childAspectRatio: 3,
+                                          crossAxisCount: 2),
+                                  itemBuilder: (context, index) {
+                                    return Column(children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        color: checkResult[index]
+                                                    ['isApproved'] ==
+                                                true
+                                            ? Color.fromARGB(255, 1, 150, 11)
+                                            : checkResult[index]
+                                                        ['isRejected'] ==
+                                                    true
+                                                ? Colors.red[800]
+                                                : Colors.yellow[800],
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return ViewGatePass(
+                                                    gatePassType: value
+                                                            .gatePassList[index]
+                                                        ['gatePassType'],
+                                                    societyName:
+                                                        widget.societyName!,
+                                                    flatNo: widget.flatno!,
+                                                    text: value
+                                                            .gatePassList[index]
+                                                        ['text'],
+                                                  );
+                                                },
+                                              ),
+                                            ).whenComplete(() => fetchData());
+                                          },
+                                          child: Text(
+                                            value.gatePassList[index]
+                                                ['gatePassType'],
+                                            style: TextStyle(
+                                                color: buttonTextColor,
+                                                fontSize: 15),
                                           ),
                                         ),
-                                      ]);
-                                    }),
-                              );
-                            })
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                                      ),
+                                    ]);
+                                  }),
+                            );
+                    })
+                  ],
                 ),
               ),
             ),
@@ -204,34 +217,9 @@ class _GatePassState extends State<GatePass> {
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 30),
-        SizedBox(width: 20.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-            Text(
-              value,
-              style: TextStyle(fontSize: 14.0),
-            )
-          ],
-        )
-      ],
-    );
-  }
-
   Future<void> fetchData() async {
     final provider = Provider.of<AllGatePassProvider>(context, listen: false);
+    provider.setBuilderList([]);
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('gatePassApplications')
@@ -247,12 +235,32 @@ class _GatePassState extends State<GatePass> {
 
         checkResult = tempData;
       }
-      // getGatePass(widget.societyName, widget.flatno,provider.);
-
-      // print(provider.gatePassList);
     } catch (e) {
       // ignore: avoid_print
       print('Error fetching data: $e');
     }
+  }
+
+  customDialogBox() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              'No Gate Pass Applications Found',
+              style: TextStyle(color: Colors.red),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'OK',
+                    style: TextStyle(color: textColor),
+                  )),
+            ],
+          );
+        });
   }
 }

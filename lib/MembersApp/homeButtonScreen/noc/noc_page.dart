@@ -41,141 +41,156 @@ class _nocPageState extends State<nocPage> {
       body: Padding(
         padding: const EdgeInsets.all(4.0),
         child: SingleChildScrollView(
-          child: Card(
-            elevation: 5,
-            shadowColor: Colors.grey,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
+          child: Column(
+            children: [
+              Card(
+                elevation: 5,
+                shadowColor: Colors.grey,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Dev Accounts -',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.purple),
+                          ),
+                          Text(
+                            ' Society Manager App',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.purple),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            width:
+                                MediaQuery.of(context).size.width, //up 2lines
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            // padding: const EdgeInsets.all(2.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                buildInfoRow(
+                                  context,
+                                  Icons.person,
+                                  "Member Name",
+                                  widget.username!,
+                                ),
+                                buildInfoRow(context, Icons.home, "Flat No.",
+                                    widget.flatno!),
+                                buildInfoRow(context, Icons.location_city,
+                                    "Society Name", widget.societyName!),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Dev Accounts -',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple),
-                      ),
-                      Text(
-                        ' Society Manager App',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        margin: const EdgeInsets.symmetric(vertical: 8.0),
-                        width: MediaQuery.of(context).size.width, //up 2lines
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        // padding: const EdgeInsets.all(2.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
+              const SizedBox(
+                height: 10,
+              ),
+              Consumer<AllNocProvider>(builder: (context, value, child) {
+                return value.nocList.isEmpty
+                    ? Center(
+                        child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height / 2,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'No NOC Available.',
+                          style: TextStyle(fontSize: 20, color: Colors.red),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildInfoRow(
-                                Icons.person, "Member Name", widget.username!),
-                            _buildInfoRow(
-                                Icons.home, "Flat No.", widget.flatno!),
-                            _buildInfoRow(Icons.location_city, "Society Name",
-                                widget.societyName!),
-                          ],
-                        ),
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                        thickness: 2,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Consumer<AllNocProvider>(
-                          builder: (context, value, child) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.69,
-                          child: GridView.builder(
-                              itemCount: value.nocList.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      mainAxisSpacing: 10.0,
-                                      crossAxisSpacing: 10.0,
-                                      childAspectRatio: 1.1,
-                                      crossAxisCount: 3),
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      border: Border.all(color: textColor)),
-                                  child: Column(children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return ViewNoc(
-                                                  nocType: value.nocList[index]
-                                                      ['nocType'],
-                                                  societyName:
-                                                      widget.societyName!,
-                                                  flatNo: widget.flatno!,
-                                                  text: value.nocList[index]
-                                                      ['text'],
-                                                );
-                                              },
-                                            ),
-                                          ).whenComplete(() => fetchData());
-                                        },
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            getIcon(value.nocList[index]
-                                                ['nocType']),
-                                            SizedBox(
-                                              height: 15,
-                                            ),
-                                            Text(
-                                              value.nocList[index]['nocType'],
-                                              style:
-                                                  TextStyle(color: textColor),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        )),
-                                  ]),
-                                );
-                              }),
-                        );
-                      })
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                      ))
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.69,
+                        child: GridView.builder(
+                            itemCount: value.nocList.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisSpacing: 10.0,
+                                    crossAxisSpacing: 10.0,
+                                    childAspectRatio: 1.3,
+                                    crossAxisCount: 3),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    border: Border.all(color: textColor)),
+                                child: Column(children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return ViewNoc(
+                                                nocType: value.nocList[index]
+                                                    ['nocType'],
+                                                societyName:
+                                                    widget.societyName!,
+                                                flatNo: widget.flatno!,
+                                                text: value.nocList[index]
+                                                    ['text'],
+                                              );
+                                            },
+                                          ),
+                                        ).whenComplete(() => fetchData());
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          getIcon(
+                                              value.nocList[index]['nocType']),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            value.nocList[index]['nocType'],
+                                            style: TextStyle(
+                                                color: textColor, fontSize: 12),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      )),
+                                ]),
+                              );
+                            }),
+                      );
+              })
+            ],
           ),
         ),
       ),
       floatingActionButton: Padding(
-        padding:  EdgeInsets.only(bottom: 5.0),
+        padding: EdgeInsets.only(bottom: 5.0),
         child: FloatingActionButton(
           backgroundColor: buttonColor,
           onPressed: () {
@@ -196,35 +211,9 @@ class _nocPageState extends State<nocPage> {
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 30),
-        const SizedBox(width: 20.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-            const SizedBox(height: 4.0),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 14.0),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
   Future<void> fetchData() async {
     final provider = Provider.of<AllNocProvider>(context, listen: false);
+    provider.setBuilderList([]);
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('nocApplications')
@@ -288,11 +277,4 @@ class _nocPageState extends State<nocPage> {
         );
     }
   }
-
-  // List<dynamic> nocIcons = [
-  //   const Icon(Icons.balance_rounded, size: 30).toString(),
-  //   const Icon(Icons.gas_meter_rounded, size: 30).toString(),
-  //   const Icon(Icons.electric_bike_rounded, size: 30).toString(),
-  //   const .toString(),
-  // ];
 }

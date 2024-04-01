@@ -101,11 +101,11 @@ class _circular_noticeState extends State<circular_notice> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildInfoRow(Icons.person, "Member Name",
+                              buildInfoRow(context,Icons.person, "Member Name",
                                   widget.username!),
-                              _buildInfoRow(
+                              buildInfoRow(context,
                                   Icons.home, "Flat No.", widget.flatno!),
-                              _buildInfoRow(Icons.location_city, "Society Name",
+                              buildInfoRow(context,Icons.location_city, "Society Name",
                                   widget.societyName!),
                             ],
                           ),
@@ -134,6 +134,10 @@ class _circular_noticeState extends State<circular_notice> {
                                                     ['title'],
                                                 style:
                                                     TextStyle(color: textColor),
+                                              ),
+                                              trailing: Icon(
+                                                Icons.message_rounded,
+                                                color: textColor,
                                               ),
                                               onTap: () {
                                                 Navigator.push(
@@ -172,6 +176,10 @@ class _circular_noticeState extends State<circular_notice> {
                                                 fileList[index].toString(),
                                                 style:
                                                     TextStyle(color: textColor),
+                                              ),
+                                              trailing: const Icon(
+                                                Icons.picture_as_pdf_rounded,
+                                                color: Colors.red,
                                               ),
                                               onTap: () {
                                                 Navigator.push(context,

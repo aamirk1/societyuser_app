@@ -38,23 +38,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => AllNoticeProvider()),
-          ChangeNotifierProvider(create: (_) => AllNocProvider()),
-          ChangeNotifierProvider(create: (_) => AllComplaintProvider()),
-          ChangeNotifierProvider(create: (_) => AllGatePassProvider()),
-          ChangeNotifierProvider(create: (_) => ListBuilderProvider()),
-          ChangeNotifierProvider(create: (_) => EmpListBuilderProvider()),
-          ChangeNotifierProvider(create: (_) => AllSendComplaintsProvider()),
-        ],
-        child: MaterialApp(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AllNoticeProvider()),
+        ChangeNotifierProvider(create: (_) => AllNocProvider()),
+        ChangeNotifierProvider(create: (_) => AllComplaintProvider()),
+        ChangeNotifierProvider(create: (_) => AllGatePassProvider()),
+        ChangeNotifierProvider(create: (_) => ListBuilderProvider()),
+        ChangeNotifierProvider(create: (_) => EmpListBuilderProvider()),
+        ChangeNotifierProvider(create: (_) => AllSendComplaintsProvider()),
+      ],
+      child: MaterialApp(
           title: 'Society User App',
           theme: ThemeData(
               colorScheme: const ColorScheme.light(error: Colors.white)),
           debugShowCheckedModeBanner: false,
           home: //const signUp(),
-          SplashScreen()
-          ),
-        );
+              SplashScreen()),
+    );
   }
 }

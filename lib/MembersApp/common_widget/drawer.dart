@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
+import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/complaint/complaints.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/member_ladger.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/noc_page.dart';
@@ -63,6 +64,8 @@ class _MyDrawerState extends State<MyDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.5,
+        color: const Color.fromARGB(255, 6, 6, 37),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -84,18 +87,21 @@ class _MyDrawerState extends State<MyDrawer> {
                     margin: const EdgeInsets.all(3.0),
                     child: Text(
                       widget.username.toString(),
+                      style: TextStyle(color: buttonTextColor),
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.all(3.0),
                     child: Text(
                       "Flat No. ${widget.flatno}",
+                      style: TextStyle(color: buttonTextColor),
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.all(3.0),
                     child: Text(
                       "Mobile No. ${widget.mobile}",
+                      style: TextStyle(color: buttonTextColor),
                     ),
                   ),
 
@@ -138,12 +144,16 @@ class _MyDrawerState extends State<MyDrawer> {
                 ],
               ),
             ),
-            const Divider(
-              color: Colors.grey,
+            Divider(
+              thickness: 1,
+              color: buttonTextColor,
             ),
             ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
+              leading: Icon(Icons.home, color: buttonTextColor),
+              title: Text(
+                'Home',
+                style: TextStyle(color: buttonTextColor),
+              ),
               onTap: () {
                 // Handle Home item tap
                 Navigator.push(
@@ -155,8 +165,12 @@ class _MyDrawerState extends State<MyDrawer> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.admin_panel_settings_outlined),
-              title: const Text('Member Ladger'),
+              leading: Icon(Icons.admin_panel_settings_outlined,
+                  color: buttonTextColor),
+              title: Text(
+                'Member Ledger',
+                style: TextStyle(color: buttonTextColor),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -170,8 +184,12 @@ class _MyDrawerState extends State<MyDrawer> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.admin_panel_settings_outlined),
-              title: const Text('Circular Notice'),
+              leading: Icon(Icons.admin_panel_settings_outlined,
+                  color: buttonTextColor),
+              title: Text(
+                'Circular Notice',
+                style: TextStyle(color: buttonTextColor),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -185,8 +203,11 @@ class _MyDrawerState extends State<MyDrawer> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
+              leading: Icon(Icons.settings, color: buttonTextColor),
+              title: Text(
+                'Settings',
+                style: TextStyle(color: buttonTextColor),
+              ),
               onTap: () {
                 // Navigator.push(
                 //   context,
@@ -197,8 +218,11 @@ class _MyDrawerState extends State<MyDrawer> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.home_repair_service),
-              title: const Text('Complaints'),
+              leading: Icon(Icons.home_repair_service, color: buttonTextColor),
+              title: Text(
+                'Complaints',
+                style: TextStyle(color: buttonTextColor),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -212,8 +236,14 @@ class _MyDrawerState extends State<MyDrawer> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.build_circle_outlined),
-              title: const Text('NOC Page'),
+              leading: Icon(
+                Icons.build_circle_outlined,
+                color: buttonTextColor,
+              ),
+              title: Text(
+                'NOC Page',
+                style: TextStyle(color: buttonTextColor),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -227,8 +257,11 @@ class _MyDrawerState extends State<MyDrawer> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
+              leading: Icon(Icons.logout, color: buttonTextColor),
+              title: Text(
+                'Logout',
+                style: TextStyle(color: buttonTextColor),
+              ),
               onTap: () {
                 signOut(context);
               },

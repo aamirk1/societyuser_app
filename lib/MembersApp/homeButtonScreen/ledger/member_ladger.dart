@@ -143,8 +143,9 @@ class _memberLedgerState extends State<memberLedger> {
                                             ? TextButton(
                                                 style: TextButton.styleFrom(
                                                     backgroundColor:
-                                                        Color.fromARGB(
-                                                            255, 22, 76, 224)),
+                                                        buttonColor,
+                                                    fixedSize:
+                                                        const Size(70, 40)),
                                                 onPressed: () {
                                                   Navigator.push(
                                                     context,
@@ -207,13 +208,14 @@ class _memberLedgerState extends State<memberLedger> {
                                                 },
                                                 child: Text(
                                                   '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 10,
                                                       // backgroundColor:
                                                       //     Colors.amber,
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold),
+                                                  textAlign: TextAlign.center,
                                                 ),
                                               )
                                             : particulartsLableList[index1] ==
@@ -221,8 +223,9 @@ class _memberLedgerState extends State<memberLedger> {
                                                 ? TextButton(
                                                     style: TextButton.styleFrom(
                                                         backgroundColor:
-                                                            Color.fromARGB(255,
-                                                                22, 76, 224)),
+                                                            buttonColor,
+                                                        fixedSize:
+                                                            const Size(70, 40)),
                                                     onPressed: () {
                                                       Navigator.push(context,
                                                           MaterialPageRoute(
@@ -258,11 +261,13 @@ class _memberLedgerState extends State<memberLedger> {
                                                     },
                                                     child: Text(
                                                       '${particulartsLableList[index1]}\n ${rowList[index1][7]}',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 10,
                                                           color: Colors.white,
                                                           fontWeight:
                                                               FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.center,
                                                     ),
                                                   )
                                                 : particulartsLableList[
@@ -272,11 +277,11 @@ class _memberLedgerState extends State<memberLedger> {
                                                         style: TextButton
                                                             .styleFrom(
                                                                 backgroundColor:
-                                                                    Color.fromARGB(
-                                                                        255,
-                                                                        22,
-                                                                        76,
-                                                                        244)),
+                                                                    buttonColor,
+                                                                fixedSize:
+                                                                    const Size(
+                                                                        70,
+                                                                        40)),
                                                         onPressed: () {
                                                           Navigator.push(
                                                               context,
@@ -307,24 +312,26 @@ class _memberLedgerState extends State<memberLedger> {
                                                         },
                                                         child: Text(
                                                           '${particulartsLableList[index1]}\n${rowList[index1][6]}',
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 10,
                                                               color:
                                                                   Colors.white,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
+                                                          textAlign:
+                                                              TextAlign.center,
                                                         ),
                                                       )
                                                     : TextButton(
                                                         style: TextButton
                                                             .styleFrom(
                                                                 backgroundColor:
-                                                                    Color.fromARGB(
-                                                                        255,
-                                                                        22,
-                                                                        76,
-                                                                        244)),
+                                                                    buttonColor,
+                                                                fixedSize:
+                                                                    const Size(
+                                                                        70,
+                                                                        40)),
                                                         onPressed: () {
                                                           Navigator.push(
                                                               context,
@@ -353,13 +360,15 @@ class _memberLedgerState extends State<memberLedger> {
                                                         },
                                                         child: Text(
                                                           '${particulartsLableList[index1]}\n ${rowList[index1][6]}',
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 10,
                                                               color:
                                                                   Colors.white,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
+                                                          textAlign:
+                                                              TextAlign.center,
                                                         ),
                                                       )
                                         : Text(

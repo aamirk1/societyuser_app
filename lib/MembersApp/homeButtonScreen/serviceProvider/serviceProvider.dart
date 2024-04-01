@@ -28,9 +28,14 @@ class _ServiceProviderState extends State<ServiceProvider> {
   @override
   void initState() {
     super.initState();
-    getCompany(widget.societyName);
+    getCompany(widget.societyName).whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
+  bool isLoading = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,59 +43,59 @@ class _ServiceProviderState extends State<ServiceProvider> {
         title: const Text('All Service Provider'),
         backgroundColor: appBarBgColor,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Consumer<ListBuilderProvider>(
-              builder: (context, value, child) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: value.list.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          minVerticalPadding: 0.3,
-                          title: Text(
-                            value.list[index]['companyName'],
-                            style:  TextStyle(color: textColor),
-                          ),
-                          // trailing: IconButton(
-                          //   onPressed: () {
-                          //     deleteEmp(widget.societyName,
-                          //         value.list[index]['companyName'], index);
-                          //   },
-                          //   icon: const Icon(Icons.delete),
-                          // ),
-                          // subtitle: Text(data.docs[index]['city']),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return ViewEmployee(
-                                  username: widget.username,
-                                  society: widget.societyName,
-                                  flatno: widget.flatno,
-                                  companyName: value.list[index]['companyName'],
-                                  comEmail: value.list[index]['email'],
-                                  comPhone: value.list[index]['phone'],
-                                  comAddress: value.list[index]['address'],
-                                );
-                              }),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  Consumer<ListBuilderProvider>(
+                    builder: (context, value, child) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: value.list.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                minVerticalPadding: 0.3,
+                                title: Text(
+                                  value.list[index]['companyName'],
+                                  style: TextStyle(color: textColor),
+                                ),
+                                leading: Icon(
+                                  Icons.account_balance_outlined,
+                                  color: buttonColor,
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return ViewEmployee(
+                                        username: widget.username,
+                                        society: widget.societyName,
+                                        flatno: widget.flatno,
+                                        companyName: value.list[index]
+                                            ['companyName'],
+                                        comEmail: value.list[index]['email'],
+                                        comPhone: value.list[index]['phone'],
+                                        comAddress: value.list[index]
+                                            ['address'],
+                                      );
+                                    }),
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 

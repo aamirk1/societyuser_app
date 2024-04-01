@@ -42,7 +42,7 @@ class _ViewEmployeeState extends State<ViewEmployee> {
   Widget build(BuildContext context) {
     final provider =
         Provider.of<EmpListBuilderProvider>(context, listen: false);
-    provider.empList.clear();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -69,9 +69,13 @@ class _ViewEmployeeState extends State<ViewEmployee> {
                           shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
+                          leading: Icon(
+                            Icons.person_3_rounded,
+                            color: textColor,
+                          ),
                           title: Text(
                             value.empList[index]['empName'],
-                            style:  TextStyle(color: textColor),
+                            style: TextStyle(color: textColor),
                           ),
                           subtitle: Text(
                             value.empList[index]['empDesignation'],
@@ -111,6 +115,7 @@ class _ViewEmployeeState extends State<ViewEmployee> {
   Future<void> getEmployee(String companyName) async {
     final provider =
         Provider.of<EmpListBuilderProvider>(context, listen: false);
+    provider.empList.clear();
 
     QuerySnapshot companyQuerySnapshot = await FirebaseFirestore.instance
         .collection('vendorEmployeeList')
@@ -121,19 +126,6 @@ class _ViewEmployeeState extends State<ViewEmployee> {
     List<dynamic> allCompany =
         companyQuerySnapshot.docs.map((e) => e.data()).toList();
     provider.setBuilderEmpList(allCompany);
-  }
-
-  Future<void> deleteEmp(String company, String name, int index) async {
-    final provider =
-        Provider.of<EmpListBuilderProvider>(context, listen: false);
-    DocumentReference deleteEmployee = FirebaseFirestore.instance
-        .collection('vendorEmployeeList')
-        .doc(company)
-        .collection('employeeList')
-        .doc(name);
-    await deleteEmployee.delete();
-
-    provider.removeData(index);
   }
 
   alertbox() {
