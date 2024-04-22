@@ -115,18 +115,6 @@ class _ServiceRequestFlatNoState extends State<ServiceRequestFlatNo> {
     return allSociety;
   }
 
-  // Future<List<dynamic>> fetchFlatNoList(String selectedSociety) async {
-  //   QuerySnapshot flatNoList = await FirebaseFirestore.instance
-  //       .collection('sendComplaintsForVendors')
-  //       .doc(selectedSociety)
-  //       .collection('flatno')
-  //       .get();
-  //   allFlatNo = flatNoList.docs.map((e) => e.id).toList();
-  //   print(allFlatNo);
-
-  //   return allFlatNo;
-  // }
-
   Future<void> deleteEmp(
       String selectedSociety, String company, int index) async {
     final provider = Provider.of<ListBuilderProvider>(context, listen: false);

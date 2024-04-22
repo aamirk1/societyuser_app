@@ -40,8 +40,6 @@ class _ViewEmployeeState extends State<ViewEmployee> {
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<EmpListBuilderProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(

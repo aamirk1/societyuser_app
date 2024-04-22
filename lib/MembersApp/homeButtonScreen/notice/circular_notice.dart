@@ -31,7 +31,7 @@ class _circular_noticeState extends State<circular_notice> {
   @override
   void initState() {
     Future.delayed(
-      Duration(milliseconds: 1000),
+      const Duration(milliseconds: 1000),
       () {
         setState(() {
           _isLoading = false;
@@ -55,7 +55,7 @@ class _circular_noticeState extends State<circular_notice> {
       ),
       // drawer: const MyDrawer(),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(4.0),
               child: Column(
@@ -69,14 +69,14 @@ class _circular_noticeState extends State<circular_notice> {
                         Text(
                           'Dev Accounts -',
                           style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.purple),
                         ),
                         Text(
-                          ' Society Manager App',
+                          ' Society Information & Management System',
                           style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: Colors.purple),
                         ),
@@ -101,12 +101,12 @@ class _circular_noticeState extends State<circular_notice> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              buildInfoRow(context,Icons.person, "Member Name",
+                              buildInfoRow(context, Icons.person, "Member Name",
                                   widget.username!),
-                              buildInfoRow(context,
-                                  Icons.home, "Flat No.", widget.flatno!),
-                              buildInfoRow(context,Icons.location_city, "Society Name",
-                                  widget.societyName!),
+                              buildInfoRow(context, Icons.home, "Flat No.",
+                                  widget.flatno!),
+                              buildInfoRow(context, Icons.location_city,
+                                  "Society Name", widget.societyName!),
                             ],
                           ),
                         ),

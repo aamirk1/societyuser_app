@@ -128,7 +128,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                             children: [
                                               Text(
                                                 "Flat No.: ${widget.flatno}",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 12,
                                                     fontWeight:
                                                         FontWeight.bold),

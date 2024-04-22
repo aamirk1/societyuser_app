@@ -68,20 +68,20 @@ class _GatePassState extends State<GatePass> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Dev Accounts -',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.purple),
-                                ),
-                                Text(
-                                  ' Society Manager App',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.purple),
-                                ),
+                                 Text(
+                                          'Dev Accounts -',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.purple),
+                                        ),
+                                        Text(
+                                          ' Society Information & Management System',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.purple),
+                                        ),
                               ],
                             ),
                           ),
@@ -114,7 +114,7 @@ class _GatePassState extends State<GatePass> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Consumer<AllGatePassProvider>(
@@ -150,7 +150,7 @@ class _GatePassState extends State<GatePass> {
                                         color: checkResult[index]
                                                     ['isApproved'] ==
                                                 true
-                                            ? Color.fromARGB(255, 1, 150, 11)
+                                            ? const Color.fromARGB(255, 1, 150, 11)
                                             : checkResult[index]
                                                         ['isRejected'] ==
                                                     true
@@ -196,7 +196,7 @@ class _GatePassState extends State<GatePass> {
               ),
             ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 5.0),
+        padding: const EdgeInsets.only(bottom: 5.0),
         child: FloatingActionButton(
           backgroundColor: buttonColor,
           onPressed: () {

@@ -133,50 +133,48 @@ class _Complaints_ListState extends State<Complaints_List> {
                                           childAspectRatio: 0.7,
                                           crossAxisCount: 4),
                                   itemBuilder: (context, index) {
-                                    return Container(
-                                      child: Column(children: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return ViewComplaintApplication(
-                                                        requestType: allData[
-                                                                    index]
-                                                                ['problemsType']
-                                                            .toString(),
-                                                        text: allData[index]
-                                                                ['text']
-                                                            .toString());
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                            child: Column(
-                                              children: [
-                                                FloatingActionButton(
-                                                  backgroundColor: Colors.white,
-                                                  onPressed: () {},
-                                                  child: getIcon(
-                                                    allData[index]
-                                                            ['problemsType']
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  allData[index]['problemsType']
+                                    return Column(children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return ViewComplaintApplication(
+                                                      requestType: allData[
+                                                                  index]
+                                                              ['problemsType']
+                                                          .toString(),
+                                                      text: allData[index]
+                                                              ['text']
+                                                          .toString());
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          child: Column(
+                                            children: [
+                                              FloatingActionButton(
+                                                backgroundColor: Colors.white,
+                                                onPressed: () {},
+                                                child: getIcon(
+                                                  allData[index]
+                                                          ['problemsType']
                                                       .toString(),
-                                                  style: TextStyle(
-                                                      color: textColor),
                                                 ),
-                                              ],
-                                            )),
-                                      ]),
-                                    );
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                allData[index]['problemsType']
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: textColor),
+                                              ),
+                                            ],
+                                          )),
+                                    ]);
                                   }),
 
                               // ListView.builder(

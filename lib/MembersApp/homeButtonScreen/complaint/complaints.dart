@@ -61,14 +61,14 @@ class _ComplaintsState extends State<Complaints> {
                           Text(
                             'Dev Accounts -',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.purple),
                           ),
                           Text(
-                            ' Society Manager App',
+                            ' Society Information & Management System',
                             style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.purple),
                           ),
@@ -189,7 +189,7 @@ class _ComplaintsState extends State<Complaints> {
       ),
 
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 5),
+        padding: const EdgeInsets.only(bottom: 5),
         child: FloatingActionButton(
           backgroundColor: buttonColor,
           onPressed: () {

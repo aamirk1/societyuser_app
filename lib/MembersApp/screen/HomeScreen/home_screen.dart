@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
   final TextEditingController billAmountController = TextEditingController();
+  final TextEditingController payableAmountController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController flatnoController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
@@ -59,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String username = '';
   String status = '';
   String billAmount = '';
+  String payableAmount = '';
   String mobile = '';
 
   bool isLoading = true;
@@ -126,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: appBarBgColor,
         title: const Text(
-          'Society User App',
+          'Home',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -144,10 +146,10 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: MyDrawer(
           flatno: selectedFlatNo ?? '',
           username: name,
-          societyName: _societyNameController.text,
+          societyName: selectedSocietyName ?? '',
           mobile: mobile),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SizedBox(
@@ -183,14 +185,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(
                                           'Dev Accounts -',
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.purple),
                                         ),
                                         Text(
-                                          ' Society Manager App',
+                                          ' Society Information & Management System',
                                           style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.purple),
                                         ),
@@ -537,7 +539,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width *
                                       0.99, //add width and container on 270324
                                   child: Padding(
@@ -561,11 +563,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           )),
                                           DataColumn(
-                                              label: billAmountController
+                                              label: payableAmountController
                                                       .text.isEmpty
                                                   ? const Text('Rs: 0')
                                                   : Text(
-                                                      'Rs: ${billAmountController.text}')),
+                                                      'Rs: ${payableAmountController.text}')),
                                         ],
                                         dividerThickness: 2,
                                         rows: [
@@ -627,7 +629,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width * 0.8,
                             height: MediaQuery.of(context).size.height * 0.4,
                             child: GridView.builder(
@@ -639,56 +641,53 @@ class _HomeScreenState extends State<HomeScreen> {
                                         childAspectRatio: 0.7,
                                         crossAxisCount: 3),
                                 itemBuilder: (context, index) {
-                                  return Container(
-                                    child: Column(children: [
-                                      TextButton(
-                                          // style: ElevatedButton.styleFrom(
-                                          //     backgroundColor: buttonColor,
-                                          //     shape: RoundedRectangleBorder(
-                                          //       borderRadius: BorderRadius.circular(10),
-                                          //     )),
-                                          onPressed: () {
-                                            if (isflatnoSelected) {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      screens[index](
-                                                          selectedFlatNo!,
-                                                          selectedSocietyName!,
-                                                          usernameController
-                                                              .text),
-                                                ),
-                                              );
-                                            } else {
-                                              customDialogBox();
-                                            }
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Card(
-                                                  elevation: 10,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            12.0),
-                                                    child:
-                                                        getIcon(buttons[index]),
-                                                  )),
-                                              const SizedBox(
-                                                height: 5,
+                                  return Column(children: [
+                                    TextButton(
+                                        // style: ElevatedButton.styleFrom(
+                                        //     backgroundColor: buttonColor,
+                                        //     shape: RoundedRectangleBorder(
+                                        //       borderRadius: BorderRadius.circular(10),
+                                        //     )),
+                                        onPressed: () {
+                                          if (isflatnoSelected) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    screens[index](
+                                                        selectedFlatNo!,
+                                                        selectedSocietyName!,
+                                                        usernameController
+                                                            .text),
                                               ),
-                                              Text(
-                                                buttons[index],
-                                                style: TextStyle(
-                                                    color: textColor,
-                                                    fontSize: 10),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ],
-                                          )),
-                                    ]),
-                                  );
+                                            );
+                                          } else {
+                                            customDialogBox();
+                                          }
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Card(
+                                                elevation: 10,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child:
+                                                      getIcon(buttons[index]),
+                                                )),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              buttons[index],
+                                              style: TextStyle(
+                                                  color: textColor,
+                                                  fontSize: 10),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        )),
+                                  ]);
                                 }),
                           ),
                         ]),
@@ -900,9 +899,11 @@ class _HomeScreenState extends State<HomeScreen> {
       for (var data in dataList) {
         if (flatnoController.text == data['Flat No.']) {
           billAmount = data['Bill Amount'];
+          payableAmount = data['Payable'];
 
           setState(() {
             billAmountController.text = billAmount;
+            payableAmountController.text = payableAmount;
           });
           break;
         }

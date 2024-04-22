@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
               colorScheme: const ColorScheme.light(error: Colors.white)),
           debugShowCheckedModeBanner: false,
           home: //const signUp(),
-              SplashScreen()),
+              const SplashScreen()),
     );
   }
 }

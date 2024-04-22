@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Container(
-              margin: EdgeInsets.all(18.0),
+              margin: const EdgeInsets.all(18.0),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Column(

@@ -127,7 +127,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                                             children: [
                                               Text(
                                                 "Flat No.: ${widget.flatno}",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 12,
                                                     fontWeight:
                                                         FontWeight.bold),

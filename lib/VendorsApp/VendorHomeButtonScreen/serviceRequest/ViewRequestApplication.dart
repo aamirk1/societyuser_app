@@ -59,7 +59,7 @@ class _ViewRequestApplicationState extends State<ViewRequestApplication> {
                     children: [
                       SingleChildScrollView(
                         child: Container(
-                          margin:  EdgeInsets.only(top: 20),
+                          margin:  const EdgeInsets.only(top: 20),
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.78,
                           child: Padding(

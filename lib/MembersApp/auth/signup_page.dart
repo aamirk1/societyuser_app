@@ -62,13 +62,13 @@ class _signUpState extends State<signUp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // const Text(
-            //   "Society",
-            //   style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 40,
-            //       fontWeight: FontWeight.bold),
-            // ),
+            const Text(
+              "SIMS",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold),
+            ),
             // const Text(
             //   "Manager",
             //   style: TextStyle(

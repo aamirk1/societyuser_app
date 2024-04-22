@@ -53,19 +53,13 @@ class _loginScreenState extends State<loginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Society",
+              "SIMS",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
                   fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "Manager",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
+           
             const SizedBox(
               height: 20,
             ),
@@ -200,7 +194,7 @@ class _loginScreenState extends State<loginScreen> {
                       ),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Login as vendors',
                     style: TextStyle(color: Colors.white),
                   ),

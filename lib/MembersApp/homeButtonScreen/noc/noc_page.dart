@@ -58,20 +58,20 @@ class _nocPageState extends State<nocPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Dev Accounts -',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.purple),
-                          ),
-                          Text(
-                            ' Society Manager App',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.purple),
-                          ),
+                         Text(
+                                          'Dev Accounts -',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.purple),
+                                        ),
+                                        Text(
+                                          ' Society Information & Management System',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.purple),
+                                        ),
                         ],
                       ),
                     ),
@@ -87,7 +87,7 @@ class _nocPageState extends State<nocPage> {
                                 MediaQuery.of(context).size.width, //up 2lines
                             height: MediaQuery.of(context).size.height * 0.2,
                             // padding: const EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Colors.white,
                             ),
                             child: Column(
@@ -169,7 +169,7 @@ class _nocPageState extends State<nocPage> {
                                         children: [
                                           getIcon(
                                               value.nocList[index]['nocType']),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 15,
                                           ),
                                           Text(
@@ -190,7 +190,7 @@ class _nocPageState extends State<nocPage> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 5.0),
+        padding: const EdgeInsets.only(bottom: 5.0),
         child: FloatingActionButton(
           backgroundColor: buttonColor,
           onPressed: () {
