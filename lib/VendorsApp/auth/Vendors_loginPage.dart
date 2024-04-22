@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:societyuser_app/MembersApp/auth/forgotPassword.dart';
+import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/VendorsApp/VendorsHomeScreen/VendorHomeScreen.dart';
 import 'package:societyuser_app/VendorsApp/auth/Vendors_signupPage.dart';
 
@@ -33,6 +33,13 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
     passwordController.dispose();
     super.dispose();
   }
+
+  String companyName = '';
+  String societyName = '';
+  String empName = '';
+  String empDesignation = '';
+  String empPhone = '';
+  String empEmail = '';
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +112,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                   const SizedBox(height: 10),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     controller: passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
@@ -164,33 +171,33 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const forgotPassword();
-                      }));
-                    },
-                    child: const Text(
-                      "Forgot Password?",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   child: TextButton(
+                //     onPressed: () {
+                //       Navigator.push(context,
+                //           MaterialPageRoute(builder: (context) {
+                //         return const forgotPassword();
+                //       }));
+                //     },
+                //     child: const Text(
+                //       "Forgot Password?",
+                //       style: TextStyle(color: Colors.white),
+                //     ),
+                //   ),
+                // ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) {
-                        return const RegisterAsVendors();
+                        return const loginScreen();
                       }),
                     );
                   },
                   child: const Text(
-                    "Register as Vendors",
+                    "Login as Members",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -255,6 +262,10 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
               MaterialPageRoute(
                   builder: (context) => VendorHomeScreen(
                         email: email,
+                        societyName: societyName,
+                        empDesignation: empDesignation,
+                        empName: empName,
+                        empPhone: empPhone,
                       )),
               (route) => false);
         } else {
@@ -291,15 +302,40 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
         .get();
 
     Map<String, dynamic> vendorDetails = {};
-    String companyName = '';
     vendorDetails = flatNoQuery.data() as Map<String, dynamic>;
     print(vendorDetails);
     companyName = vendorDetails['companyName'];
-    storeCompanyInSharedPref(companyName);
+    societyName = vendorDetails['society'];
+    empEmail = vendorDetails['empEmail'];
+    empName = vendorDetails['empName'];
+    empPhone = vendorDetails['empPhone'];
+    storeCompanyInSharedPref(
+      companyName,
+      societyName,
+      empEmail,
+      empName,
+      empPhone,
+    );
   }
 
-  void storeCompanyInSharedPref(String companyName) async {
+  void storeCompanyInSharedPref(String companyName, String societyName,
+      String empEmail, String empName, String empPhone) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("companyName", companyName);
+    await prefs.setString(
+      "companyName",
+      companyName,
+    );
+    await prefs.setString(
+      "empEmail",
+      empEmail,
+    );
+    await prefs.setString(
+      "empName",
+      empName,
+    );
+    await prefs.setString(
+      "empPhone",
+      empPhone,
+    );
   }
 }

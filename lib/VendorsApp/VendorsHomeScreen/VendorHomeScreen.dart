@@ -1,14 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest/serviceRequestOfFlatNo.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/settings/settings.dart';
+import 'package:societyuser_app/VendorsApp/auth/Vendors_loginPage.dart';
 
 // ignore: must_be_immutable
 class VendorHomeScreen extends StatefulWidget {
+  VendorHomeScreen(
+      {super.key,
+      this.email,
+      this.societyName,
+      this.empName,
+      this.empDesignation,
+      this.empPhone});
   String? email;
-  VendorHomeScreen({super.key, this.email});
+  String? societyName;
+  String? empName;
+  String? empDesignation;
+  String? empPhone;
 
   @override
   State<VendorHomeScreen> createState() => _VendorHomeScreenState();
@@ -33,12 +45,6 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
   bool userExist = false;
   List<dynamic> societyList = [];
   List<dynamic> memberList = [];
-  String name = '';
-  String username = '';
-  String status = '';
-  String billAmount = '';
-  String flatno = '';
-  String mobile = '';
 
   bool isLoading = false;
   bool isDataAvailable = false;
@@ -51,27 +57,34 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
   }
 
   List<String> buttons = ['SERVICE REQUEST', 'SETTINGS'];
-  List<
-      Widget Function(
-        String,
-      )> screens = [
-    (email) => ServiceRequestFlatNo(
+  List<Widget Function(String, String)> screens = [
+    (email, societyName) => ServiceRequestFlatNo(
           email: email,
+          societyName: societyName,
         ),
-    (email) => SettingScreen(
+    (email, societyName) => SettingScreen(
           email: email,
+          societyName: societyName,
         ),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: appBarBgColor,
-        title: const Text(
-          'Society Vendor App',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
+          backgroundColor: appBarBgColor,
+          title: const Text(
+            'Society Vendor App',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  signOut(context);
+                },
+                icon: const Icon(
+                  Icons.power_settings_new,
+                ))
+          ]),
       // drawer: MyDrawer(
       //     flatno: flatno,
       //     username: name,
@@ -124,10 +137,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                height: 5,
+                height: 15,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 SizedBox(
@@ -141,7 +151,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: buttonColor,
-                                  minimumSize: Size(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                  minimumSize: Size(
                                       MediaQuery.of(context).size.width,
                                       MediaQuery.of(context).size.height *
                                           0.06),
@@ -150,8 +160,8 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          screens[index](widget.email!),
+                                      builder: (context) => screens[index](
+                                          widget.email!, widget.societyName!),
                                     ),
                                   );
                                   // if (isSocietySelected) {
@@ -170,6 +180,17 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    SplashService().removeLogin(context);
+
+    // ignore: use_build_context_synchronously
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginAsVendors()),
+        (route) => false);
   }
 
   void customDialogBox() {

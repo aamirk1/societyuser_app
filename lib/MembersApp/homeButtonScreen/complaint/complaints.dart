@@ -147,6 +147,9 @@ class _ComplaintsState extends State<Complaints> {
                                           MaterialPageRoute(
                                             builder: (context) {
                                               return ViewComplaints(
+                                                response:
+                                                    value.complaintList[index]
+                                                        ['response'],
                                                 complaintsType:
                                                     value.complaintList[index]
                                                         ['complaintsType'],

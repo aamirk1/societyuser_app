@@ -285,7 +285,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                   const SizedBox(height: 10),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     controller: confirmPasswordController,
                     obscureText: true,
                     decoration: const InputDecoration(

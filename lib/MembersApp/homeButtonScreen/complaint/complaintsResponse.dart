@@ -7,9 +7,11 @@ import 'package:societyuser_app/membersApp/common_widget/colors.dart';
 class ViewComplaints extends StatefulWidget {
   ViewComplaints({
     super.key,
+    this.response,
     required this.complaintsType,
     required this.text,
   });
+  String? response;
   String complaintsType;
   String text;
   @override
@@ -50,29 +52,33 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                           children: [
                             Text(
                               widget.complaintsType,
-                              style:  TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                   color: textColor),
                             ),
                             Text(
                               widget.text,
-                              style:  TextStyle(
-                                  fontSize: 12, color: textColor),
+                              style: TextStyle(fontSize: 12, color: textColor),
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: buttonColor),
-                      onPressed: () async {},
-                      child: const Text('Response'),
-                    ),
-                  ])
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: Text(
+                                  "Response: ${widget.response ?? 'No Response Given'}",
+                                  style: TextStyle(
+                                      color: textColor, fontSize: 15))),
+                        ]),
+                  )
                 ],
               ),
             ),

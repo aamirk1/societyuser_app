@@ -114,7 +114,7 @@ class _loginScreenState extends State<loginScreen> {
                   const SizedBox(height: 10),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     controller: passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
@@ -164,7 +164,7 @@ class _loginScreenState extends State<loginScreen> {
                         },
                         child: const Text(
                           'Login',
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
@@ -193,13 +193,15 @@ class _loginScreenState extends State<loginScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) {
-                        return const signUp();
-                      }),
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const LoginAsVendors();
+                        },
+                      ),
                     );
                   },
-                  child: const Text(
-                    "Sign Up",
+                  child: Text(
+                    'Login as vendors',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -228,37 +230,37 @@ class _loginScreenState extends State<loginScreen> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: const Color.fromARGB(255, 0, 0, 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const LoginAsVendors();
-                        },
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Login as vendors',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-              ),
-            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // Center(
+            //   child: SizedBox(
+            //     width: MediaQuery.of(context).size.width,
+            //     child: ElevatedButton(
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: Colors.white,
+            //         foregroundColor: const Color.fromARGB(255, 0, 0, 12),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(5),
+            //         ),
+            //       ),
+            //       onPressed: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //             builder: (context) {
+            //               return const LoginAsVendors();
+            //             },
+            //           ),
+            //         );
+            //       },
+            //       child: const Text(
+            //         'Login as vendors',
+            //         style: TextStyle(fontSize: 20),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

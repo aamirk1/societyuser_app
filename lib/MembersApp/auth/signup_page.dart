@@ -195,7 +195,7 @@ class _signUpState extends State<signUp> {
                   const SizedBox(height: 10),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     controller: confirmPasswordController,
                     obscureText: true,
                     decoration: const InputDecoration(
