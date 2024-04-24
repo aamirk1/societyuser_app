@@ -81,11 +81,30 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              "S.I.M.S.",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Center(
+              child: Text(
+                "Society Information & Management System",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const Text('Register as Vendor',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,
@@ -101,7 +120,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2<String>(
                         isExpanded: true,
-                        hint:  Text(
+                        hint: Text(
                           'Select Company Name',
                           style: TextStyle(
                             color: textColor,
@@ -113,7 +132,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
                                   value: item,
                                   child: Text(
                                     item,
-                                    style:  TextStyle(
+                                    style: TextStyle(
                                         fontSize: 14, color: textColor),
                                   ),
                                 ))

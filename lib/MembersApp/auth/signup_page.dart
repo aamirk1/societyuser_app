@@ -63,27 +63,29 @@ class _signUpState extends State<signUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "SIMS",
+              "S.I.M.S.",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 40,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold),
             ),
-            // const Text(
-            //   "Manager",
-            //   style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 30,
-            //       fontWeight: FontWeight.bold),
-            // ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            const Text('Sign Up',
+            SizedBox(
+              height: 5,
+            ),
+            Center(
+              child: Text(
+                "Society Information & Management System",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            const Text('Register as Member',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,

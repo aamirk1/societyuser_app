@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -26,6 +29,7 @@ class MyDrawer extends StatefulWidget {
   String username;
   String societyName;
   String mobile;
+  // String userId;
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -45,18 +49,15 @@ class _MyDrawerState extends State<MyDrawer> {
   String imageUrl = '';
   final FirebaseStorage _storage = FirebaseStorage.instance;
   String imgnames = '';
-  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
     flatnoController.text = widget.flatno;
     usernameController.text = widget.username;
     mobileController.text = widget.mobile;
-    displayImage().whenComplete(() {
-      setState(() {
-        isLoading = false;
-      });
-    });
+    //getImage();
+    displayImage();
     imageUrl;
   }
 
@@ -78,15 +79,11 @@ class _MyDrawerState extends State<MyDrawer> {
                       await pickAndUploadPDF();
                     },
                     child: byteData != null
-                        ? isLoading == true
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : CircleAvatar(
-                                backgroundImage: MemoryImage(byteData!),
-                                radius: 35,
-                                backgroundColor: Colors.grey,
-                              )
+                        ? CircleAvatar(
+                            backgroundImage: MemoryImage(byteData!),
+                            radius: 35,
+                            backgroundColor: Colors.grey,
+                          )
                         // : CircleAvatar(
                         //     backgroundImage: NetworkImage(imageUrl!),
                         //     radius: 35,
@@ -356,12 +353,12 @@ class _MyDrawerState extends State<MyDrawer> {
     }
   }
 
-  Future<void> displayImage() async {
+  void displayImage() async {
     final storage =
         FirebaseStorage.instance.ref('ProfilePictures').child(widget.flatno);
 
     ListResult result = await storage.list();
-    final url = await result.items.last.getData();
+    final url = await result.items[0].getData();
     setState(() {
       byteData = url;
     });

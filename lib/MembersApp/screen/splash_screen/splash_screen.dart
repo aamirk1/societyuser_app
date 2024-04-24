@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Center(
               child: Text(
-                'SIMS',
+                'S.I.M.S.',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 40,

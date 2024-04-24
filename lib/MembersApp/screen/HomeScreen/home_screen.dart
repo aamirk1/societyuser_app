@@ -185,14 +185,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(
                                           'Dev Accounts -',
                                           style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.purple),
                                         ),
                                         Text(
-                                          ' Society Information & Management System',
+                                          ' S.I.M.S.',
                                           style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.purple),
                                         ),

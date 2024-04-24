@@ -51,6 +51,7 @@ dependencies:
   permission_handler: 
   lecle_downloads_path_provider: 
   image_picker: 
+  file_picker: ^7.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

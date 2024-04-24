@@ -61,7 +61,7 @@ class _forgotPasswordState extends State<forgotPassword> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "SIMS",
+              "S.I.M.S.",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 40,
