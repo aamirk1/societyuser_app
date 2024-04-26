@@ -368,6 +368,6 @@ class _MyDrawerState extends State<MyDrawer> {
 
     // Uint8List? pdfData = await result.items.first.getData();
     // String imageName = result.items.first.name;
-    print('imageName $imageUrl');
+    print('imageName-- $byteData');
   }
 }

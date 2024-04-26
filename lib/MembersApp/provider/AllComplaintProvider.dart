@@ -13,7 +13,7 @@ class AllComplaintProvider extends ChangeNotifier {
 
   void setBuilderList(List<dynamic> value) {
     _complaintList = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   void addSingleList(Map<String, dynamic> value) {

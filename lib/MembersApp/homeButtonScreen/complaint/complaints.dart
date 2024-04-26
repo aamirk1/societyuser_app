@@ -28,8 +28,18 @@ class _ComplaintsState extends State<Complaints> {
     });
     super.initState();
   }
-
-  List<String> complaintsData = [];
+List<String>complaintsTypeList= [
+   'House Keeping Complaint',
+   'Security Issues',
+   'Parking Issue',
+   'Admin Issue',
+    'Accounts Issue',
+    'Vendor Complaints',
+    'Water Related',
+    'Leackage Related',
+    'Pet Animals Related',
+    'Others'
+];
   bool isLoading = true;
   @override
   Widget build(BuildContext context) {
@@ -252,7 +262,7 @@ class _ComplaintsState extends State<Complaints> {
     );
   }
 
-  Future<void> fetchData() async {
+  Future<void> fetchData(index) async {
     final provider = Provider.of<AllComplaintProvider>(context, listen: false);
     provider.setBuilderList([]);
     try {
@@ -262,6 +272,8 @@ class _ComplaintsState extends State<Complaints> {
           .collection('flatno')
           .doc(widget.flatno)
           .collection('typeofcomplaints')
+          .doc(complaintsTypeList[index])
+          .collection('dateOfComplaint')
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData =

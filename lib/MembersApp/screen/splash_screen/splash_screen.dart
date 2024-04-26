@@ -12,9 +12,32 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   final SplashService _splashService = SplashService();
   bool isLogin = false;
+  String appName = "S.I.M.S.";
+  int currentIndex = 0;
+
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+  List<String> letters = [];
+
+  void _splitAppName() {
+    letters = appName.split('');
+  }
+
+  void _startAnimation() {
+    for (int i = 0; i < letters.length; i++) {
+      Future.delayed(Duration(milliseconds: 400 * i), () {
+        setState(() {
+          currentIndex = i;
+        });
+        _controller.forward();
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -30,6 +53,14 @@ class _SplashScreenState extends State<SplashScreen> {
             MaterialPageRoute(builder: (context) => const loginScreen()));
       }
     });
+    _controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    _slideAnimation = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero)
+        .animate(_controller);
+    _splitAppName();
+    _startAnimation();
+
     super.initState();
   }
 
@@ -46,17 +77,34 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
         padding: const EdgeInsets.all(20),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Text(
-                'S.I.M.S.',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i <= currentIndex; i++)
+                  if (i <= currentIndex)
+                    AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        return FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: SlideTransition(
+                            position: _slideAnimation,
+                            child: Text(
+                              letters[i],
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 3.2),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+              ],
             ),
           ],
         ),

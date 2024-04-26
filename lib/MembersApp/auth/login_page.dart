@@ -56,16 +56,16 @@ class _loginScreenState extends State<loginScreen> {
               "S.I.M.S.",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 30,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            Center(
+            const Center(
               child: Text(
                 "Society Information & Management System",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
 
@@ -75,7 +75,7 @@ class _loginScreenState extends State<loginScreen> {
             const Text('Welcome Back',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,

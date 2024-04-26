@@ -13,7 +13,7 @@ class AllGatePassProvider extends ChangeNotifier {
 
   void setBuilderList(List<dynamic> value) {
     _gatePassList = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   void addSingleList(Map<String, dynamic> value) {

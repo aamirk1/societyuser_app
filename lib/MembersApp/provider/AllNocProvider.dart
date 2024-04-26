@@ -6,8 +6,6 @@ class AllNocProvider extends ChangeNotifier {
   List<dynamic> _nocList = [];
   List<dynamic> get nocList => _nocList;
 
-
-
   void addList(List<dynamic> list) {
     _nocList = nocList;
     notifyListeners();
@@ -15,7 +13,7 @@ class AllNocProvider extends ChangeNotifier {
 
   void setBuilderList(List<dynamic> value) {
     _nocList = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   void addSingleList(Map<String, dynamic> value) {

@@ -43,11 +43,9 @@ class _MyDrawerState extends State<MyDrawer> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   String flatno = '';
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   Uint8List? byteData;
   String? fileName;
   String imageUrl = '';
-  final FirebaseStorage _storage = FirebaseStorage.instance;
   String imgnames = '';
 
   @override

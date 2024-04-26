@@ -64,7 +64,7 @@ class _forgotPasswordState extends State<forgotPassword> {
               "S.I.M.S.",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 40,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
             // const Text(
@@ -80,7 +80,7 @@ class _forgotPasswordState extends State<forgotPassword> {
             const Text('Welcome Back',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,

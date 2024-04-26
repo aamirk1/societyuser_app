@@ -18,7 +18,7 @@ class forgotPassword extends StatefulWidget {
 class _forgotPasswordState extends State<forgotPassword> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  TextEditingController flatNoController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
 
@@ -61,26 +61,28 @@ class _forgotPasswordState extends State<forgotPassword> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Society",
+              "S.I.M.S.",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 40,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "Manager",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 5,
+            ),
+            Center(
+              child: Text(
+                "Society Information & Management System",
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
             ),
             const SizedBox(
-              height: 70,
+              height: 20,
             ),
             const Text('Welcome Back',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 10,
@@ -91,7 +93,7 @@ class _forgotPasswordState extends State<forgotPassword> {
                 child: TextFormField(
                   style: const TextStyle(color: Colors.white),
                   textInputAction: TextInputAction.next,
-                  controller: flatNoController,
+                  controller: emailController,
                   decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -207,7 +209,7 @@ class _forgotPasswordState extends State<forgotPassword> {
                   onPressed: () async {
                     await updateUserData(
                         context,
-                        flatNoController.text,
+                        emailController.text,
                         passwordController.text,
                         confirmPasswordController.text);
                   },
@@ -240,13 +242,13 @@ class _forgotPasswordState extends State<forgotPassword> {
     );
   }
 
-  Future<void> updateUserData(BuildContext context, String flatNo,
+  Future<void> updateUserData(BuildContext context, String email,
       String password, String confirmPassword) async {
     try {
       // Create a new document in the "users" collection
       await firestore
-          .collection('users')
-          .doc(flatNo)
+          .collection('vendorsLoginDetails')
+          .doc(email)
           .update({'password': password, 'confirmPassword': confirmPassword});
 
       // ignore: use_build_context_synchronously

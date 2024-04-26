@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/provider/AllComplaintProvider.dart';
@@ -56,6 +57,14 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
   final TextEditingController giftController = TextEditingController();
   final TextEditingController bankController = TextEditingController();
 
+  String date2 = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
+  @override
+  void initState() {
+    super.initState();
+    print('date2 $date2');
+  }
+
   @override
   Widget build(BuildContext context) {
     // saleController.text =
@@ -87,74 +96,69 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  height: MediaQuery.of(context).size.height * 0.08,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: TypeAheadField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                            controller: complaintstypeController,
-                            decoration: const InputDecoration(
-                                labelText: 'Select complaints Type',
-                                border: OutlineInputBorder())),
-                        suggestionsCallback: (pattern) async {
-                          // return await getSocietyList();
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: MediaQuery.of(context).size.height * 0.08,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: complaintstypeController,
+                          decoration: const InputDecoration(
+                              labelText: 'Select complaints Type',
+                              border: OutlineInputBorder())),
+                      suggestionsCallback: (pattern) async {
+                        // return await getSocietyList();
 
-                          return widget.items;
-                        },
-                        itemBuilder: (context, suggestion) {
-                          return ListTile(
-                            title: Text(
-                              suggestion.toString(),
-                              style:  TextStyle(color: textColor),
-                            ),
-                          );
-                        },
-                        onSuggestionSelected: (suggestion) {
-                          complaintstypeController.text = suggestion.toString();
-                          switch (suggestion.toString()) {
-                            case 'House Keeping Complaint':
-                              _showDialog(
-                                  widget.application[0], saleController);
-                              break;
-                            case 'Security Issues':
-                              _showDialog(widget.application[1], gasController);
-                              break;
-                            case 'Parking Issue':
-                              _showDialog(
-                                  widget.application[2], electricController);
-                              break;
-                            case 'Admin Issue':
-                              _showDialog(
-                                  widget.application[3], passportController);
-                              break;
-                            case 'Accounts Issue':
-                              _showDialog(
-                                  widget.application[4], renovationController);
-                              break;
-                            case 'Vendor Complaints':
-                              _showDialog(
-                                  widget.application[5], giftController);
-                              break;
-                            case 'Water Related':
-                              _showDialog(
-                                  widget.application[6], bankController);
-                              break;
-                            case 'Leackage Related':
-                              _showDialog(
-                                  widget.application[7], bankController);
-                              break;
-                            case 'Pet Animals Related':
-                              _showDialog(
-                                  widget.application[8], bankController);
-                              break;
-                            case 'Others':
-                              _showDialog(
-                                  widget.application[9], bankController);
-                              break;
-                          }
-                        }),
-                  ))
+                        return widget.items;
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(
+                            suggestion.toString(),
+                            style: TextStyle(color: textColor),
+                          ),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        complaintstypeController.text = suggestion.toString();
+                        switch (suggestion.toString()) {
+                          case 'House Keeping Complaint':
+                            _showDialog(widget.application[0], saleController);
+                            break;
+                          case 'Security Issues':
+                            _showDialog(widget.application[1], gasController);
+                            break;
+                          case 'Parking Issue':
+                            _showDialog(
+                                widget.application[2], electricController);
+                            break;
+                          case 'Admin Issue':
+                            _showDialog(
+                                widget.application[3], passportController);
+                            break;
+                          case 'Accounts Issue':
+                            _showDialog(
+                                widget.application[4], renovationController);
+                            break;
+                          case 'Vendor Complaints':
+                            _showDialog(widget.application[5], giftController);
+                            break;
+                          case 'Water Related':
+                            _showDialog(widget.application[6], bankController);
+                            break;
+                          case 'Leackage Related':
+                            _showDialog(widget.application[7], bankController);
+                            break;
+                          case 'Pet Animals Related':
+                            _showDialog(widget.application[8], bankController);
+                            break;
+                          case 'Others':
+                            _showDialog(widget.application[9], bankController);
+                            break;
+                        }
+                      }),
+                ),
+              ),
             ],
           ),
         ),
@@ -178,7 +182,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                     child: Center(
                       child: Text(
                         selectedValue.toString(),
-                        style:  TextStyle(
+                        style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
                             color: textColor),
@@ -256,8 +260,10 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .doc(widget.flatno)
           .collection('typeofcomplaints')
           .doc(complaintsType)
+          .collection('dateOfComplaint')
+          .doc(date2)
           .set({
-        'complaintsType': complaintsType,
+        // 'complaintsType': complaintsType,
         'text': text,
       });
 
@@ -266,9 +272,13 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .set({"flatno": widget.flatno});
+          .collection('typeofcomplaints')
+          .doc(complaintsType)
+          .collection('dateOfComplaint')
+          .doc(date2)
+          .set({"dateOfComplaint": date2});
 
-      provider.addSingleList({'complaintsType': complaintsType});
+      provider.addSingleList({"dateOfComplaint": date2});
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
       // ignore: use_build_context_synchronously
