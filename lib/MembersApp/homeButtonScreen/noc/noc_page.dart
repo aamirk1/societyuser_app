@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/applyNoc.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/nocResponse.dart';
+import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/nocDateList.dart';
 import 'package:societyuser_app/MembersApp/provider/AllNocProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
@@ -30,6 +30,15 @@ class _nocPageState extends State<nocPage> {
   }
 
   bool isLoading = true;
+  List<String> nocTypeApplication = [
+    'SALE NOC',
+    'GAS NOC',
+    'ELECTRIC METER NOC',
+    'PASSPORT NOC',
+    'RENOVATION NOC',
+    'NOC FOR GIFT DEED',
+    'BANK',
+  ];
   List<String> nocData = [];
 
   @override
@@ -124,83 +133,64 @@ class _nocPageState extends State<nocPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
-                    Consumer<AllNocProvider>(builder: (context, value, child) {
-                      return value.nocList.isEmpty
-                          ? Center(
-                              child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height / 2,
-                              alignment: Alignment.center,
-                              child: const Text(
-                                'No NOC Available.',
-                                style:
-                                    TextStyle(fontSize: 20, color: Colors.red),
-                              ),
-                            ))
-                          : SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.69,
-                              child: GridView.builder(
-                                  itemCount: value.nocList.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          mainAxisSpacing: 10.0,
-                                          crossAxisSpacing: 10.0,
-                                          childAspectRatio: 1.3,
-                                          crossAxisCount: 3),
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          border: Border.all(color: textColor)),
-                                      child: Column(children: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return ViewNoc(
-                                                      nocType:
-                                                          value.nocList[index]
-                                                              ['nocType'],
-                                                      societyName:
-                                                          widget.societyName!,
-                                                      flatNo: widget.flatno!,
-                                                      text: value.nocList[index]
-                                                          ['text'],
-                                                    );
-                                                  },
-                                                ),
-                                              ).whenComplete(() => fetchData());
-                                            },
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                getIcon(value.nocList[index]
-                                                    ['nocType']),
-                                                const SizedBox(
-                                                  height: 15,
-                                                ),
-                                                Text(
-                                                  value.nocList[index]
-                                                      ['nocType'],
-                                                  style: TextStyle(
-                                                      color: textColor,
-                                                      fontSize: 12),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            )),
-                                      ]),
-                                    );
-                                  }),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.69,
+                      child: GridView.builder(
+                          itemCount: nocTypeApplication.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 10.0,
+                                  crossAxisSpacing: 10.0,
+                                  childAspectRatio: 1.3,
+                                  crossAxisCount: 3),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(color: textColor)),
+                              child: Column(children: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return NocDateList(
+                                              username: widget.username!,
+                                              nocType:
+                                                  nocTypeApplication[index],
+                                              societyName: widget.societyName!,
+                                              flatno: widget.flatno!,
+                                              // text: value.nocList[index]
+                                              //     ['text'],
+                                            );
+                                          },
+                                        ),
+                                      ).whenComplete(() => fetchData());
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        getIcon(nocTypeApplication[index]),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          nocTypeApplication[index],
+                                          style: TextStyle(
+                                              color: textColor, fontSize: 12),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    )),
+                              ]),
                             );
-                    })
+                          }),
+                    )
                   ],
                 ),
               ),

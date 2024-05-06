@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/gatePass/applyGatePass.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/gatePass/viewGatePassResponse.dart';
+import 'package:societyuser_app/MembersApp/homeButtonScreen/gatePass/gatepassDateList.dart';
 import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
@@ -69,19 +69,19 @@ class _GatePassState extends State<GatePass> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                          'Dev Accounts -',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple),
-                                        ),
-                                        Text(
-                                          ' S.I.M.S.',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple),
-                                        ),
+                                  'Dev Accounts -',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.purple),
+                                ),
+                                Text(
+                                  ' S.I.M.S.',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.purple),
+                                ),
                               ],
                             ),
                           ),
@@ -150,7 +150,8 @@ class _GatePassState extends State<GatePass> {
                                         color: checkResult[index]
                                                     ['isApproved'] ==
                                                 true
-                                            ? const Color.fromARGB(255, 1, 150, 11)
+                                            ? const Color.fromARGB(
+                                                255, 1, 150, 11)
                                             : checkResult[index]
                                                         ['isRejected'] ==
                                                     true
@@ -163,16 +164,16 @@ class _GatePassState extends State<GatePass> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return ViewGatePass(
+                                                  return GatePassDateList(username: widget.username,
                                                     gatePassType: value
                                                             .gatePassList[index]
                                                         ['gatePassType'],
                                                     societyName:
                                                         widget.societyName!,
-                                                    flatNo: widget.flatno!,
-                                                    text: value
-                                                            .gatePassList[index]
-                                                        ['text'],
+                                                    flatno: widget.flatno,
+                                                    // text: value
+                                                    //         .gatePassList[index]
+                                                    //     ['text'],
                                                   );
                                                 },
                                               ),
@@ -180,7 +181,8 @@ class _GatePassState extends State<GatePass> {
                                           },
                                           child: Text(
                                             value.gatePassList[index]
-                                                ['gatePassType'],
+                                                    ['gatePassType']
+                                                .toString(),
                                             style: TextStyle(
                                                 color: buttonTextColor,
                                                 fontSize: 15),
@@ -228,12 +230,14 @@ class _GatePassState extends State<GatePass> {
           .doc(widget.flatno)
           .collection('gatePassType')
           .get();
+          
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData =
             querySnapshot.docs.map((e) => e.data()).toList();
         provider.setBuilderList(tempData);
 
         checkResult = tempData;
+        print('checkResult: $checkResult');
       }
     } catch (e) {
       // ignore: avoid_print

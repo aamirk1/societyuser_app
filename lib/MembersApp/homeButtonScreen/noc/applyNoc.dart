@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/provider/AllNocProvider.dart';
@@ -49,6 +50,7 @@ class _apply_nocState extends State<apply_noc> {
   final TextEditingController giftController = TextEditingController();
   final TextEditingController bankController = TextEditingController();
 
+  String date2 = DateFormat('dd-MM-yyyy').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     saleController.text =
@@ -248,6 +250,8 @@ class _apply_nocState extends State<apply_noc> {
           .doc(widget.flatno)
           .collection('typeofNoc')
           .doc(nocType)
+          .collection('dateOfNoc')
+          .doc(date2)
           .set({
         'nocType': nocType,
         'text': text,
@@ -258,6 +262,15 @@ class _apply_nocState extends State<apply_noc> {
           .collection('flatno')
           .doc(widget.flatno)
           .set({"flatno": widget.flatno});
+
+      await firestore
+          .collection('nocApplications')
+          .doc(widget.societyName)
+          .collection('flatno')
+          .doc(widget.flatno)
+          .collection('typeofNoc')
+          .doc(nocType)
+          .set({"typeofNoc": nocType});
 
       provider.addSingleList({'nocType': nocType});
 

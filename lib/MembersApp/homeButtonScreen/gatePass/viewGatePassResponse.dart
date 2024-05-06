@@ -11,12 +11,12 @@ class ViewGatePass extends StatefulWidget {
     required this.gatePassType,
     required this.societyName,
     required this.flatNo,
-    required this.text,
+    // required this.text,
   });
   String gatePassType;
   String societyName;
   String flatNo;
-  String text;
+  // String text;
   @override
   State<ViewGatePass> createState() => _ViewGatePassState();
 }
@@ -78,7 +78,7 @@ class _ViewGatePassState extends State<ViewGatePass> {
                               padding: const EdgeInsets.only(
                                   left: 15.0, right: 15.0, top: 5.0),
                               child: Text(
-                                widget.text,
+                                ' widget.text',
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(color: textColor),
                               ),

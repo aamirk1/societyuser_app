@@ -3,25 +3,29 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
+import 'package:societyuser_app/MembersApp/provider/AllNocProvider.dart';
 
 // ignore: must_be_immutable
 class ViewNoc extends StatefulWidget {
-  ViewNoc({
-    super.key,
-    required this.nocType,
-    required this.societyName,
-    required this.flatNo,
-    required this.text,
-  });
+  ViewNoc(
+      {super.key,
+      required this.nocType,
+      required this.societyName,
+      required this.flatNo,
+      // required this.text,
+      required this.date});
   String nocType;
   String societyName;
   String flatNo;
-  String text;
+  // String text;
+  String date;
   @override
   State<ViewNoc> createState() => _ViewNocState();
 }
@@ -33,14 +37,20 @@ class _ViewNocState extends State<ViewNoc> {
   String filename = '';
   List<String> fileList = [];
   bool isLoading = true;
-
+  Map<String, dynamic> nocData = {};
   String? SelectedSociety;
   String? flatNo;
   String? nocType;
   @override
   void initState() {
     super.initState();
-    getNocPdf(widget.societyName, widget.flatNo, widget.nocType)
+    fetchData(widget.societyName, widget.flatNo, widget.nocType, widget.date)
+        .whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
+    getNocPdf(widget.societyName, widget.flatNo, widget.nocType, widget.date)
         .whenComplete(() {
       setState(() {
         isLoading = false;
@@ -82,7 +92,7 @@ class _ViewNocState extends State<ViewNoc> {
                                         color: textColor),
                                   ),
                                   Text(
-                                    widget.text,
+                                    nocData['text'] ?? 'No Text Given',
                                     style: TextStyle(
                                         fontSize: 12, color: textColor),
                                   ),
@@ -129,15 +139,13 @@ class _ViewNocState extends State<ViewNoc> {
   }
 
   Future<List<String>> getNocPdf(
-      // ignore: non_constant_identifier_names
-      SelectedSociety,
-      flatNo,
-      nocType) async {
+      selectedSociety, flatNo, nocType, dateOfNoc) async {
     ListResult listResult = await FirebaseStorage.instance
         .ref('NocPdfs')
-        .child(SelectedSociety!)
+        .child(selectedSociety!)
         .child(flatNo)
         .child(nocType)
+        .child(dateOfNoc)
         .list();
 
     filename = listResult.items.first.name;
@@ -165,6 +173,32 @@ class _ViewNocState extends State<ViewNoc> {
             ),
           );
         });
+  }
+
+  Future<void> fetchData(
+      String societyName, String flatNo, String nocType, String date) async {
+    final provider = Provider.of<AllNocProvider>(context, listen: false);
+    provider.setBuilderList([]);
+    try {
+      DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('nocApplications')
+          .doc(societyName)
+          .collection('flatno')
+          .doc(flatNo)
+          .collection('typeofNoc')
+          .doc(nocType)
+          .collection('dateOfNoc')
+          .doc(date)
+          .get();
+      if (querySnapshot.data() != null) {
+        Map<String, dynamic> tempData =
+            querySnapshot.data() as Map<String, dynamic>;
+        nocData = tempData;
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error fetching data: $e');
+    }
   }
 
   Future<void> downloadPdf() async {

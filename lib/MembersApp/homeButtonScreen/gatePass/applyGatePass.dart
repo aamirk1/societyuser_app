@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
@@ -21,6 +22,8 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController gatePassTypeController = TextEditingController();
   final TextEditingController controller = TextEditingController();
+
+  String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +103,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
                               storeUserData(
                                 gatePassTypeController.text,
                                 controller.text,
+                                currentDate,
                               );
                             },
                             child: const Text(
@@ -122,7 +126,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
     );
   }
 
-  void storeUserData(String gatePassType, String text) async {
+  void storeUserData(String gatePassType, String text, String date) async {
     final provider = Provider.of<AllGatePassProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
@@ -133,10 +137,20 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
           .doc(widget.flatno)
           .collection('gatePassType')
           .doc(gatePassType)
+          .collection('dateOfGatePass')
+          .doc(date)
           .set({
         'gatePassType': gatePassType,
         'text': text,
       });
+      await firestore
+          .collection('gatePassApplications')
+          .doc(widget.societyName)
+          .collection('flatno')
+          .doc(widget.flatno)
+          .collection('gatePassType')
+          .doc(gatePassType)
+          .set({"gatePassType": gatePassType});
       await firestore
           .collection('gatePassApplications')
           .doc(widget.societyName)

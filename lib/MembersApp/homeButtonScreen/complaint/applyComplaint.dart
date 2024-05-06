@@ -272,11 +272,16 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
+          .set({"flatno": widget.flatno});
+
+      await firestore
+          .collection('complaints')
+          .doc(widget.societyName)
+          .collection('flatno')
+          .doc(widget.flatno)
           .collection('typeofcomplaints')
           .doc(complaintsType)
-          .collection('dateOfComplaint')
-          .doc(date2)
-          .set({"dateOfComplaint": date2});
+          .set({"typeofcomplaints": complaintsType});
 
       provider.addSingleList({"dateOfComplaint": date2});
       // ignore: use_build_context_synchronously
