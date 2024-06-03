@@ -75,9 +75,9 @@ class _NocDateListState extends State<NocDateList> {
                                       color: Colors.purple),
                                 ),
                                 Text(
-                                  ' S.I.M.S.',
+                                  ' Society Manager',
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.purple),
                                 ),

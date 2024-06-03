@@ -76,9 +76,9 @@ class _GatePassDateListState extends State<GatePassDateList> {
                                       color: Colors.purple),
                                 ),
                                 Text(
-                                  ' S.I.M.S.',
+                                  ' Society Manager',
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.purple),
                                 ),

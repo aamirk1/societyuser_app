@@ -53,10 +53,10 @@ class _loginScreenState extends State<loginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "S.I.M.S.",
+              "Society Manager",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(

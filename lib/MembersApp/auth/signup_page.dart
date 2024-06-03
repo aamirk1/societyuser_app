@@ -63,7 +63,7 @@ class _signUpState extends State<signUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "S.I.M.S.",
+              "Society Manager",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,

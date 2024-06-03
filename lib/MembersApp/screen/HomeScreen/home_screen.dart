@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -13,6 +14,7 @@ import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/member_ladger
 import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/serviceProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/AllNoticeProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -53,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> societyList = [];
   List<String> flatNOList = [];
   List<dynamic> memberList = [];
-
+  List<dynamic> Allnotice = [];
   String? selectedSocietyName;
   String? selectedFlatNo;
   String name = '';
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String billAmount = '';
   String payableAmount = '';
   String mobile = '';
-
+  String totalNotice = '2';
   bool isLoading = true;
   bool isDataAvailable = false;
   String phoneNum = '';
@@ -190,9 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               color: Colors.purple),
                                         ),
                                         Text(
-                                          ' S.I.M.S.',
+                                          ' Society Manager',
                                           style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.purple),
                                         ),
@@ -240,7 +242,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           flatnoController.clear();
                                           selectedFlatNo = '';
                                           selectedSocietyName = value;
-                                          await getflatno(selectedSocietyName!);
+                                          await getflatno(selectedSocietyName!)
+                                              .whenComplete(() {
+                                            getNotice(selectedSocietyName);
+                                          });
                                           setState(() {});
                                         },
                                         buttonStyleData: const ButtonStyleData(
@@ -362,20 +367,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                         },
                                         buttonStyleData: const ButtonStyleData(
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            border: Border(
+                                              right: BorderSide(
+                                                color: Colors.grey,
                                               ),
-                                              border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.grey,
-                                                  ),
-                                                  left: BorderSide(
-                                                      color: Colors.grey),
-                                                  top: BorderSide(
-                                                      color: Colors.grey),
-                                                  bottom: BorderSide(
-                                                    color: Colors.grey,
-                                                  ))),
+                                              left: BorderSide(
+                                                  color: Colors.grey),
+                                              top: BorderSide(
+                                                  color: Colors.grey),
+                                              bottom: BorderSide(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20),
                                           height: 40,
@@ -667,14 +674,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                         },
                                         child: Column(
                                           children: [
-                                            Card(
-                                                elevation: 10,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      12.0),
-                                                  child:
-                                                      getIcon(buttons[index]),
-                                                )),
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Card(
+                                                  elevation: 10,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12.0),
+                                                    child:
+                                                        getIcon(buttons[index]),
+                                                  ),
+                                                ),
+                                                buttons[index] ==
+                                                        "CIRCULAR/NOTICE"
+                                                    ? Positioned(
+                                                        top: 0,
+                                                        right: 0,
+                                                        child: CircleAvatar(
+                                                          radius: 10,
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          child: Text(
+                                                            totalNotice,
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 12),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Container()
+                                              ],
+                                            ),
                                             const SizedBox(
                                               height: 5,
                                             ),
@@ -762,7 +795,7 @@ class _HomeScreenState extends State<HomeScreen> {
       List<dynamic> dataList = tempData['data'];
 
       for (var data in dataList) {
-        if (phoneNum == data['Mobile No.']) {
+        if (phoneNum == data['Mobile No.'].toString()) {
           isUserPresent = true;
           break;
         }
@@ -792,8 +825,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       List<dynamic> dataList = tempData['data'];
       for (var data in dataList) {
-        if (data['Mobile No.'] == phoneNum) {
-          flatNOList.add(data['Flat No.']);
+        if (data['Mobile No.'].toString() == phoneNum) {
+          flatNOList.add(data['Flat No.'].toString());
           print('flat no list $flatNOList');
         }
       }
@@ -828,12 +861,12 @@ class _HomeScreenState extends State<HomeScreen> {
         List<dynamic> dataList = tempData['data'];
 
         for (var data in dataList) {
-          if (phoneNum == data['Mobile No.'] &&
-              selectedFlatno == data['Flat No.']) {
+          if (phoneNum == data['Mobile No.'].toString() &&
+              selectedFlatno == data['Flat No.'].toString()) {
             {
               name = data['Member Name'];
               status = data['Status'] ?? 'Not Available';
-              mobile = data['Mobile No.'];
+              mobile = data['Mobile No.'].toString();
 
               usernameController.text = name;
               mobileController.text = mobile;
@@ -909,6 +942,23 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
+  }
+
+  Future<void> getNotice(String? SelectedSociety) async {
+    final provider = Provider.of<AllNoticeProvider>(context, listen: false);
+
+    QuerySnapshot getAllNotice = await FirebaseFirestore.instance
+        .collection('notice')
+        .doc(SelectedSociety)
+        .collection('notices')
+        .get();
+    List<dynamic> allTypeOfNotice =
+        getAllNotice.docs.map((e) => e.data()).toList();
+    // print('aaaa - $allTypeOfNotice');
+    Allnotice = allTypeOfNotice;
+    totalNotice = Allnotice.length.toString();
+    print(totalNotice);
+    provider.setBuilderNoticeList(allTypeOfNotice);
   }
 
   Future<void> signOut() async {

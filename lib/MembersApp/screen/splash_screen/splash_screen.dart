@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final SplashService _splashService = SplashService();
   bool isLogin = false;
-  String appName = "S.I.M.S.";
+  String appName = "Society Manager";
   int currentIndex = 0;
 
   late AnimationController _controller;

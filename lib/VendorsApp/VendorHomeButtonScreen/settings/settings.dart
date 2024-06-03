@@ -81,7 +81,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 Text(
                                   ' Society Manager App',
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.purple),
                                 ),

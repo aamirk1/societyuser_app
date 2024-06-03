@@ -47,7 +47,7 @@ class _nocPageState extends State<nocPage> {
       appBar: AppBar(
         backgroundColor: appBarBgColor,
         title: const Text(
-          'NOC ',
+          'NOC',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -82,9 +82,9 @@ class _nocPageState extends State<nocPage> {
                                       color: Colors.purple),
                                 ),
                                 Text(
-                                  ' S.I.M.S.',
+                                  ' Society Manager',
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.purple),
                                 ),

@@ -59,10 +59,10 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "S.I.M.S.",
+              "Society Manager",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(
