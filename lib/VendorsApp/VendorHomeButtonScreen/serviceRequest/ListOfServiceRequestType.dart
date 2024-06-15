@@ -30,7 +30,7 @@ class _ListOfServiceRequestTypeState extends State<ListOfServiceRequestType> {
   void initState() {
     getCompanyName().whenComplete(() async {
       await getRequestType();
-
+      print(widget.societyName);
       setState(() {
         isLoading = false;
       });
@@ -113,7 +113,7 @@ class _ListOfServiceRequestTypeState extends State<ListOfServiceRequestType> {
     vendorName = vendorQuery['empName'];
   }
 
-  getRequestType() async {
+  Future<void> getRequestType() async {
     QuerySnapshot requestTypeQuery = await FirebaseFirestore.instance
         .collection('sendComplaintsForVendors')
         .doc(widget.societyName)

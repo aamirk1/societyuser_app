@@ -12,9 +12,11 @@ class SettingScreen extends StatefulWidget {
     super.key,
     required this.email,
     required this.societyName,
+    required this.companyName
   });
   String email;
   String societyName;
+  String companyName;
   @override
   State<SettingScreen> createState() => _SettingScreenState();
 }

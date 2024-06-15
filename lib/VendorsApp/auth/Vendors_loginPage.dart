@@ -65,16 +65,16 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+          const  SizedBox(
               height: 5,
             ),
-            Center(
+            const Center(
               child: Text(
                 "Society Information & Management System",
                 style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
-            SizedBox(
+       const     SizedBox(
               height: 5,
             ),
             const Text('Login as Vendor',
@@ -248,6 +248,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
 
   Future<void> login(
       String email, String password, BuildContext context) async {
+    fetchVendorDetails(email);
     try {
       // Fetch the user document from Firestore based on the provided username
       final userDoc = await FirebaseFirestore.instance
@@ -277,6 +278,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
                         empDesignation: empDesignation,
                         empName: empName,
                         empPhone: empPhone,
+                        companyName: companyName,
                       )),
               (route) => false);
         } else {
@@ -314,12 +316,15 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
 
     Map<String, dynamic> vendorDetails = {};
     vendorDetails = flatNoQuery.data() as Map<String, dynamic>;
-    print(vendorDetails);
+
+    print('vendorDetails: $vendorDetails');
+
     companyName = vendorDetails['companyName'];
     societyName = vendorDetails['society'];
     empEmail = vendorDetails['empEmail'];
     empName = vendorDetails['empName'];
     empPhone = vendorDetails['empPhone'];
+  
     storeCompanyInSharedPref(
       companyName,
       societyName,
@@ -327,6 +332,8 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
       empName,
       empPhone,
     );
+
+    print('storedCompanyName: $storeCompanyInSharedPref');
   }
 
   void storeCompanyInSharedPref(String companyName, String societyName,
@@ -335,6 +342,10 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
     await prefs.setString(
       "companyName",
       companyName,
+    );
+    await prefs.setString(
+      "societyName",
+      societyName,
     );
     await prefs.setString(
       "empEmail",

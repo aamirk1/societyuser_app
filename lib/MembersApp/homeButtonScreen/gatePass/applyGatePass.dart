@@ -163,6 +163,12 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
         'text': text,
       });
 
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Center(child: Text('Gate Pass Applied Successfully')),
+        ),
+      );
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseException catch (e) {

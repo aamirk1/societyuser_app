@@ -284,6 +284,14 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .set({"typeofcomplaints": complaintsType});
 
       provider.addSingleList({"dateOfComplaint": date2});
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Center(child: Text('Complaint Submitted successfully')),
+        ),
+      );
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
       // ignore: use_build_context_synchronously

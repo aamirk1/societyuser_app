@@ -2,17 +2,19 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
-import 'package:societyuser_app/MembersApp/provider/list_builder_provider.dart';
 import 'package:societyuser_app/VendorsApp/VendorHomeButtonScreen/serviceRequest/ListOfServiceRequestType.dart';
 
 // ignore: must_be_immutable
 class ServiceRequestFlatNo extends StatefulWidget {
   ServiceRequestFlatNo(
-      {super.key, required this.email, required this.societyName});
+      {super.key,
+      required this.email,
+      required this.societyName,
+      required this.companyName});
   String email;
   String societyName;
+  String companyName;
 
   @override
   State<ServiceRequestFlatNo> createState() => _ServiceRequestFlatNoState();
@@ -33,14 +35,13 @@ class _ServiceRequestFlatNoState extends State<ServiceRequestFlatNo> {
   List<dynamic> allFlatNo = [];
   @override
   void initState() {
-    getSocietyName().whenComplete(() async {
-      await fetchVendorDetails(widget.email);
+    super.initState();
+    // getCompany(widget.societyName);
+    getFlatNo(widget.societyName).whenComplete(() {
       setState(() {
         isLoading = false;
       });
     });
-    super.initState();
-    // getCompany(widget.societyName);
   }
 
   @override
@@ -50,83 +51,64 @@ class _ServiceRequestFlatNoState extends State<ServiceRequestFlatNo> {
         backgroundColor: appBarBgColor,
         title: const Text('All Service Provider'),
       ),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 12,
-              height: MediaQuery.of(context).size.height * 0.09,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: allFlatNo.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 5,
-                    child: ListTile(
-                        title: Text(
-                          allFlatNo[index],
-                          style: TextStyle(color: textColor),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ListOfServiceRequestType(
-                                  email: widget.email,
-                                  flatNo: allFlatNo[index],
-                                  societyName: widget.societyName,
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 12,
+                    height: MediaQuery.of(context).size.height * 0.09,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: allFlatNo.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          elevation: 5,
+                          child: ListTile(
+                              title: Text(
+                                allFlatNo[index],
+                                style: TextStyle(color: textColor),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ListOfServiceRequestType(
+                                        email: widget.email,
+                                        flatNo: allFlatNo[index],
+                                        societyName: widget.societyName,
+                                      );
+                                    },
+                                  ),
                                 );
-                              },
-                            ),
-                          );
-                        }),
-                  );
-                },
-              ),
+                              }),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ]),
             ),
-          )
-        ]),
-      ),
     );
   }
 
-  Future<void> fetchVendorDetails(String currentEmail) async {
-    DocumentSnapshot flatNoQuery = await FirebaseFirestore.instance
-        .collection('vendorsLoginDetails')
-        .doc(currentEmail)
+  Future getFlatNo(String societyName) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('sendComplaintsForVendors')
+        .doc(societyName)
+        .collection('flatno')
         .get();
-    vendorDetails = flatNoQuery.data() as Map<String, dynamic>;
-    companyName = vendorDetails['companyName'];
-    societyName = vendorDetails['society'];
-    empEmail = vendorDetails['empEmail'];
-    empName = vendorDetails['empName'];
-    empPhone = vendorDetails['empPhone'];
-  }
 
-  Future<List<String>> getSocietyName() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('society').get();
-
-    allSociety = querySnapshot.docs.map((e) => e.id).toList();
-    // print(tempList);
-
-    return allSociety;
-  }
-
-  Future<void> deleteEmp(
-      String selectedSociety, String company, int index) async {
-    final provider = Provider.of<ListBuilderProvider>(context, listen: false);
-    DocumentReference deleteEmployee = FirebaseFirestore.instance
-        .collection('vendorList')
-        .doc(selectedSociety)
-        .collection('companyList')
-        .doc(company);
-
-    await deleteEmployee.delete();
-
-    provider.removeData(index);
+    if (querySnapshot.docs.isNotEmpty) {
+      allFlatNo = querySnapshot.docs.map((e) => e.id).toList();
+      setState(() {
+        isLoading = false;
+      });
+    }
+    print('allFlatNo $allFlatNo');
   }
 
   alertbox() {

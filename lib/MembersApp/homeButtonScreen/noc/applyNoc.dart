@@ -273,7 +273,12 @@ class _apply_nocState extends State<apply_noc> {
           .set({"typeofNoc": nocType});
 
       provider.addSingleList({'nocType': nocType});
-
+     
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Center(child: Text('NOC submitted successfully')),
+        backgroundColor: Colors.green,
+      ));
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
       // ignore: use_build_context_synchronously

@@ -508,13 +508,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             buildInfoRow(
                                                 context,
                                                 Icons.home,
-                                                "Flat No.",
-                                                selectedFlatNo ?? ''),
+                                                "Society Name",
+                                                selectedSocietyName ?? ''),
                                             buildInfoRow(
                                                 context,
                                                 Icons.home,
-                                                "Society Name",
-                                                selectedSocietyName ?? ''),
+                                                "Flat No.",
+                                                selectedFlatNo ?? ''),
+
                                             // Row(
                                             //   children: [
                                             //     Padding(
@@ -941,6 +942,10 @@ class _HomeScreenState extends State<HomeScreen> {
           break;
         }
       }
+      print('bill amount $billAmount');
+      print('payable amount $payableAmount');
+
+      print('aaaa - ${billAmountController.text}');
     }
   }
 
@@ -968,7 +973,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // ignore: use_build_context_synchronously
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const loginScreen()),
+        MaterialPageRoute(
+          builder: (context) => const loginScreen(),
+        ),
         (route) => false);
   }
 }

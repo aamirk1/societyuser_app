@@ -15,12 +15,14 @@ class VendorHomeScreen extends StatefulWidget {
       this.societyName,
       this.empName,
       this.empDesignation,
-      this.empPhone});
+      this.empPhone,
+      this.companyName});
   String? email;
   String? societyName;
   String? empName;
   String? empDesignation;
   String? empPhone;
+  String? companyName;
 
   @override
   State<VendorHomeScreen> createState() => _VendorHomeScreenState();
@@ -54,17 +56,20 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
   void initState() {
     _splashService.getPhoneNum();
     super.initState();
+    print(widget.societyName);
   }
 
   List<String> buttons = ['SERVICE REQUEST', 'SETTINGS'];
-  List<Widget Function(String, String)> screens = [
-    (email, societyName) => ServiceRequestFlatNo(
+  List<Widget Function(String, String, String)> screens = [
+    (email, societyName, companyName) => ServiceRequestFlatNo(
           email: email,
           societyName: societyName,
+          companyName: companyName,
         ),
-    (email, societyName) => SettingScreen(
+    (email, societyName,companyName) => SettingScreen(
           email: email,
           societyName: societyName,
+          companyName: companyName,
         ),
   ];
   @override
@@ -159,10 +164,10 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => screens[index](
-                                          widget.email!, widget.societyName!),
-                                    ),
+                                    MaterialPageRoute(builder: (context) {
+                                      return screens[index](
+                                          widget.email!, widget.societyName!, widget.companyName!);
+                                    }),
                                   );
                                   // if (isSocietySelected) {
 

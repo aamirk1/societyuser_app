@@ -177,7 +177,12 @@ class _SendComplaintsState extends State<SendComplaints> {
           .set({
         "flatno": widget.flatno,
       });
-
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text('Complaint Sent'),
+        ),
+      );
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseException catch (e) {

@@ -31,6 +31,8 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   String confirmPassword = '';
   String errorMessage = "";
   List<dynamic> tempList = [];
+  List<dynamic> emailList = [];
+  String societyName = '';
   bool isLoading = true;
   String? selectedCompanyName;
   void validatePassword() {
@@ -57,8 +59,10 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   @override
   void initState() {
     getCompanyList().whenComplete(() {
-      setState(() {
-        isLoading = false;
+      getEmail(selectedCompanyName!).whenComplete(() {
+        setState(() {
+          isLoading = false;
+        });
       });
     });
     super.initState();
@@ -417,52 +421,78 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
   }
 
   Future<void> getEmail(String companyName) async {
-    QuerySnapshot EmailList = await FirebaseFirestore.instance
+    QuerySnapshot emailLists = await FirebaseFirestore.instance
         .collection('vendorEmployeeList')
         .doc(companyName)
         .collection('employeeList')
         .get();
-    tempList = EmailList.docs.map((e) => e.id).toList();
+    emailList = emailLists.docs.map((e) => e.id).toList();
+
+    // getSocietyList(companyName, email);
+  }
+
+  Future<void> getSocietyList(String companyName, String email) async {
+    DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore.instance
+        .collection('vendorEmployeeList')
+        .doc(companyName)
+        .collection('employeeList')
+        .doc(email)
+        .get();
+    societyName = societyQuerySnapshot['society'];
+    print('societyList: $societyName');
   }
 
   Future<void> storeUserData(BuildContext context, String mobile, String email,
       String password, String confirmPassword) async {
-    for (var i = 0; i < tempList.length; i++) {
-      if (tempList[i]
+    for (var i = 0; i < emailList.length; i++) {
+      if (emailList[i]
           .toLowerCase()
           .contains(emailController.text.toLowerCase())) {
-        emailController.text = tempList[i];
-        try {
-          storeCompanyInSharedPref(selectedCompanyName!);
-          // Create a new document in the "users" collection
-          await firestore.collection('vendorsLoginDetails').doc(email).set({
-            "companyName": selectedCompanyName,
-            'Mobile No.': mobile,
-            'email': email,
-            'password': password,
-            'confirmPassword': confirmPassword
-          });
-          // ignore: use_build_context_synchronously
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return const LoginAsVendors();
-            }),
-            (route) => false,
-          );
-          setState(() {
-            errorMessage = '';
-          });
-        } on FirebaseException catch (e) {
-          setState(() {
-            errorMessage = e.message!;
-          });
-        }
+        email = emailList[i];
+        getSocietyList(selectedCompanyName!, email).whenComplete(() async {
+          try {
+            storeCompanyInSharedPref(selectedCompanyName!,societyName);
+            // Create a new document in the "users" collection
+            await firestore.collection('vendorsLoginDetails').doc(email).set({
+              "companyName": selectedCompanyName,
+              'Mobile No.': mobile,
+              'email': email,
+              'society': societyName,
+              'password': password,
+              'confirmPassword': confirmPassword
+            });
+            SnackBar snackBar = const SnackBar(
+              backgroundColor: Colors.yellow,
+              content: Center(child: Text('Email does not exist')),
+            );
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            // ignore: use_build_context_synchronously
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return const LoginAsVendors();
+              }),
+              (route) => false,
+            );
+          } on FirebaseException catch (e) {
+            setState(() {
+              errorMessage = e.message!;
+            });
+          }
+        });
+      } else {
+        SnackBar snackBar = const SnackBar(
+          backgroundColor: Colors.yellow,
+          content: Center(child: Text('Email does not exist')),
+        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
   }
 
-  void storeCompanyInSharedPref(String companyName) async {
+  void storeCompanyInSharedPref(String companyName, String societyName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("companyName", companyName);
   }
