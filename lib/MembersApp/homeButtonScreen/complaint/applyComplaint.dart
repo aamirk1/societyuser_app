@@ -62,7 +62,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
   @override
   void initState() {
     super.initState();
-    print('date2 $date2');
+    // print('date2 $date2');
   }
 
   @override
@@ -296,8 +296,8 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
       Navigator.pop(context);
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
-    } on FirebaseException catch (e) {
-      print('Error storing data: $e');
+    } on FirebaseException {
+      // print('Error storing data: $e');
     }
   }
 }

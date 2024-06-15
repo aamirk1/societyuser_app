@@ -1,12 +1,9 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -117,42 +114,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     ),
                   ),
 
-                  // UserAccountsDrawerHeader(
-                  //   accountName: const Text("User Name"),
-                  //   accountEmail: const Text("Shashankgreat.com"),
-                  //   currentAccountPicture: CircleAvatar(
-                  //       backgroundImage:
-                  //           _image != null ? FileImage(_image!) : null,
-                  //       child:
-                  //           _image == null ? const Icon(Icons.person) : null),
-                  // ),
-                  // ListTile(
-                  //   leading: const Icon(Icons.edit),
-                  //   title: const Text("Update your profle picture"),
-                  //   onTap: _getImage,
-                  // ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Text(
-                  //   usernameController.text,
-                  //   style: const TextStyle(
-                  //     fontSize: 14,
-                  //   ),
-                  // ),
-                  //const SizedBox(height: 4),
-                  // Text(
-                  //   'Flat No.: ${flatnoController.text}',
-                  //   style: const TextStyle(
-                  //     fontSize: 14,
-                  //   ),
-                  // ),
-                  // Text(
-                  //   'Mobile No.: ${mobileController.text}',
-                  //   style: const TextStyle(
-                  //     fontSize: 14,
-                  //   ),
-                  // ),
+
                 ],
               ),
             ),

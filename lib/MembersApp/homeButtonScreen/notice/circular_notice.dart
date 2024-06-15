@@ -265,9 +265,6 @@ class _circular_noticeState extends State<circular_notice> {
       String filename = ref.name;
       fileList.add(filename);
     }
-    // print('getPdf - $fileList');
-
-    // provider.setBuilderNoticePdfList(fileList);
     setState(() {
       fileList = fileList;
     });
@@ -279,8 +276,6 @@ class _circular_noticeState extends State<circular_notice> {
     final Reference ref =
         storage.ref('Notices').child(widget.societyName!).child(title);
     String url = await ref.getDownloadURL();
-
-    // print('url - $url');
 
     return url;
   }

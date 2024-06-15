@@ -147,8 +147,7 @@ class _GatePassDateListState extends State<GatePassDateList> {
                                             return ViewGatePass(
                                               gatePassType: widget.gatePassType,
                                               societyName: widget.societyName!,
-                                              // date: GatePassDateList[index]
-                                              //     .toString(),
+                                           
                                               flatNo: widget.flatno!,
                                             );
                                           }));
@@ -164,32 +163,6 @@ class _GatePassDateListState extends State<GatePassDateList> {
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 30),
-        const SizedBox(width: 20.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-            const SizedBox(height: 4.0),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 14.0),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   Future<void> fetchData(String societyName, String gatePassType) async {
     final provider = Provider.of<DateOfGatePass>(context, listen: false);
@@ -207,12 +180,12 @@ class _GatePassDateListState extends State<GatePassDateList> {
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();
         GatePassDateList = tempData;
-        print('GatePassDateList:---- $GatePassDateList');
+        // print('GatePassDateList:---- $GatePassDateList');
         provider.setBuilderList(tempData);
       }
     } catch (e) {
       // ignore: avoid_print
-      print('Error fetching data: $e');
+      // print('Error fetching data: $e');
     }
   }
 }

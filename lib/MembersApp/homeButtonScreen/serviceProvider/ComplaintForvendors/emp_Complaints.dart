@@ -177,41 +177,7 @@ class _Complaints_ListState extends State<Complaints_List> {
                                     ]);
                                   }),
 
-                              // ListView.builder(
-                              //   itemCount: allData.length,
-                              //   itemBuilder: (BuildContext context, int index) {
-                              //     return Column(
-                              //       children: [
-                              //         ListTile(
-                              //           title: TextButton(
-                              //             onPressed: () {
-                              //               Navigator.push(
-                              //                 context,
-                              //                 MaterialPageRoute(
-                              //                   builder: (context) {
-                              //                     return ViewComplaintApplication(
-                              //                         requestType: allData[index]
-                              //                                 ['problemsType']
-                              //                             .toString(),
-                              //                         text: allData[index]['text']
-                              //                             .toString());
-                              //                   },
-                              //                 ),
-                              //               );
-                              //             },
-                              //             child: Text(
-                              //               allData[index]['problemsType'].toString(),
-                              //               style: TextStyle(color: textColor),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         const Divider(
-                              //           color: Colors.grey,
-                              //         ),
-                              //       ],
-                              //     );
-                              //   },
-                              // ),
+                             
                             ),
                           ],
                         ),

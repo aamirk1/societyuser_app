@@ -30,7 +30,7 @@ class _ListOfServiceRequestTypeState extends State<ListOfServiceRequestType> {
   void initState() {
     getCompanyName().whenComplete(() async {
       await getRequestType();
-      print(widget.societyName);
+      // print(widget.societyName);
       setState(() {
         isLoading = false;
       });
@@ -132,6 +132,6 @@ class _ListOfServiceRequestTypeState extends State<ListOfServiceRequestType> {
       }
       allRequest = allRequestType;
     }
-    print('${allRequest}');
+    // print('${allRequest}');
   }
 }

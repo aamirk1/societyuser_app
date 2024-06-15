@@ -90,11 +90,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                   Icons.power_settings_new,
                 ))
           ]),
-      // drawer: MyDrawer(
-      //     flatno: flatno,
-      //     username: name,
-      //     societyName: _societyNameController.text,
-      //     mobile: mobile),
+      
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SizedBox(
@@ -169,12 +165,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                                           widget.email!, widget.societyName!, widget.companyName!);
                                     }),
                                   );
-                                  // if (isSocietySelected) {
-
-                                  //   );
-                                  // } else {
-                                  //   customDialogBox();
-                                  // }
+                          
                                 },
                                 child: Text(buttons[index])),
                           );
@@ -189,6 +180,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
 
   Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
+    // ignore: use_build_context_synchronously
     SplashService().removeLogin(context);
 
     // ignore: use_build_context_synchronously
@@ -216,193 +208,10 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                     'OK',
                     style: TextStyle(color: textColor),
                   )),
-              // TextButton(
-              //     onPressed: () {
-              //       Navigator.pop(context);
-              //     },
-              //     child: const Text('Yes'))
+
             ],
           );
         });
   }
 }
 
-
-
-
-
-// Future<List<dynamic>> getSocietyList() async {
-//     String phoneNum = '';
-//     List<dynamic> temp = [];
-//     phoneNum = await _splashService.getPhoneNum();
-
-//     QuerySnapshot societyQuerySnapshot =
-//         await FirebaseFirestore.instance.collection('members').get();
-
-//     List<String> allSociety =
-//         societyQuerySnapshot.docs.map((e) => e.id).toList();
-
-//     for (int i = 0; i < allSociety.length; i++) {
-//       bool isUserPresent = false;
-//       DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
-//           .collection('members')
-//           .doc(allSociety[i])
-//           .get();
-
-//       Map<String, dynamic> tempData =
-//           dataDocumentSnapshot.data() as Map<String, dynamic>;
-//       List<dynamic> dataList = tempData['data'];
-
-//       for (var data in dataList) {
-//         if (phoneNum == data['Mobile No.']) {
-//           isUserPresent = true;
-//           break;
-//         }
-//       }
-//       if (isUserPresent) {
-//         temp.add(allSociety[i]);
-//       }
-//     }
-//     societyList = temp;
-//     if (societyList.isEmpty) {
-//       societyList.add(['No Data Found']);
-//     }
-//     return societyList;
-//   }
-
-//   Future<void> getMemberName(String selectedSociety) async {
-//     isDataAvailable = false;
-//     setState(() {
-//       isLoading = true;
-//     });
-
-//     phoneNum = await _splashService.getPhoneNum();
-
-//     QuerySnapshot societyQuerySnapshot =
-//         await FirebaseFirestore.instance.collection('members').get();
-
-//     List<String> memeberName =
-//         societyQuerySnapshot.docs.map((e) => e.id).toList();
-
-//     for (int i = 0; i < memeberName.length; i++) {
-//       // ignore: unused_local_variable
-//       bool isUserPresent = false;
-//       DocumentSnapshot dataDocumentSnapshot = await FirebaseFirestore.instance
-//           .collection('members')
-//           .doc(selectedSociety)
-//           .get();
-//       if (dataDocumentSnapshot.exists) {
-//         Map<String, dynamic> tempData =
-//             dataDocumentSnapshot.data() as Map<String, dynamic>;
-//         List<dynamic> dataList = tempData['data'];
-
-//         if (dataDocumentSnapshot.exists) {
-//           isDataAvailable = true;
-//           Map<String, dynamic> tempData =
-//               dataDocumentSnapshot.data() as Map<String, dynamic>;
-//           List<dynamic> dataList = tempData['data'];
-
-//           for (var data in dataList) {
-//             if (phoneNum == data['Mobile No.']) {
-//               name = data['Member Name'];
-//               status = data['Status'] ?? 'N/A';
-//               flatno = data['Flat No.'];
-
-//               flatnoController.text = flatno;
-//               usernameController.text = name;
-//               statusController.text = status ?? '';
-//               for (var data in dataList) {
-//                 if (phoneNum == data['Mobile No.']) {
-//                   name = data['Member Name'];
-//                   status = data['Status'];
-//                   flatno = data['Flat No.'];
-//                   mobile = data['Mobile No.'];
-
-//                   flatnoController.text = flatno;
-//                   usernameController.text = name;
-//                   mobileController.text = mobile;
-//                   statusController.text = status!;
-
-//                   break;
-//                 }
-//               }
-//               setState(() {});
-//               isLoading = false;
-//             }
-//           }
-//         }
-
-//         void customDialogBox() {
-//           showDialog(
-//               context: context,
-//               builder: (context) {
-//                 return AlertDialog(
-//                   title: const Text(
-//                     'Select Society First',
-//                     style: TextStyle(color: Colors.red),
-//                   ),
-//                   actions: [
-//                     TextButton(
-//                         onPressed: () {
-//                           Navigator.pop(context);
-//                         },
-//                         child: const Text(
-//                           'OK',
-//                           style: TextStyle(color: textColor),
-//                         )),
-//                     // TextButton(
-//                     //     onPressed: () {
-//                     //       Navigator.pop(context);
-//                     //     },
-//                     //     child: const Text('Yes'))
-//                   ],
-//                 );
-//               });
-//         }
-
-//         Future<void> getCurrentBill(String selectedSociety) async {
-//           // ignore: unused_local_variable
-//           String phoneNum = '';
-
-//           phoneNum = await _splashService.getPhoneNum();
-
-//           DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore
-//               .instance
-//               .collection('ladgerBill')
-//               .doc(_societyNameController.text)
-//               .collection('month')
-//               .doc(currentmonth)
-//               .get();
-
-//           if (societyQuerySnapshot.exists) {
-//             Map<String, dynamic> allSociety =
-//                 societyQuerySnapshot.data() as Map<String, dynamic>;
-
-//             List<dynamic> dataList = allSociety['data'];
-
-//             for (var data in dataList) {
-//               if (flatnoController.text == data['Flat No.']) {
-//                 billAmount = data['Bill Amount'];
-
-//                 setState(() {
-//                   billAmountController.text = billAmount;
-//                 });
-//                 break;
-//               }
-//             }
-//           }
-//         }
-
-//         alertBox() {
-//           return const AlertDialog(
-//             title: Center(
-//                 child: Text(
-//               'No User Found',
-//               style: TextStyle(fontSize: 20, color: Colors.red),
-//             )),
-//           );
-//         }
-//       }
-//     }
-//   }
-// }

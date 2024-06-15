@@ -39,11 +39,9 @@ class _MyDrawerState extends State<MyDrawer> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   String flatno = '';
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   Uint8List? byteData;
   String? fileName;
   String imageUrl = '';
-  final FirebaseStorage _storage = FirebaseStorage.instance;
   String imgnames = '';
   bool isLoading = true;
   @override
@@ -308,7 +306,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
     if (listResult.items.isNotEmpty) {
       byteData = await listResult.items[0].getData();
-      print(byteData);
+      // print(byteData);
       //setState(() {});
     }
   }
@@ -325,9 +323,9 @@ class _MyDrawerState extends State<MyDrawer> {
       fileName = result.files.single.name;
       setState(() {});
       uploadFile(byteData, fileName!);
-      print("File Name - $fileName");
+      // print("File Name - $fileName");
     } else {
-      print('File picking canceled');
+      // print('File picking canceled');
     }
   }
 
@@ -352,7 +350,7 @@ class _MyDrawerState extends State<MyDrawer> {
         throw Exception('File bytes are null');
       }
     } catch (e) {
-      print('Failed to upload Image: $e');
+      // print('Failed to upload Image: $e');
     }
   }
 
@@ -368,6 +366,6 @@ class _MyDrawerState extends State<MyDrawer> {
 
     // Uint8List? pdfData = await result.items.first.getData();
     // String imageName = result.items.first.name;
-    print('imageName-- $byteData');
+    // print('imageName-- $byteData');
   }
 }

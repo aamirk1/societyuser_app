@@ -224,30 +224,6 @@ class _ComplaintsState extends State<Complaints> {
     );
   }
 
-  // Future<void> fetchData(String complaintsTypeList) async {
-  //   final provider = Provider.of<AllComplaintProvider>(context, listen: false);
-  //   provider.setBuilderList([]);
-  //   try {
-  //     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-  //         .collection('complaints')
-  //         .doc(widget.societyName)
-  //         .collection('flatno')
-  //         .doc(widget.flatno)
-  //         .collection('typeofcomplaints')
-  //         .doc(complaintsTypeList)
-  //         .collection('dateOfComplaint')
-  //         .get();
-  //     if (querySnapshot.docs.isNotEmpty) {
-  //       List<dynamic> tempData =
-  //           querySnapshot.docs.map((e) => e.data()).toList();
-  //       provider.setBuilderList(tempData);
-  //     }
-  //   } catch (e) {
-  //     // ignore: avoid_print
-  //     print('Error fetching data: $e');
-  //   }
-  // }
-
   Widget getIcon(String iconName) {
     switch (iconName) {
       case "House Keeping Complaint":

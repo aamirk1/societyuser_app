@@ -39,15 +39,7 @@ class _MyPdfViewerState extends State<MyPdfViewer> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('View Notice'),
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {
-          //       _downloadPDF;
-          //       print('newdw - ${widget.downloadUrl}');
-          //     },
-          //     icon: const Icon(Icons.download),
-          //   )
-          // ],
+          
         ),
         body: Container(
           color: Colors.white,
@@ -78,14 +70,5 @@ class _MyPdfViewerState extends State<MyPdfViewer> {
     }
   }
 
-  // void _downloadPDF() async {
-  //   final pdfUrl = widget.pdfPath;
 
-  //   final taskId = await FlutterDownloader.enqueue(
-  //     url: pdfUrl,
-  //     savedDir: '/path/to/download/directory',
-  //     showNotification: true,
-  //     openFileFromNotification: true,
-  //   );
-  // }
 }

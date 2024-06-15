@@ -235,7 +235,7 @@ class _nocPageState extends State<nocPage> {
       }
     } catch (e) {
       // ignore: avoid_print
-      print('Error fetching data: $e');
+      // print('Error fetching data: $e');
     }
   }
 

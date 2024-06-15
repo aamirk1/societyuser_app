@@ -24,7 +24,7 @@ class ViewComplaints extends StatefulWidget {
 }
 
 class _ViewComplaintsState extends State<ViewComplaints> {
-  Map<String, dynamic> ComplaintData = {};
+  Map<String, dynamic> complaintData = {};
   bool isLoading = true;
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                                         color: textColor),
                                   ),
                                   Text(
-                                    ComplaintData['text'] ?? 'No Text Given',
+                                    complaintData['text'] ?? 'No Text Given',
                                     style: TextStyle(
                                         fontSize: 12, color: textColor),
                                   ),
@@ -86,7 +86,7 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.9,
                                     child: Text(
-                                        "Response: ${ComplaintData['response'] ?? 'No Response Given'}",
+                                        "Response: ${complaintData['response'] ?? 'No Response Given'}",
                                         style: TextStyle(
                                             color: textColor, fontSize: 15))),
                               ]),
@@ -117,11 +117,11 @@ class _ViewComplaintsState extends State<ViewComplaints> {
       if (querySnapshot.data() != null) {
         Map<String, dynamic> tempData =
             querySnapshot.data() as Map<String, dynamic>;
-        ComplaintData = tempData;
+        complaintData = tempData;
       }
     } catch (e) {
       // ignore: avoid_print
-      print('Error fetching data: $e');
+      // print('Error fetching data: $e');
     }
   }
 

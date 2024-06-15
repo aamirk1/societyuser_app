@@ -304,7 +304,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
     } catch (e) {
       // Error occurred
       // ignore: avoid_print
-      print('Error: $e');
+      // print('Error: $e');
     }
   }
 
@@ -317,7 +317,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
     Map<String, dynamic> vendorDetails = {};
     vendorDetails = flatNoQuery.data() as Map<String, dynamic>;
 
-    print('vendorDetails: $vendorDetails');
+    // print('vendorDetails: $vendorDetails');
 
     companyName = vendorDetails['companyName'];
     societyName = vendorDetails['society'];
@@ -333,7 +333,7 @@ class _LoginAsVendorsState extends State<LoginAsVendors> {
       empPhone,
     );
 
-    print('storedCompanyName: $storeCompanyInSharedPref');
+    // print('storedCompanyName: $storeCompanyInSharedPref');
   }
 
   void storeCompanyInSharedPref(String companyName, String societyName,

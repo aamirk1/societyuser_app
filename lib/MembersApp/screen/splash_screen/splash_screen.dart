@@ -54,10 +54,11 @@ class _SplashScreenState extends State<SplashScreen>
       }
     });
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+        vsync: this, duration: const Duration(milliseconds: 1000));
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-    _slideAnimation = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero)
-        .animate(_controller);
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero)
+            .animate(_controller);
     _splitAppName();
     _startAnimation();
 
@@ -94,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
                             position: _slideAnimation,
                             child: Text(
                               letters[i],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 40,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

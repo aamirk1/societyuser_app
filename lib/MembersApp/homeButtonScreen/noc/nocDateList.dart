@@ -232,12 +232,12 @@ class _NocDateListState extends State<NocDateList> {
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();
         NocDateList = tempData;
-        print('NocDateList: $NocDateList');
+        // print('NocDateList: $NocDateList');
         provider.setBuilderList(tempData);
       }
     } catch (e) {
       // ignore: avoid_print
-      print('Error fetching data: $e');
+      // print('Error fetching data: $e');
     }
   }
 }

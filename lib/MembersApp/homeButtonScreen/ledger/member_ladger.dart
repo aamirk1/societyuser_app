@@ -613,7 +613,7 @@ class _memberLedgerState extends State<memberLedger> {
         particulartsLableList.add('Credit Note');
       }
     }
-    print('rowList - ${listOfRows}');
+    // print('rowList - ${listOfRows}');
     rowList = listOfRows;
   }
 }

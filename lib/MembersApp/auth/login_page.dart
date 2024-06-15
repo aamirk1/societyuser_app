@@ -326,7 +326,7 @@ class _loginScreenState extends State<loginScreen> {
     } catch (e) {
       // Error occurred
       // ignore: avoid_print
-      print('Error: $e');
+      // print('Error: $e');
     }
   }
 }

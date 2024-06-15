@@ -120,33 +120,7 @@ class _ViewRequestApplicationState extends State<ViewRequestApplication> {
                           ),
                         ],
                       ),
-                      // const SizedBox(
-                      //   height: 5,
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     ElevatedButton(
-                      //       style: ButtonStyle(
-                      //           backgroundColor: MaterialStateProperty.all(
-                      //         Colors.green,
-                      //       )),
-                      //       onPressed: () {},
-                      //       child: const Text('Complete'),
-                      //     ),
-                      //     const SizedBox(
-                      //       width: 20,
-                      //     ),
-                      //     ElevatedButton(
-                      //       style: ButtonStyle(
-                      //           backgroundColor: MaterialStateProperty.all(
-                      //         Color.fromARGB(255, 255, 189, 7),
-                      //       )),
-                      //       onPressed: () {},
-                      //       child: const Text('Processing'),
-                      //     )
-                      //   ],
-                      // ),
+                      
                     ],
                   ),
                 ),

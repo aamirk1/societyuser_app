@@ -197,7 +197,7 @@ class _ViewNocState extends State<ViewNoc> {
       }
     } catch (e) {
       // ignore: avoid_print
-      print('Error fetching data: $e');
+      // print('Error fetching data: $e');
     }
   }
 
@@ -235,7 +235,7 @@ class _ViewNocState extends State<ViewNoc> {
         await file.writeAsBytes(pdfData);
         return file;
       }
-      print('PDF downloaded Successfully');
+      // print('PDF downloaded Successfully');
     }
     return File('');
   }

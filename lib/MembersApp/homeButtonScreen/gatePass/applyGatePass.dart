@@ -163,6 +163,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
         'text': text,
       });
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.green,

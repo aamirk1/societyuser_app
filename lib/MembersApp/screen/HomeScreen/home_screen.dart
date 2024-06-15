@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> societyList = [];
   List<String> flatNOList = [];
   List<dynamic> memberList = [];
-  List<dynamic> Allnotice = [];
+  List<dynamic> allNotice = [];
   String? selectedSocietyName;
   String? selectedFlatNo;
   String name = '';
@@ -952,16 +952,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> getNotice(String? SelectedSociety) async {
     final provider = Provider.of<AllNoticeProvider>(context, listen: false);
 
-    QuerySnapshot getAllNotice = await FirebaseFirestore.instance
+    QuerySnapshot getallNotice = await FirebaseFirestore.instance
         .collection('notice')
         .doc(SelectedSociety)
         .collection('notices')
         .get();
     List<dynamic> allTypeOfNotice =
-        getAllNotice.docs.map((e) => e.data()).toList();
+        getallNotice.docs.map((e) => e.data()).toList();
     // print('aaaa - $allTypeOfNotice');
-    Allnotice = allTypeOfNotice;
-    totalNotice = Allnotice.length.toString();
+    allNotice = allTypeOfNotice;
+    totalNotice = allNotice.length.toString();
     print(totalNotice);
     provider.setBuilderNoticeList(allTypeOfNotice);
   }

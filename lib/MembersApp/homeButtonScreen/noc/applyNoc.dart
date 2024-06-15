@@ -283,9 +283,7 @@ class _apply_nocState extends State<apply_noc> {
       Navigator.pop(context);
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      //   return nocPage();
-      // }));
+     
     } on FirebaseException catch (e) {
       // ignore: avoid_print
       print('Error storing data: $e');

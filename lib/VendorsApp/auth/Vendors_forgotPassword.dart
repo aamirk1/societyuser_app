@@ -67,10 +67,10 @@ class _forgotPasswordState extends State<forgotPassword> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+           const SizedBox(
               height: 5,
             ),
-            Center(
+           const Center(
               child: Text(
                 "Society Information & Management System",
                 style: TextStyle(color: Colors.white, fontSize: 14),
@@ -258,9 +258,9 @@ class _forgotPasswordState extends State<forgotPassword> {
           return const loginScreen();
         }),
       );
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       // ignore: avoid_print
-      print('Error storing data: $e');
+      // print('Error storing data: $e');
     }
   }
 }

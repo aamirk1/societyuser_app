@@ -67,13 +67,7 @@ class _forgotPasswordState extends State<forgotPassword> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            // const Text(
-            //   "Manager",
-            //   style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 40,
-            //       fontWeight: FontWeight.bold),
-            // ),
+          
             const SizedBox(
               height: 70,
             ),
@@ -256,9 +250,9 @@ class _forgotPasswordState extends State<forgotPassword> {
           return const loginScreen();
         }),
       );
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       // ignore: avoid_print
-      print('Error storing data: $e');
+      // print('Error storing data: $e');
     }
   }
 }

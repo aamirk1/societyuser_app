@@ -439,7 +439,7 @@ class _RegisterAsVendorsState extends State<RegisterAsVendors> {
         .doc(email)
         .get();
     societyName = societyQuerySnapshot['society'];
-    print('societyList: $societyName');
+    // print('societyList: $societyName');
   }
 
   Future<void> storeUserData(BuildContext context, String mobile, String email,
