@@ -76,6 +76,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Center(child: Text('Debit Note Details')),
       ),
@@ -106,7 +107,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -157,17 +158,17 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                   children: [
                                     Text(
                                       "Note No.: ${widget.debitNoteNumber == '' ? 'N/A' : widget.debitNoteNumber}",
-                                      style:  TextStyle(
+                                      style: TextStyle(
                                           color: textColor, fontSize: 12),
                                     ),
                                     Text(
                                       "Date: ${widget.date == '' ? 'N/A' : widget.date}",
-                                      style:  TextStyle(
+                                      style: TextStyle(
                                           color: textColor, fontSize: 12),
                                     ),
                                   ])
                             ]),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -219,7 +220,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                             ),
                           ],
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -296,7 +297,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                               //     style: const TextStyle(
                                               //         fontSize: 10)),
                                             ]),
-                                         Divider(
+                                        Divider(
                                           color: textColor,
                                           thickness: 1,
                                         ),
@@ -339,7 +340,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                             ),
                           ]),
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -350,8 +351,8 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                               TextSpan(
                                 text:
                                     'Being add Rs. ${widget.amount}/- for ${widget.particulars}. For the month of ${widget.month} as per manager instruction date - ${widget.date}',
-                                style:  TextStyle(
-                                    fontSize: 10, color: textColor),
+                                style:
+                                    TextStyle(fontSize: 10, color: textColor),
                               ),
                             ]),
                           ),

@@ -39,6 +39,7 @@ class _GatePassState extends State<GatePass> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Text(
           'Gate Pass',
@@ -93,7 +94,7 @@ class _GatePassState extends State<GatePass> {
                                 Container(
                                   width: MediaQuery.of(context).size.width,
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                      MediaQuery.of(context).size.height * 0.25,
                                   padding: const EdgeInsets.all(2.0),
                                   child: Column(
                                     crossAxisAlignment:
@@ -164,7 +165,8 @@ class _GatePassState extends State<GatePass> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return GatePassDateList(username: widget.username,
+                                                  return GatePassDateList(
+                                                    username: widget.username,
                                                     gatePassType: value
                                                             .gatePassList[index]
                                                         ['gatePassType'],
@@ -230,7 +232,7 @@ class _GatePassState extends State<GatePass> {
           .doc(widget.flatno)
           .collection('gatePassType')
           .get();
-          
+
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData =
             querySnapshot.docs.map((e) => e.data()).toList();

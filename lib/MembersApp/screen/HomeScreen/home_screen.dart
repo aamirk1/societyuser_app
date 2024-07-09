@@ -7,13 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
-import 'package:societyuser_app/MembersApp/common_widget/drawer.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/complaint/complaints.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/gatePass/gatePass.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/member_ladger.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/notice/circular_notice.dart';
-import 'package:societyuser_app/MembersApp/homeButtonScreen/serviceProvider/serviceProvider.dart';
 import 'package:societyuser_app/MembersApp/provider/AllNoticeProvider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -69,6 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isDataAvailable = false;
   String phoneNum = '';
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
+  String lastMonth = DateFormat('MMMM yyyy').format(
+    DateTime.now().subtract(const Duration(days: 30)),
+  );
   @override
   void initState() {
     _splashService.getPhoneNum();
@@ -86,9 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
     'NOC MANAGEMENT',
     'GRIEVANCE / COMPLAINT',
     // 'RESIDENT MANAGEMENT',
-    'SERVICE PROVIDER MANAGEMENT',
+    // 'SERVICE PROVIDER MANAGEMENT',
     'GATE PASS',
-    'REPORTS',
+    // 'REPORTS',
   ];
   List<Widget Function(String, String, String)> screens = [
     (flatno, society, name) => memberLedger(
@@ -112,11 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
           username: name,
         ),
     // (flat, society, username) => const ResidentManagement(),
-    (flatno, society, name) => ServiceProvider(
-          flatno: flatno,
-          societyName: society,
-          username: name,
-        ),
+    // (flatno, society, name) => ServiceProvider(
+    //       flatno: flatno,
+    //       societyName: society,
+    //       username: name,
+    //     ),
     (flatno, society, name) => GatePass(
           flatno: flatno,
           societyName: society,
@@ -129,9 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarBgColor,
-        title: const Text(
-          'Home',
-          style: TextStyle(color: Colors.white),
+        title: const Center(
+          child: Text(
+            'Home',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         actions: [
           IconButton(
@@ -145,11 +148,11 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      drawer: MyDrawer(
-          flatno: selectedFlatNo ?? '',
-          username: name,
-          societyName: selectedSocietyName ?? '',
-          mobile: mobile),
+      // drawer: MyDrawer(
+      //     flatno: selectedFlatNo ?? '',
+      //     username: name,
+      //     societyName: selectedSocietyName ?? '',
+      //     mobile: mobile),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -162,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.35,
+                      height: MediaQuery.of(context).size.height * 0.40,
 
                       // height: 20,
                       child: Padding(
@@ -219,10 +222,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: DropdownButton2<String>(
                                         isExpanded: true,
                                         hint: Text(
-                                          'Select Society Name',
+                                          'Select Society',
                                           style: TextStyle(
                                             color: textColor,
-                                            fontSize: 12,
+                                            fontSize: 10,
                                           ),
                                         ),
                                         items: societyList
@@ -301,10 +304,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   horizontal: 10,
                                                   vertical: 8,
                                                 ),
-                                                hintText:
-                                                    'Search society name...',
+                                                hintText: 'Search society',
                                                 hintStyle: const TextStyle(
-                                                    fontSize: 12),
+                                                    fontSize: 10),
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -336,10 +338,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: DropdownButton2<String>(
                                         isExpanded: true,
                                         hint: Text(
-                                          'Select Flat No.',
+                                          'Select Flat',
                                           style: TextStyle(
                                             color: textColor,
-                                            fontSize: 12,
+                                            fontSize: 10,
                                           ),
                                         ),
                                         items: flatNOList
@@ -348,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   child: Text(
                                                     item,
                                                     style: TextStyle(
-                                                        fontSize: 14,
+                                                        fontSize: 12,
                                                         color: textColor),
                                                   ),
                                                 ))
@@ -360,8 +362,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           getMemberName(
                                                   selectedSocietyName!, value!)
                                               .whenComplete(() {
-                                            getCurrentBill(
-                                                selectedSocietyName!);
+                                            getCurrentBill(selectedSocietyName!,
+                                                selectedFlatNo!);
                                             isflatnoSelected = true;
                                           });
                                         },
@@ -418,9 +420,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   horizontal: 10,
                                                   vertical: 8,
                                                 ),
-                                                hintText: 'Search flat no...',
+                                                hintText: 'Search flat',
                                                 hintStyle: const TextStyle(
-                                                    fontSize: 12),
+                                                    fontSize: 10),
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -485,11 +487,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               isLoading
                                   ? const Padding(
-                                      padding: EdgeInsets.only(top: 50.0),
+                                      padding: EdgeInsets.only(top: 40.0),
                                       child: Center(
                                         child: CircularProgressIndicator(),
                                       ),
@@ -618,10 +620,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             DataCell(ElevatedButton(
                                               style: ButtonStyle(
                                                   backgroundColor:
-                                                      MaterialStateProperty.all(
+                                                      WidgetStateProperty.all(
                                                           buttonColor)),
                                               onPressed: () {},
-                                              child: const Text('Pay'),
+                                              child: const Text(
+                                                'Pay',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
                                             )),
                                           ]),
                                         ],
@@ -638,7 +644,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.85,
                             height: MediaQuery.of(context).size.height * 0.4,
                             child: GridView.builder(
                                 itemCount: buttons.length,
@@ -683,7 +689,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
-                                                            12.0),
+                                                            10.0),
                                                     child:
                                                         getIcon(buttons[index]),
                                                   ),
@@ -702,7 +708,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             style: const TextStyle(
                                                                 color: Colors
                                                                     .white,
-                                                                fontSize: 12),
+                                                                fontSize: 10),
                                                           ),
                                                         ),
                                                       )
@@ -828,7 +834,6 @@ class _HomeScreenState extends State<HomeScreen> {
       for (var data in dataList) {
         if (data['Mobile No.'].toString() == phoneNum) {
           flatNOList.add(data['Flat No.'].toString());
-          print('flat no list $flatNOList');
         }
       }
     }
@@ -911,7 +916,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  Future<void> getCurrentBill(String selectedSociety) async {
+  Future<void> getCurrentBill(String selectedSociety, String flatno) async {
     // ignore: unused_local_variable
     String phoneNum = '';
 
@@ -921,7 +926,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .collection('ladgerBill')
         .doc(selectedSociety)
         .collection('month')
-        .doc(currentmonth)
+        .doc(lastMonth)
         .get();
 
     if (societyQuerySnapshot.exists) {
@@ -931,9 +936,9 @@ class _HomeScreenState extends State<HomeScreen> {
       List<dynamic> dataList = allSociety['data'];
 
       for (var data in dataList) {
-        if (flatnoController.text == data['Flat No.']) {
-          billAmount = data['Bill Amount'];
-          payableAmount = data['Payable'];
+        if (flatno == data['3_Flat No.']) {
+          billAmount = data['6_Bill Amount'];
+          payableAmount = data['8_Payable'];
 
           setState(() {
             billAmountController.text = billAmount;
@@ -942,32 +947,27 @@ class _HomeScreenState extends State<HomeScreen> {
           break;
         }
       }
-      print('bill amount $billAmount');
-      print('payable amount $payableAmount');
-
-      print('aaaa - ${billAmountController.text}');
     }
   }
 
-  Future<void> getNotice(String? SelectedSociety) async {
+  Future<void> getNotice(String? selectedSociety) async {
     final provider = Provider.of<AllNoticeProvider>(context, listen: false);
 
     QuerySnapshot getallNotice = await FirebaseFirestore.instance
         .collection('notice')
-        .doc(SelectedSociety)
+        .doc(selectedSociety)
         .collection('notices')
         .get();
     List<dynamic> allTypeOfNotice =
         getallNotice.docs.map((e) => e.data()).toList();
-    // print('aaaa - $allTypeOfNotice');
     allNotice = allTypeOfNotice;
     totalNotice = allNotice.length.toString();
-    print(totalNotice);
     provider.setBuilderNoticeList(allTypeOfNotice);
   }
 
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
+    // ignore: use_build_context_synchronously
     SplashService().removeLogin(context);
 
     // ignore: use_build_context_synchronously
@@ -978,4 +978,43 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         (route) => false);
   }
+
+  // Future<void> getBill(String societyname, String flatno) async {
+  //   // billNoList.clear();
+  //   isLoading = true;
+
+  //   phoneNum = await _splashService.getPhoneNum();
+
+  //   QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
+  //       .collection('ladgerBill')
+  //       .doc(societyname)
+  //       .collection('month')
+  //       .get();
+  //   List<dynamic> monthList =
+  //       societyQuerySnapshot.docs.map((e) => e.id).toList();
+
+  //   for (var i = 0; i < monthList.length; i++) {
+  //     DocumentSnapshot data = await FirebaseFirestore.instance
+  //         .collection('ladgerBill')
+  //         .doc(societyname)
+  //         .collection('month')
+  //         .doc(monthList[i])
+  //         .get();
+  //     if (data.exists) {
+  //       Map<String, dynamic> totalusers = data.data() as Map<String, dynamic>;
+  //       List<dynamic> mapData = totalusers['data'];
+
+  //       for (var data in mapData) {
+  //         List<dynamic> row = [];
+
+  //         if (flatno == data['3_Flat No.']) {
+  //           row.add(data['6_Bill Amount'] ?? 'N/A');
+  //           row.add(data['8_Payable'] ?? 'N/A');
+
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }

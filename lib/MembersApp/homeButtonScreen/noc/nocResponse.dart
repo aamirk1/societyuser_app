@@ -77,7 +77,7 @@ class _ViewNocState extends State<ViewNoc> {
                           child: Container(
                             margin: const EdgeInsets.only(top: 20),
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.85,
+                            height: MediaQuery.of(context).size.height * 0.80,
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Column(

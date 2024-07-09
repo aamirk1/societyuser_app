@@ -77,8 +77,13 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
-        title: const Center(child: Text('Receipt Details')),
+        title: const Center(
+            child: Text(
+          'Receipt Details',
+          style: TextStyle(color: Colors.white),
+        )),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -158,41 +163,36 @@ class _LedgerReceiptDetailsPageState extends State<LedgerReceiptDetailsPage> {
                           ],
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.90,
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              // Padding(
-                              //   padding: const EdgeInsets.all(8.0),
-                              //   child: Text("(Rupees $words only) "),
-                              // ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'By Cheque No.: ${widget.cheqNo}',
-                                style: TextStyle(color: textColor),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'By Cheque No.: ${widget.cheqNo}',
+                                      style: TextStyle(color: textColor),
+                                      textAlign: TextAlign.justify,
+                                    ),
+                                    Text(
+                                      'Date On: ${widget.checkDate}',
+                                      style: TextStyle(color: textColor),
+                                    )
+                                  ],
+                                ),
                               ),
-                              Text(
-                                'Date On: ${widget.checkDate}',
-                                style: TextStyle(color: textColor),
-                              )
                             ],
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,

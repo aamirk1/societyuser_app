@@ -37,7 +37,7 @@ class _memberLedgerState extends State<memberLedger> {
   String totalAmount = '';
   String billno = '';
   String water = '';
-  bool isLoading = true;
+  bool isLoading = false;
 
   // ignore: non_constant_identifier_names
 
@@ -72,22 +72,24 @@ class _memberLedgerState extends State<memberLedger> {
   String phoneNum = '';
   @override
   initState() {
-    super.initState();
     // LedgerList('siddivinayak');
     getBill(widget.societyName, widget.flatno).whenComplete(() async {
       await getReceipt(widget.societyName, widget.flatno);
       await debitNoteData();
-      await creditNoteData();
-      mergeAllList();
+      await creditNoteData().whenComplete(() async {
+        await mergeAllList();
+      });
       isLoading = false;
       setState(() {});
     });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Text(
           'Member Ledger',
@@ -95,300 +97,245 @@ class _memberLedgerState extends State<memberLedger> {
         ),
       ),
       // drawer: const MyDrawer(),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    padding: const EdgeInsets.all(2.0),
-                    child: Card(
-                      elevation: 5,
-                      shadowColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+      body:
+          //  isLoading
+          //     ? const Center(child: CircularProgressIndicator())
+          //     :
+          Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.all(2.0),
+              child: Card(
+                elevation: 5,
+                shadowColor: Colors.grey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: DataTable(
+                  headingRowColor: const WidgetStatePropertyAll(
+                      Color.fromARGB(255, 48, 51, 228)),
+                  // dataRowMinHeight: 10,
+                  columnSpacing: 5,
+                  columns: List.generate(5, (index) {
+                    return DataColumn(
+                      label: Text(
+                        colums[index],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      child: DataTable(
-                        headingRowColor: const MaterialStatePropertyAll(
-                            Color.fromARGB(255, 48, 51, 228)),
-                        // dataRowMinHeight: 10,
-                        columnSpacing: 5,
-                        columns: List.generate(5, (index) {
-                          return DataColumn(
-                            label: Text(
-                              colums[index],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        }),
-                        rows: List.generate(
-                          rowList.length,
-                          (index1) {
-                            return DataRow(
-                              cells: List.generate(
-                                5,
-                                (index2) {
-                                  // print(rows[index2]);
-                                  return DataCell(
-                                    index2 == 1
-                                        ? particulartsLableList[index1] ==
-                                                'Bill No.'
-                                            ? TextButton(
-                                                style: TextButton.styleFrom(
-                                                    backgroundColor:
-                                                        buttonColor,
-                                                    fixedSize:
-                                                        const Size(70, 40)),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return LedgerBillDetailsPage(
-                                                          flatno: widget.flatno,
-                                                          name: widget.username,
-                                                          societyName: widget
-                                                              .societyName,
-                                                          billDate:
-                                                              rowList[index1]
-                                                                  [0],
-                                                          billNo:
-                                                              rowList[index1]
-                                                                  [1],
-                                                          billAmount:
-                                                              rowList[index1]
-                                                                  [2],
-                                                          dueDate:
-                                                              rowList[index1]
-                                                                  [5],
-                                                          interest:
-                                                              rowList[index1]
-                                                                  [6],
-                                                          legalNoticeCharges:
-                                                              rowList[index1]
-                                                                  [7],
-                                                          maintenanceCharges:
-                                                              rowList[index1]
-                                                                  [8],
-                                                          mhadaLeaseRent:
-                                                              rowList[index1]
-                                                                  [9],
-                                                          municipalTax:
-                                                              rowList[index1]
-                                                                  [10],
-                                                          nonOccupancyChg:
-                                                              rowList[index1]
-                                                                  [11],
-                                                          othercharges:
-                                                              rowList[index1]
-                                                                  [12],
-                                                          parkingCharges:
-                                                              rowList[index1]
-                                                                  [13],
-                                                          repairFund:
-                                                              rowList[index1]
-                                                                  [14],
-                                                          sinkingFund:
-                                                              rowList[index1]
-                                                                  [15],
-                                                          towerBenefit:
-                                                              rowList[index1]
-                                                                  [16],
-                                                        );
-                                                      },
-                                                    ),
+                    );
+                  }),
+                  rows: List.generate(
+                    rowList.length,
+                    (index1) {
+                      return DataRow(
+                        cells: List.generate(
+                          5,
+                          (index2) {
+                            // print(rows[index2]);
+                            return DataCell(
+                              index2 == 1
+                                  ? particulartsLableList[index1] == '5_Bill No'
+                                      ? TextButton(
+                                          style: TextButton.styleFrom(
+                                              backgroundColor: buttonColor,
+                                              fixedSize: const Size(70, 40)),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return LedgerBillDetailsPage(
+                                                    flatno: widget.flatno,
+                                                    name: widget.username,
+                                                    societyName:
+                                                        widget.societyName,
+                                                    billDate: rowList[index1]
+                                                        [0],
+                                                    billNo: rowList[index1][1],
+                                                    billAmount: rowList[index1]
+                                                        [2],
+                                                    dueDate: rowList[index1][5],
+                                                    interest: rowList[index1]
+                                                        [6],
+                                                    legalNoticeCharges:
+                                                        rowList[index1][7],
+                                                    maintenanceCharges:
+                                                        rowList[index1][8],
+                                                    mhadaLeaseRent:
+                                                        rowList[index1][9],
+                                                    municipalTax:
+                                                        rowList[index1][10],
+                                                    nonOccupancyChg:
+                                                        rowList[index1][11],
+                                                    othercharges:
+                                                        rowList[index1][12],
+                                                    parkingCharges:
+                                                        rowList[index1][13],
+                                                    repairFund: rowList[index1]
+                                                        [14],
+                                                    sinkingFund: rowList[index1]
+                                                        [15],
+                                                    towerBenefit:
+                                                        rowList[index1][16],
                                                   );
                                                 },
-                                                child: Text(
-                                                  '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                  style: const TextStyle(
-                                                      fontSize: 10,
-                                                      // backgroundColor:
-                                                      //     Colors.amber,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              )
-                                            : particulartsLableList[index1] ==
-                                                    'Receipt No.'
-                                                ? TextButton(
-                                                    style: TextButton.styleFrom(
-                                                        backgroundColor:
-                                                            buttonColor,
-                                                        fixedSize:
-                                                            const Size(70, 40)),
-                                                    onPressed: () {
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) {
-                                                        return LedgerReceiptDetailsPage(
-                                                          flatno: widget.flatno,
-                                                          name: widget.username,
-                                                          societyName: widget
-                                                              .societyName,
-                                                          receiptNo:
-                                                              rowList[index1]
-                                                                  [7],
-                                                          receiptDate:
-                                                              rowList[index1]
-                                                                  [0],
-                                                          amount:
-                                                              rowList[index1]
-                                                                  [3],
-                                                          checkDate:
-                                                              rowList[index1]
-                                                                  [6],
-                                                          cheqNo:
-                                                              rowList[index1]
-                                                                  [8],
-                                                          bankName:
-                                                              rowList[index1]
-                                                                  [5],
-
-                                                          //  receiptData: {},
-                                                        );
-                                                      }));
-                                                    },
-                                                    child: Text(
-                                                      '${particulartsLableList[index1]}\n ${rowList[index1][7]}',
-                                                      style: const TextStyle(
-                                                          fontSize: 10,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  )
-                                                : particulartsLableList[
-                                                            index1] ==
-                                                        'Debit Note'
-                                                    ? TextButton(
-                                                        style: TextButton
-                                                            .styleFrom(
-                                                                backgroundColor:
-                                                                    buttonColor,
-                                                                fixedSize:
-                                                                    const Size(
-                                                                        70,
-                                                                        40)),
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) {
-                                                            return DebitNoteDetails(
-                                                              flatno:
-                                                                  widget.flatno,
-                                                              name: widget
-                                                                  .username,
-                                                              societyName: widget
-                                                                  .societyName,
-                                                              amount: rowList[
-                                                                  index1][3],
-                                                              date: rowList[
-                                                                  index1][0],
-                                                              debitNoteNumber:
-                                                                  rowList[index1]
-                                                                      [2],
-                                                              particulars:
-                                                                  rowList[index1]
-                                                                      [1],
-                                                              month: rowList[
-                                                                  index1][6],
-                                                            );
-                                                          }));
-                                                        },
-                                                        child: Text(
-                                                          '${particulartsLableList[index1]}\n${rowList[index1][6]}',
-                                                          style: const TextStyle(
-                                                              fontSize: 10,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      )
-                                                    : TextButton(
-                                                        style: TextButton
-                                                            .styleFrom(
-                                                                backgroundColor:
-                                                                    buttonColor,
-                                                                fixedSize:
-                                                                    const Size(
-                                                                        70,
-                                                                        40)),
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) {
-                                                            return CreditNoteDetails(
-                                                              flatno:
-                                                                  widget.flatno,
-                                                              name: widget
-                                                                  .username,
-                                                              societyName: widget
-                                                                  .societyName,
-                                                              amount: rowList[
-                                                                  index1][4],
-                                                              date: rowList[
-                                                                  index1][0],
-                                                              creditNoteNumber:
-                                                                  rowList[index1]
-                                                                      [2],
-                                                              particulars:
-                                                                  rowList[index1]
-                                                                      [1],
-                                                            );
-                                                          }));
-                                                        },
-                                                        child: Text(
-                                                          '${particulartsLableList[index1]}\n ${rowList[index1][6]}',
-                                                          style: const TextStyle(
-                                                              fontSize: 10,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      )
-                                        : Text(
-                                            rowList[index1][index2] ?? '0',
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            '${particulartsLableList[index1].split('5_').join('')}\n ${rowList[index1][index2]}',
                                             style: const TextStyle(
-                                              fontSize: 10,
-                                            ),
+                                                fontSize: 9,
+                                                // backgroundColor:
+                                                //     Colors.amber,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.center,
                                           ),
-                                  );
-                                },
-                              ),
+                                        )
+                                      : particulartsLableList[index1] ==
+                                              '2_Receipt No.'
+                                          ? TextButton(
+                                              style: TextButton.styleFrom(
+                                                  backgroundColor: buttonColor,
+                                                  fixedSize:
+                                                      const Size(70, 40)),
+                                              onPressed: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return LedgerReceiptDetailsPage(
+                                                    flatno: widget.flatno,
+                                                    name: widget.username,
+                                                    societyName:
+                                                        widget.societyName,
+                                                    receiptNo: rowList[index1]
+                                                        [7],
+                                                    receiptDate: rowList[index1]
+                                                        [0],
+                                                    amount: rowList[index1][3],
+                                                    checkDate: rowList[index1]
+                                                        [6],
+                                                    cheqNo: rowList[index1][8],
+                                                    bankName: rowList[index1]
+                                                        [5],
+
+                                                    //  receiptData: {},
+                                                  );
+                                                }));
+                                              },
+                                              child: Text(
+                                                '${particulartsLableList[index1].split('2_').join('')}\n ${rowList[index1][7]}',
+                                                style: const TextStyle(
+                                                    fontSize: 9,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            )
+                                          : particulartsLableList[index1] ==
+                                                  'Debit Note'
+                                              ? TextButton(
+                                                  style: TextButton.styleFrom(
+                                                      backgroundColor:
+                                                          buttonColor,
+                                                      fixedSize:
+                                                          const Size(70, 40)),
+                                                  onPressed: () {
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) {
+                                                      return DebitNoteDetails(
+                                                        flatno: widget.flatno,
+                                                        name: widget.username,
+                                                        societyName:
+                                                            widget.societyName,
+                                                        amount: rowList[index1]
+                                                            [3],
+                                                        date: rowList[index1]
+                                                            [0],
+                                                        debitNoteNumber:
+                                                            rowList[index1][2],
+                                                        particulars:
+                                                            rowList[index1][1],
+                                                        month: rowList[index1]
+                                                            [6],
+                                                      );
+                                                    }));
+                                                  },
+                                                  child: Text(
+                                                    '${particulartsLableList[index1]}\n${rowList[index1][6]}',
+                                                    style: const TextStyle(
+                                                        fontSize: 10,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                )
+                                              : TextButton(
+                                                  style: TextButton.styleFrom(
+                                                      backgroundColor:
+                                                          buttonColor,
+                                                      fixedSize:
+                                                          const Size(70, 40)),
+                                                  onPressed: () {
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) {
+                                                      return CreditNoteDetails(
+                                                        flatno: widget.flatno,
+                                                        name: widget.username,
+                                                        societyName:
+                                                            widget.societyName,
+                                                        amount: rowList[index1]
+                                                            [4],
+                                                        date: rowList[index1]
+                                                            [0],
+                                                        creditNoteNumber:
+                                                            rowList[index1][2],
+                                                        particulars:
+                                                            rowList[index1][1],
+                                                      );
+                                                    }));
+                                                  },
+                                                  child: Text(
+                                                    '${particulartsLableList[index1]}\n ${rowList[index1][6]}',
+                                                    style: const TextStyle(
+                                                        fontSize: 9,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                )
+                                  : Text(
+                                      rowList[index1][index2] ?? '0',
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
                             );
                           },
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                ],
+                ),
               ),
             ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -420,16 +367,16 @@ class _memberLedgerState extends State<memberLedger> {
         for (var data in mapData) {
           List<dynamic> row = [];
 
-          if (flatno == data['Flat No.']) {
+          if (flatno == data['3_Flat No.']) {
             allDataWithBill.add(data);
 
-            row.add(data['Bill Date'] ?? 'N/A');
-            row.add(data['Bill No'] ?? 'N/A');
-            row.add(data['Bill Amount'] ?? 'N/A');
-            row.add(data['0']);
-            row.add(data['Bill Amount'] ?? 'N/A');
-            row.add(data['Due Date'] ?? 'N/A');
-            row.add(data['Interest'] ?? 'N/A');
+            row.add(data['1_Bill Date'] ?? 'N/A');
+            row.add(data['5_Bill No'] ?? '0');
+            row.add(data['6_Bill Amount'] ?? '0');
+            row.add(data['8_Payable'] ?? '0');
+            row.add(data['6_Bill Amount'] ?? '0');
+            row.add(data['2_Due Date'] ?? 'N/A');
+            row.add(data['7_Interest'] ?? 'N/A');
             row.add(data['Legal Notice Charges'] ?? 'N/A');
             row.add(data['Maintenance Charges'] ?? 'N/A');
             row.add(data['Mhada Lease Rent'] ?? 'N/A');
@@ -475,20 +422,20 @@ class _memberLedgerState extends State<memberLedger> {
         for (var data in mapData) {
           List<dynamic> receipt = [];
 
-          if (flatno == data['Flat No.']) {
+          if (flatno == data['1_Flat No.']) {
             allDataWithReceipt.add(data);
 
-            String Receiptdate2 = DateFormat('dd-MM-yyyy')
-                .format(DateTime.parse(data['Receipt Date']));
-            receipt.add(Receiptdate2);
-            receipt.add(data['Flat No.'] ?? 'N/A');
-            receipt.add(data['0']);
-            receipt.add(data['Amount'] ?? 'N/A');
-            receipt.add(data['Amount'] ?? 'N/A');
+            // String receiptdate2 = DateFormat('dd-MM-yyyy')
+            //     .format(DateTime.parse(data['3_Receipt Date']));
+            receipt.add(data['3_Receipt Date'] ?? 'N/A');
+            receipt.add(data['1_Flat No.'] ?? 'N/A');
+            receipt.add(data['0'] ?? 'N/A');
+            receipt.add(data['5_Amount'] ?? '0');
+            receipt.add(data['5_Amount'] ?? '0');
             receipt.add(data['Bank Name'] ?? 'N/A');
-            receipt.add(data['ChqDate'] ?? 'N/A');
-            receipt.add(data['Receipt No'] ?? 'N/A');
-            receipt.add(data['ChqNo'] ?? 'N/A');
+            receipt.add(data['7_ChqDate'] ?? 'N/A');
+            receipt.add(data['2_Receipt No'] ?? '0');
+            receipt.add(data['6_ChqNo'] ?? 'N/A');
             receiptList.add(receipt);
             break;
           }
@@ -498,7 +445,7 @@ class _memberLedgerState extends State<memberLedger> {
     if (billNoList.length > receiptList.length) {
       int loopLen = billNoList.length - receiptList.length;
       for (var i = 0; i < loopLen; i++) {
-        receiptList.add(['N/A', 'N/A', 'N/A', 'N/A', 'N/A']);
+        receiptList.add(['N/A', 'N/A', '0', '0', '0']);
       }
     }
     // print(allRecepts.length);
@@ -538,7 +485,7 @@ class _memberLedgerState extends State<memberLedger> {
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
         singleRow.add(date2);
         singleRow.add(particulars);
-        singleRow.add('0');
+        singleRow.add(0);
         singleRow.add(amount);
         singleRow.add(amount);
         singleRow.add(monthyear);
@@ -589,7 +536,7 @@ class _memberLedgerState extends State<memberLedger> {
         singleRow.add(date2);
         singleRow.add(particulars);
         singleRow.add(amount);
-        singleRow.add('0');
+        singleRow.add(0);
         singleRow.add(amount);
         singleRow.add(monthyear);
         singleRow.add(debitnoteNumber);
@@ -599,13 +546,13 @@ class _memberLedgerState extends State<memberLedger> {
     // print('debitList - $debitList');
   }
 
-  void mergeAllList() {
+  Future<void> mergeAllList() async {
     List<List<dynamic>> listOfRows = [];
     for (int i = 0; i < billNoList.length; i++) {
       listOfRows.add(billNoList[i]);
-      particulartsLableList.add('Bill No.');
+      particulartsLableList.add('5_Bill No');
       listOfRows.add(receiptList[i]);
-      particulartsLableList.add('Receipt No.');
+      particulartsLableList.add('2_Receipt No.');
       if (creditList.length >= i + 1) {
         listOfRows.add(debitList[i]);
         particulartsLableList.add('Debit Note');
@@ -613,7 +560,7 @@ class _memberLedgerState extends State<memberLedger> {
         particulartsLableList.add('Credit Note');
       }
     }
-    // print('rowList - ${listOfRows}');
+    print('rowListtttt - $listOfRows');
     rowList = listOfRows;
   }
 }

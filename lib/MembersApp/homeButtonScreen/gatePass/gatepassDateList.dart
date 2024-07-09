@@ -39,6 +39,7 @@ class _GatePassDateListState extends State<GatePassDateList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Text(
           'Date Of Gate Pass',
@@ -91,12 +92,11 @@ class _GatePassDateListState extends State<GatePassDateList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(8.0),
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   width: MediaQuery.of(context).size.width,
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                      MediaQuery.of(context).size.height * 0.25,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8.0),
@@ -147,7 +147,6 @@ class _GatePassDateListState extends State<GatePassDateList> {
                                             return ViewGatePass(
                                               gatePassType: widget.gatePassType,
                                               societyName: widget.societyName!,
-                                           
                                               flatNo: widget.flatno!,
                                             );
                                           }));
@@ -162,7 +161,6 @@ class _GatePassDateListState extends State<GatePassDateList> {
             ),
     );
   }
-
 
   Future<void> fetchData(String societyName, String gatePassType) async {
     final provider = Provider.of<DateOfGatePass>(context, listen: false);

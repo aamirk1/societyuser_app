@@ -52,6 +52,7 @@ dependencies:
   lecle_downloads_path_provider: 
   image_picker: 
   file_picker: ^7.0.2
+  number_to_character: ^0.0.12
 dev_dependencies:
   flutter_test:
     sdk: flutter

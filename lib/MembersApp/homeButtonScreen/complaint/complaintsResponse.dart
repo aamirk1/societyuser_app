@@ -53,7 +53,7 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                           child: Container(
                             margin: const EdgeInsets.only(top: 20),
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.85,
+                            height: MediaQuery.of(context).size.height * 0.50,
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Column(
@@ -85,10 +85,12 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                                 SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width * 0.9,
-                                    child: Text(
-                                        "Response: ${complaintData['response'] ?? 'No Response Given'}",
-                                        style: TextStyle(
-                                            color: textColor, fontSize: 15))),
+                                    child: Center(
+                                      child: Text(
+                                          "Response: ${complaintData['response'] ?? 'No Response Given'}",
+                                          style: TextStyle(
+                                              color: textColor, fontSize: 15)),
+                                    )),
                               ]),
                         )
                       ],

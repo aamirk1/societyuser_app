@@ -69,6 +69,7 @@ class _apply_nocState extends State<apply_noc> {
         'I would like to apply for noc to sale my flat ${widget.flatno} to ';
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Text(
           'Apply NOC',
@@ -273,7 +274,7 @@ class _apply_nocState extends State<apply_noc> {
           .set({"typeofNoc": nocType});
 
       provider.addSingleList({'nocType': nocType});
-     
+
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Center(child: Text('NOC submitted successfully')),
@@ -283,7 +284,6 @@ class _apply_nocState extends State<apply_noc> {
       Navigator.pop(context);
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
-     
     } on FirebaseException catch (e) {
       // ignore: avoid_print
       print('Error storing data: $e');

@@ -92,7 +92,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   String words = '';
   String phoneNum = '';
   // void numbertochar() {
-  //   words = converter.getTextForNumber(billAmount!);
+  //   words = converter.getTextForNumber(widget.billAmount as int);
   // }
 
   @override
@@ -111,6 +111,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
     totalDues = int.parse(widget.billAmount) +
         int.parse(widget.interest == '' ? '0' : widget.interest);
     getSociety(widget.societyName).whenComplete(() {});
+
     super.initState();
   }
 
@@ -118,8 +119,13 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
-        title: const Center(child: Text('Bill Details')),
+        title: const Center(
+            child: Text(
+          'Bill Details',
+          style: TextStyle(color: Colors.white),
+        )),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -148,7 +154,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -175,24 +181,24 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                     Text("Flat No.: ${widget.flatno}"),
                                     Text(
                                       "Bill No.: ${widget.billNo == '' ? 'N/A' : widget.billNo}",
-                                      style:  TextStyle(
+                                      style: TextStyle(
                                         color: textColor,
                                         fontSize: 12,
                                       ),
                                     ),
                                     Text(
                                       "Bill Date: ${widget.billDate == '' ? 'N/A' : widget.billDate}",
-                                      style:  TextStyle(
+                                      style: TextStyle(
                                           color: textColor, fontSize: 12),
                                     ),
                                     Text(
                                       "Due Date: ${widget.dueDate == '' ? 'N/A' : widget.dueDate}",
-                                      style:  TextStyle(
+                                      style: TextStyle(
                                           color: textColor, fontSize: 12),
                                     ),
                                   ])
                             ]),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -201,11 +207,12 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.40,
+                              height: MediaQuery.of(context).size.height * 0.32,
+                              width: MediaQuery.of(context).size.width * 0.92,
                               child: SingleChildScrollView(
                                 child: DataTable(
                                   dividerThickness: 0,
-                                  columnSpacing: 35,
+                                  columnSpacing: 20,
                                   columns: [
                                     DataColumn(
                                         label: Text(
@@ -244,17 +251,18 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                             ),
                           ],
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.10,
+                          height: MediaQuery.of(context).size.height * 0.14,
                           child: Row(children: [
                             Expanded(
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.50,
                                 child: Text(
+                                  textAlign: TextAlign.justify,
                                   "Rupees $words Only",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -262,7 +270,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                 ),
                               ),
                             ),
-                             VerticalDivider(
+                            VerticalDivider(
                               thickness: 1,
                               color: textColor,
                             ),
@@ -306,10 +314,10 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              Text("${widget.billAmount}",
+                                              Text(widget.billAmount,
                                                   style: const TextStyle(
                                                       fontSize: 10)),
-                                              Text("${widget.billAmount}",
+                                              Text(widget.billAmount,
                                                   style: const TextStyle(
                                                       fontSize: 10)),
                                               Text(
@@ -317,14 +325,13 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                                   style: const TextStyle(
                                                       fontSize: 10)),
                                             ]),
-                                         Divider(
+                                        Divider(
                                           color: textColor,
                                           thickness: 1,
                                         ),
                                       ],
                                     ),
-                                     Divider(
-                                        color: textColor, thickness: 1),
+                                    Divider(color: textColor, thickness: 1),
                                     Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -337,7 +344,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                                 "Total Dues Amount: ",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 12),
+                                                    fontSize: 10),
                                               ),
                                             ],
                                           ),
@@ -360,34 +367,40 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                             ),
                           ]),
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.99,
-                            child: RichText(
-                                text: TextSpan(children: [
-                               TextSpan(
-                                text:
-                                    'Please pay your dues on or before Due Date. Otherwise Simple interest @21%p.a. will be charged on Arrears. Please Pay by cross cheques or via NEFT only in favouring ',
-                                style:
-                                    TextStyle(fontSize: 10, color: textColor),
-                              ),
-                              TextSpan(
-                                text: '$society_name',
-                                style:  TextStyle(
-                                    color: textColor,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                               TextSpan(
-                                text:
-                                    ' and mention your flat number. If you have any descrepancy in the bill please contact society office.',
-                                style:
-                                    TextStyle(fontSize: 10, color: textColor),
-                              )
-                            ])))
+                          width: MediaQuery.of(context).size.width * 0.99,
+                          // height: MediaQuery.of(context).size.height * 0.1,
+                          child: RichText(
+                            textAlign: TextAlign.justify,
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      'Please pay your dues on or before Due Date. Otherwise Simple interest @21%p.a. will be charged on Arrears. Please Pay by cross cheques or via NEFT only in favouring ',
+                                  style:
+                                      TextStyle(fontSize: 10, color: textColor),
+                                ),
+                                TextSpan(
+                                  text: '$society_name',
+                                  style: TextStyle(
+                                      color: textColor,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      ' and mention your flat number. If you have any descrepancy in the bill please contact society office.',
+                                  style:
+                                      TextStyle(fontSize: 10, color: textColor),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

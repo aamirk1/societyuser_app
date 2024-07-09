@@ -75,6 +75,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Center(child: Text('Credit Note Details')),
       ),
@@ -105,7 +106,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -156,17 +157,17 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                                   children: [
                                     Text(
                                       "Note No.: ${widget.creditNoteNumber == '' ? 'N/A' : widget.creditNoteNumber}",
-                                      style:  TextStyle(
+                                      style: TextStyle(
                                           color: textColor, fontSize: 12),
                                     ),
                                     Text(
                                       "Date: ${widget.date == '' ? 'N/A' : widget.date}",
-                                      style:  TextStyle(
+                                      style: TextStyle(
                                           color: textColor, fontSize: 12),
                                     ),
                                   ])
                             ]),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -218,7 +219,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                             ),
                           ],
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),
@@ -295,7 +296,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                                               //     style: const TextStyle(
                                               //         fontSize: 10)),
                                             ]),
-                                         Divider(
+                                        Divider(
                                           color: textColor,
                                           thickness: 1,
                                         ),
@@ -338,7 +339,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                             ),
                           ]),
                         ),
-                         Divider(
+                        Divider(
                           color: textColor,
                           thickness: 1,
                         ),

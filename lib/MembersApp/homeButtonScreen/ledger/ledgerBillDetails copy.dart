@@ -122,6 +122,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Center(child: Text('Bill Details')),
       ),

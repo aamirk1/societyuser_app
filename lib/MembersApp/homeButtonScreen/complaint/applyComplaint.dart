@@ -83,6 +83,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
     //     'I would like to apply for complaints to sale my flat ${widget.flatno} to ';
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Text(
           'Apply complaints',

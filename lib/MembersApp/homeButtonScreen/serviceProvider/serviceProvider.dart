@@ -40,6 +40,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text('All Service Provider'),
         backgroundColor: appBarBgColor,
       ),

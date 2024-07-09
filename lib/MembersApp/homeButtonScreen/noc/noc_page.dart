@@ -45,6 +45,7 @@ class _nocPageState extends State<nocPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Text(
           'NOC',
@@ -97,14 +98,13 @@ class _nocPageState extends State<nocPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(8.0),
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   width: MediaQuery.of(context)
                                       .size
                                       .width, //up 2lines
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                      MediaQuery.of(context).size.height * 0.25,
                                   // padding: const EdgeInsets.all(2.0),
                                   decoration: const BoxDecoration(
                                     color: Colors.white,
@@ -133,18 +133,18 @@ class _nocPageState extends State<nocPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.69,
+                      height: MediaQuery.of(context).size.height * 0.70,
                       child: GridView.builder(
                           itemCount: nocTypeApplication.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   mainAxisSpacing: 10.0,
                                   crossAxisSpacing: 10.0,
-                                  childAspectRatio: 1.3,
+                                  childAspectRatio: 1.1,
                                   crossAxisCount: 3),
                           itemBuilder: (context, index) {
                             return Container(

@@ -47,6 +47,7 @@ class _circular_noticeState extends State<circular_notice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: Text(
           'Circular Notice',
@@ -89,11 +90,10 @@ class _circular_noticeState extends State<circular_notice> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(8.0),
                           margin: const EdgeInsets.symmetric(
                               vertical: 8.0), // down 2 lines
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.25,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8.0),

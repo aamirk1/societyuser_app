@@ -29,6 +29,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
         title: const Text(
           'Apply Gate Pass',
@@ -47,8 +48,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(5.0),
-                      height: MediaQuery.of(context).size.height * 0.30,
+                      height: MediaQuery.of(context).size.height * 0.40,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: [
@@ -81,7 +81,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
                           ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.red)),
+                                    WidgetStateProperty.all(Colors.red)),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -98,7 +98,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
                           ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.green)),
+                                    WidgetStateProperty.all(Colors.green)),
                             onPressed: () async {
                               storeUserData(
                                 gatePassTypeController.text,

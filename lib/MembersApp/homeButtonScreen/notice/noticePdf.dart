@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class MyPdfViewer extends StatefulWidget {
-  const MyPdfViewer({super.key, required this.pdfPath, required this.downloadUrl});
+  const MyPdfViewer(
+      {super.key, required this.pdfPath, required this.downloadUrl});
   final String pdfPath;
   final String downloadUrl;
 
@@ -38,8 +39,8 @@ class _MyPdfViewerState extends State<MyPdfViewer> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
           title: const Text('View Notice'),
-          
         ),
         body: Container(
           color: Colors.white,
@@ -69,6 +70,4 @@ class _MyPdfViewerState extends State<MyPdfViewer> {
       setState(() {});
     }
   }
-
-
 }

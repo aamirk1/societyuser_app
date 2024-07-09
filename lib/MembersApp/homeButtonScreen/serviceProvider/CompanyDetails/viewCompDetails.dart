@@ -25,6 +25,7 @@ class _ViewCompanyDataState extends State<ViewCompanyData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           'View Full Detais of ${widget.companyName}',
           style: TextStyle(color: buttonTextColor),

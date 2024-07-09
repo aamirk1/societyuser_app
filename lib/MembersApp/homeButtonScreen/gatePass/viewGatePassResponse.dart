@@ -42,6 +42,7 @@ class _ViewGatePassState extends State<ViewGatePass> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           'View Gate Pass',
           style: TextStyle(color: buttonTextColor),
@@ -70,7 +71,7 @@ class _ViewGatePassState extends State<ViewGatePass> {
                       height: 7,
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.75,
+                      height: MediaQuery.of(context).size.height * 0.60,
                       child: SingleChildScrollView(
                         child: Wrap(
                           children: [

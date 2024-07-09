@@ -28,6 +28,7 @@ class _ViewNoticeState extends State<ViewNotice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           'View Notice',
           style: TextStyle(color: buttonTextColor),
@@ -37,7 +38,7 @@ class _ViewNoticeState extends State<ViewNotice> {
       body: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 0.90,
           child: Column(children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -65,10 +66,10 @@ class _ViewNoticeState extends State<ViewNotice> {
               ),
             ]),
             const SizedBox(
-              height: 7,
+              height: 5,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.79,
+              height: MediaQuery.of(context).size.height * 0.75,
               child: SingleChildScrollView(
                 child: Wrap(
                   children: [

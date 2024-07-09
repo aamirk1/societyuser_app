@@ -13,7 +13,7 @@ Widget buildInfoRow(
       Icon(icon, size: 25),
       const SizedBox(width: 10.0),
       Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
