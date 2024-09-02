@@ -208,32 +208,6 @@ class _circular_noticeState extends State<circular_notice> {
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 30),
-        const SizedBox(width: 20.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-            const SizedBox(height: 4.0),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 14.0),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   Future<void> getNotice(String? SelectedSociety) async {
     final provider = Provider.of<AllNoticeProvider>(context, listen: false);

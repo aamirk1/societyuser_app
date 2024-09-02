@@ -108,8 +108,8 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
     valuesbill.add(widget.nonOccupancyChg ?? '0');
     valuesbill.add(widget.interest);
     valuesbill.add(widget.towerBenefit ?? '0');
-    totalDues = int.parse(widget.billAmount) +
-        int.parse(widget.interest == '' ? '0' : widget.interest);
+    totalDues = double.parse(widget.billAmount) +
+        double.parse(widget.interest == '' ? '0' : widget.interest);
     getSociety(widget.societyName).whenComplete(() {});
 
     super.initState();

@@ -189,32 +189,6 @@ class _NocDateListState extends State<NocDateList> {
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 30),
-        const SizedBox(width: 20.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-            const SizedBox(height: 4.0),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 14.0),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   Future<void> fetchData(String nocType) async {
     final provider = Provider.of<AllComplaintProvider>(context, listen: false);

@@ -517,22 +517,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 Icons.home,
                                                 "Flat No.",
                                                 selectedFlatNo ?? ''),
-
-                                            // Row(
-                                            //   children: [
-                                            //     Padding(
-                                            //       padding: const EdgeInsets.all(4.0),
-                                            //       child: SizedBox(
-                                            //         width: MediaQuery.of(context)
-                                            //                 .size
-                                            //                 .width *
-                                            //             0.90,
-                                            //         child: Text(
-                                            //             "Status: ${statusController.text}"),
-                                            //       ),
-                                            //     ),
-                                            //   ],
-                                            // ),
                                           ]),
                                     )
                             ],
@@ -585,6 +569,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             DataCell(
                                               TextButton(
                                                 style: TextButton.styleFrom(
+                                                  shape:
+                                                      const RoundedRectangleBorder(),
                                                   backgroundColor: buttonColor,
                                                 ),
                                                 onPressed: () {
@@ -619,6 +605,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             DataCell(ElevatedButton(
                                               style: ButtonStyle(
+                                                  shape:
+                                                      WidgetStateProperty.all(
+                                                    const RoundedRectangleBorder(),
+                                                  ),
                                                   backgroundColor:
                                                       WidgetStateProperty.all(
                                                           buttonColor)),
@@ -657,11 +647,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (context, index) {
                                   return Column(children: [
                                     TextButton(
-                                        // style: ElevatedButton.styleFrom(
-                                        //     backgroundColor: buttonColor,
-                                        //     shape: RoundedRectangleBorder(
-                                        //       borderRadius: BorderRadius.circular(10),
-                                        //     )),
                                         onPressed: () {
                                           if (isflatnoSelected) {
                                             Navigator.push(

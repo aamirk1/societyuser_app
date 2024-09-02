@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      await pickAndUploadPDF();
+                      // await pickAndUploadPDF();
                     },
                     child: byteData != null
                         ? isLoading == true
@@ -311,23 +311,23 @@ class _MyDrawerState extends State<MyDrawer> {
     }
   }
 
-  Future<void> pickAndUploadPDF() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'png', 'jpeg'],
-        allowMultiple: false,
-        withData: true);
+  // Future<void> pickAndUploadPDF() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //       type: FileType.custom,
+  //       allowedExtensions: ['jpg', 'png', 'jpeg'],
+  //       allowMultiple: false,
+  //       withData: true);
 
-    if (result != null) {
-      byteData = result.files.single.bytes;
-      fileName = result.files.single.name;
-      setState(() {});
-      uploadFile(byteData, fileName!);
-      // print("File Name - $fileName");
-    } else {
-      // print('File picking canceled');
-    }
-  }
+  //   if (result != null) {
+  //     byteData = result.files.single.bytes;
+  //     fileName = result.files.single.name;
+  //     setState(() {});
+  //     uploadFile(byteData, fileName!);
+  //     // print("File Name - $fileName");
+  //   } else {
+  //     // print('File picking canceled');
+  //   }
+  // }
 
   void uploadFile(Uint8List? byteData, String fileName) async {
     try {
