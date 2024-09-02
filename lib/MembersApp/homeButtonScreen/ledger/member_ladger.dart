@@ -326,7 +326,7 @@ class _memberLedgerState extends State<memberLedger> {
                                                               societyName: widget
                                                                   .societyName,
                                                               amount: rowList[
-                                                                  index1][3],
+                                                                  index1][2],
                                                               date: rowList[
                                                                   index1][0],
                                                               debitNoteNumber:
@@ -386,7 +386,7 @@ class _memberLedgerState extends State<memberLedger> {
                                                               societyName: widget
                                                                   .societyName,
                                                               amount: rowList[
-                                                                  index1][4],
+                                                                  index1][3],
                                                               date: rowList[
                                                                   index1][0],
                                                               creditNoteNumber:
@@ -466,8 +466,8 @@ class _memberLedgerState extends State<memberLedger> {
             String billAmount = data['6_Bill Amount'].split(' ')[0];
             // String payableAmount = data['8_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
-            totalBillAmount =
-                (double.parse(payableAmount) + double.parse(billAmount))
+            totalBillAmount = totalBillAmount +
+                (double.parse(billAmount) - double.parse(payableAmount))
                     .toString();
 
             row.add(data['1_Bill Date'] ?? 'N/A');
@@ -481,7 +481,7 @@ class _memberLedgerState extends State<memberLedger> {
             row.add(data['Maintenance Charges'] ?? 'N/A');
             row.add(data['Mhada Lease Rent'] ?? 'N/A');
             row.add(data['Municipal Tax'] ?? 'N/A');
-            row.add(data['Non Occupancy Chg'] ?? 'N/A');
+            row.add(data['Non Occupancy Charges'] ?? 'N/A');
             row.add(data['Other Charges'] ?? 'N/A');
             row.add(data['Parking Charges'] ?? 'N/A');
             row.add(data['Repair Fund'] ?? 'N/A');
@@ -528,8 +528,8 @@ class _memberLedgerState extends State<memberLedger> {
             String receiptAmount = data['5_Amount'].split(' ')[0];
             // String payableAmount = data['8_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
-            totalReceiptAmount = (double.parse(totalBillAmount) -
-                    double.parse(payableAmount) +
+            totalBillAmount = (double.parse(totalBillAmount) +
+                    double.parse(payableAmount) -
                     double.parse(receiptAmount))
                 .toString();
 
@@ -537,7 +537,7 @@ class _memberLedgerState extends State<memberLedger> {
             receipt.add(data['1_Flat No.'] ?? 'N/A');
             receipt.add(payableAmount);
             receipt.add(receiptAmount);
-            receipt.add(totalReceiptAmount);
+            receipt.add(totalBillAmount);
             receipt.add(data['Bank Name'] ?? 'N/A');
             receipt.add(data['7_ChqDate'] ?? 'N/A');
             receipt.add(data['2_Receipt No'] ?? '0');
@@ -554,6 +554,59 @@ class _memberLedgerState extends State<memberLedger> {
       }
     }
     // print(allRecepts.length);
+  }
+
+  Future<void> debitNoteData() async {
+    debitList.clear();
+    QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
+        .collection('debitNote')
+        .doc(widget.societyName)
+        .collection('month')
+        .get();
+    monthList = societyQuerySnapshot.docs.map((e) => e.id).toList();
+
+    for (var i = 0; i < monthList.length; i++) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('debitNote')
+          .doc(widget.societyName)
+          .collection('month')
+          .doc(monthList[i])
+          .collection('memberName')
+          .doc(widget.username)
+          .collection('noteNumber')
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        List<dynamic> singleRow = [];
+        Map<String, dynamic> data =
+            querySnapshot.docs.first.data() as Map<String, dynamic>;
+
+        flatno = data['Flat No.'];
+        amount = data['amount'];
+        date = data['date'];
+        particulars = data['particular'];
+        debitnoteNumber = data['noteNumber'];
+        monthyear = data['month'];
+        date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
+
+        String debitAmount = data['amount'].split(' ')[0];
+        String payableAmount = 0.toString();
+        totalBillAmount = (double.parse(totalBillAmount) +
+                double.parse(debitAmount) -
+                double.parse(payableAmount))
+            .toString();
+
+        singleRow.add(date2);
+        singleRow.add(particulars);
+        singleRow.add(debitAmount);
+        singleRow.add(payableAmount);
+        singleRow.add(totalBillAmount);
+        singleRow.add(monthyear);
+        singleRow.add(debitnoteNumber);
+        debitList.add(singleRow);
+      }
+    }
+    print('debitList - $debitList');
   }
 
   Future<void> creditNoteData() async {
@@ -588,11 +641,19 @@ class _memberLedgerState extends State<memberLedger> {
         creditnoteNumber = data['noteNumber'];
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
+
+        String creditAmount = data['amount'].split(' ')[0];
+        String payableAmount = 0.toString();
+        totalBillAmount = (double.parse(totalBillAmount) +
+                double.parse(payableAmount) -
+                double.parse(creditAmount))
+            .toString();
+
         singleRow.add(date2);
         singleRow.add(particulars);
-        singleRow.add('0');
-        singleRow.add(amount);
-        singleRow.add(amount);
+        singleRow.add(payableAmount);
+        singleRow.add(creditAmount);
+        singleRow.add(totalBillAmount);
         singleRow.add(monthyear);
         singleRow.add(creditnoteNumber);
         creditList.add(singleRow);
@@ -605,50 +666,6 @@ class _memberLedgerState extends State<memberLedger> {
       }
     }
     print('creditList - ${creditList}');
-  }
-
-  Future<void> debitNoteData() async {
-    debitList.clear();
-    QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
-        .collection('debitNote')
-        .doc(widget.societyName)
-        .collection('month')
-        .get();
-    monthList = societyQuerySnapshot.docs.map((e) => e.id).toList();
-
-    for (var i = 0; i < monthList.length; i++) {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('debitNote')
-          .doc(widget.societyName)
-          .collection('month')
-          .doc(monthList[i])
-          .collection('memberName')
-          .doc(widget.username)
-          .collection('noteNumber')
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        List<dynamic> singleRow = [];
-        Map<String, dynamic> data =
-            querySnapshot.docs.first.data() as Map<String, dynamic>;
-        flatno = data['Flat No.'];
-        amount = data['amount'];
-        date = data['date'];
-        particulars = data['particular'];
-        debitnoteNumber = data['noteNumber'];
-        monthyear = data['month'];
-        date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
-        singleRow.add(date2);
-        singleRow.add(particulars);
-        singleRow.add(amount);
-        singleRow.add('0');
-        singleRow.add(amount);
-        singleRow.add(monthyear);
-        singleRow.add(debitnoteNumber);
-        debitList.add(singleRow);
-      }
-    }
-    print('debitList - $debitList');
   }
 
   Future<void> mergeAllList() async {

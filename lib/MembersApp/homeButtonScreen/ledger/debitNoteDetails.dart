@@ -78,7 +78,12 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
-        title: const Center(child: Text('Debit Note Details')),
+        title: const Center(
+          child: Text(
+            'Debit Note Details',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -177,7 +182,7 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.50,
+                              height: MediaQuery.of(context).size.height * 0.45,
                               child: SingleChildScrollView(
                                 child: DataTable(
                                   dividerThickness: 0,
@@ -227,21 +232,6 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: Row(children: [
-                            // Expanded(
-                            //   child: SizedBox(
-                            //     width: MediaQuery.of(context).size.width * 0.50,
-                            //     child: Text(
-                            //       "Rupees $words Only",
-                            //       style: const TextStyle(
-                            //           fontWeight: FontWeight.bold,
-                            //           fontSize: 10),
-                            //     ),
-                            //   ),
-                            // ),
-                            // const VerticalDivider(
-                            //   thickness: 1,
-                            //   color: textColor,
-                            // ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
@@ -261,14 +251,6 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            // Text(
-                                            //   "Previous Dues",
-                                            //   style: TextStyle(fontSize: 10),
-                                            // ),
-                                            // Text(
-                                            //   "Intrest On Dues",
-                                            //   style: TextStyle(fontSize: 10),
-                                            // )
                                           ],
                                         ),
                                         const Column(
@@ -289,13 +271,6 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.bold)),
-                                              // Text("$billAmount",
-                                              //     style: const TextStyle(
-                                              //         fontSize: 10)),
-                                              // Text(
-                                              //     "${interest == '' ? 0 : interest}",
-                                              //     style: const TextStyle(
-                                              //         fontSize: 10)),
                                             ]),
                                         Divider(
                                           color: textColor,
@@ -303,37 +278,6 @@ class _DebitNoteDetailsState extends State<DebitNoteDetails> {
                                         ),
                                       ],
                                     ),
-                                    // const Divider(
-                                    //     color: textColor, thickness: 1),
-                                    // Row(
-                                    //     mainAxisAlignment:
-                                    //         MainAxisAlignment.spaceBetween,
-                                    //     children: [
-                                    // const Column(
-                                    //   crossAxisAlignment:
-                                    //       CrossAxisAlignment.start,
-                                    //   children: [
-                                    //     Text(
-                                    //       "Total Dues Amount: ",
-                                    //       style: TextStyle(
-                                    //           fontWeight: FontWeight.bold,
-                                    //           fontSize: 12),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    // Column(
-                                    //   crossAxisAlignment:
-                                    //       CrossAxisAlignment.end,
-                                    //   children: [
-                                    //     Text(
-                                    //       "${totalDues == '' ? 0 : totalDues}",
-                                    //       style: const TextStyle(
-                                    //           fontWeight:
-                                    //               FontWeight.bold),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    // ])
                                   ],
                                 ),
                               ),

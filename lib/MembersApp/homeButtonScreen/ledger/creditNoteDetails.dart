@@ -77,7 +77,12 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: appBarBgColor,
-        title: const Center(child: Text('Credit Note Details')),
+        title: const Center(
+          child: Text(
+            'Credit Note Details',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -176,30 +181,33 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.52,
+                              height: MediaQuery.of(context).size.height * 0.45,
                               child: SingleChildScrollView(
                                 child: DataTable(
                                   dividerThickness: 0,
                                   columnSpacing: 60,
                                   columns: [
                                     DataColumn(
-                                        label: Text(
-                                      colums[0],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
+                                      label: Text(
+                                        colums[0],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                     DataColumn(
-                                        label: Text(
-                                      colums[1],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
+                                      label: Text(
+                                        colums[1],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                     DataColumn(
-                                        label: Text(
-                                      colums[2],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
+                                      label: Text(
+                                        colums[2],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ],
                                   rows: List.generate(1, (index) {
                                     return DataRow(cells: [
