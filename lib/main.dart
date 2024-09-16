@@ -7,6 +7,7 @@ import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
 import 'package:societyuser_app/MembersApp/provider/AllNocProvider.dart';
 import 'package:societyuser_app/MembersApp/provider/AllNoticeProvider.dart';
 import 'package:societyuser_app/MembersApp/provider/AllSendComplaintsProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/ChangeValueProvider.dart';
 import 'package:societyuser_app/MembersApp/provider/DateOfGatePass.dart';
 import 'package:societyuser_app/MembersApp/provider/emplist_builder_provider.dart';
 import 'package:societyuser_app/MembersApp/provider/list_builder_provider.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EmpListBuilderProvider()),
         ChangeNotifierProvider(create: (_) => AllSendComplaintsProvider()),
         ChangeNotifierProvider(create: (_) => DateOfGatePass()),
+        ChangeNotifierProvider(create: (_) => ChangeValue()),
       ],
       child: MaterialApp(
           title: 'Society User App',

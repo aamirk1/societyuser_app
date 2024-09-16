@@ -4,15 +4,15 @@
 # hello()
 
 
-a = 80;
-b = 186;
+# a = 80;
+# b = 186;
 
-i = a*b
-print("pur",i)
+# i = a*b
+# print("pur",i)
 
-c = 203
-selling = c*a
-print('se',selling)
+# c = 203
+# selling = c*a
+# print('se',selling)
 
-p = selling - i
-print('profit',p)
+# p = selling - i
+# print('profit',p)

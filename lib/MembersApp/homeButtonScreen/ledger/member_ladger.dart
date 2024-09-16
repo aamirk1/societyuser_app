@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/creditNoteDetails.dart';
@@ -64,6 +65,8 @@ class _memberLedgerState extends State<memberLedger> {
   String creditnoteNumber = '';
   String amount = '';
   String totalBillAmount = '';
+  String totalCretitAmount = '0';
+  String totalDebititAmount = '0';
   String totalReceiptAmount = '';
   String month = '';
   List<List<dynamic>> billNoList = [];
@@ -92,344 +95,433 @@ class _memberLedgerState extends State<memberLedger> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: appBarBgColor,
-        title: const Text(
-          'Member Ledger',
-          style: TextStyle(color: Colors.white),
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: appBarBgColor,
+          title: const Text(
+            'Member Ledger',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      // drawer: const MyDrawer(),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    padding: const EdgeInsets.all(2.0),
-                    child: Card(
-                      elevation: 5,
-                      shadowColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: DataTable(
-                        headingRowColor: const WidgetStatePropertyAll(
-                            Color.fromARGB(255, 48, 51, 228)),
-                        // dataRowMinHeight: 10,
-                        columnSpacing: 5,
-                        columns: List.generate(5, (index) {
-                          return DataColumn(
-                            label: Text(
-                              colums[index],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        }),
-                        rows: List.generate(
-                          rowList.length,
-                          (index1) {
-                            return DataRow(
-                              cells: List.generate(
-                                colums.length,
-                                (index2) {
-                                  print(rowList[index1][index2]);
-                                  return DataCell(
-                                    index2 == 1
-                                        ? particulartsLableList[index1] ==
-                                                '5_Bill No'
-                                            ? TextButton(
-                                                style: TextButton.styleFrom(
-                                                    shape:
-                                                        const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                    ),
-                                                    backgroundColor:
-                                                        buttonColor,
-                                                    fixedSize:
-                                                        const Size(70, 40)),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return LedgerBillDetailsPage(
-                                                          flatno: widget.flatno,
-                                                          name: widget.username,
-                                                          societyName: widget
-                                                              .societyName,
-                                                          billDate:
-                                                              rowList[index1]
-                                                                  [0],
-                                                          billNo:
-                                                              rowList[index1]
-                                                                  [1],
-                                                          billAmount:
-                                                              rowList[index1]
-                                                                  [2],
-                                                          dueDate:
-                                                              rowList[index1]
-                                                                  [5],
-                                                          interest:
-                                                              rowList[index1]
-                                                                  [6],
-                                                          legalNoticeCharges:
-                                                              rowList[index1]
-                                                                  [7],
-                                                          maintenanceCharges:
-                                                              rowList[index1]
-                                                                  [8],
-                                                          mhadaLeaseRent:
-                                                              rowList[index1]
-                                                                  [9],
-                                                          municipalTax:
-                                                              rowList[index1]
-                                                                  [10],
-                                                          nonOccupancyChg:
-                                                              rowList[index1]
-                                                                  [11],
-                                                          othercharges:
-                                                              rowList[index1]
-                                                                  [12],
-                                                          parkingCharges:
-                                                              rowList[index1]
-                                                                  [13],
-                                                          repairFund:
-                                                              rowList[index1]
-                                                                  [14],
-                                                          sinkingFund:
-                                                              rowList[index1]
-                                                                  [15],
-                                                          towerBenefit:
-                                                              rowList[index1]
-                                                                  [16],
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                                child: Text(
-                                                  '${particulartsLableList[index1].split('5_').join('')}\n ${rowList[index1][index2]}',
-                                                  style: const TextStyle(
-                                                      fontSize: 9,
-                                                      // backgroundColor:
-                                                      //     Colors.amber,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              )
-                                            : particulartsLableList[index1] ==
-                                                    '2_Receipt No.'
-                                                ? TextButton(
-                                                    style: TextButton.styleFrom(
-                                                        shape:
-                                                            const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(5),
-                                                          ),
-                                                        ),
-                                                        backgroundColor:
-                                                            buttonColor,
-                                                        fixedSize:
-                                                            const Size(70, 40)),
-                                                    onPressed: () {
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) {
-                                                        return LedgerReceiptDetailsPage(
-                                                          flatno: widget.flatno,
-                                                          name: widget.username,
-                                                          societyName: widget
-                                                              .societyName,
-                                                          receiptNo:
-                                                              rowList[index1]
-                                                                  [7],
-                                                          receiptDate:
-                                                              rowList[index1]
-                                                                  [0],
-                                                          amount:
-                                                              rowList[index1]
-                                                                  [3],
-                                                          checkDate:
-                                                              rowList[index1]
-                                                                  [6],
-                                                          cheqNo:
-                                                              rowList[index1]
-                                                                  [8],
-                                                          bankName:
-                                                              rowList[index1]
-                                                                  [5],
-
-                                                          //  receiptData: {},
-                                                        );
-                                                      }));
-                                                    },
-                                                    child: Text(
-                                                      '${particulartsLableList[index1].split('2_').join('')}\n ${rowList[index1][index2]}',
-                                                      style: const TextStyle(
-                                                          fontSize: 9,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  )
-                                                : particulartsLableList[
-                                                            index1] ==
-                                                        'Debit Note'
-                                                    ? TextButton(
-                                                        style: TextButton
-                                                            .styleFrom(
-                                                                shape:
-                                                                    const RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .all(
-                                                                    Radius
-                                                                        .circular(
-                                                                            5),
-                                                                  ),
-                                                                ),
-                                                                backgroundColor:
-                                                                    buttonColor,
-                                                                fixedSize:
-                                                                    const Size(
-                                                                        70,
-                                                                        40)),
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) {
-                                                            return DebitNoteDetails(
-                                                              flatno:
-                                                                  widget.flatno,
-                                                              name: widget
-                                                                  .username,
-                                                              societyName: widget
-                                                                  .societyName,
-                                                              amount: rowList[
-                                                                  index1][2],
-                                                              date: rowList[
-                                                                  index1][0],
-                                                              debitNoteNumber:
-                                                                  rowList[index1]
-                                                                      [2],
-                                                              particulars:
-                                                                  rowList[index1]
-                                                                      [1],
-                                                              month: rowList[
-                                                                  index1][6],
-                                                            );
-                                                          }));
-                                                        },
-                                                        child: Text(
-                                                          '${particulartsLableList[index1]}\n${rowList[index1][index2]}',
-                                                          style: const TextStyle(
-                                                              fontSize: 10,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      )
-                                                    : TextButton(
-                                                        style: TextButton
-                                                            .styleFrom(
-                                                                shape:
-                                                                    const RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .all(
-                                                                    Radius
-                                                                        .circular(
-                                                                            5),
-                                                                  ),
-                                                                ),
-                                                                backgroundColor:
-                                                                    buttonColor,
-                                                                fixedSize:
-                                                                    const Size(
-                                                                        70,
-                                                                        40)),
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) {
-                                                            return CreditNoteDetails(
-                                                              flatno:
-                                                                  widget.flatno,
-                                                              name: widget
-                                                                  .username,
-                                                              societyName: widget
-                                                                  .societyName,
-                                                              amount: rowList[
-                                                                  index1][3],
-                                                              date: rowList[
-                                                                  index1][0],
-                                                              creditNoteNumber:
-                                                                  rowList[index1]
-                                                                      [6],
-                                                              particulars:
-                                                                  rowList[index1]
-                                                                      [1],
-                                                            );
-                                                          }));
-                                                        },
-                                                        child: Text(
-                                                          '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
-                                                          style: const TextStyle(
-                                                              fontSize: 9,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      )
-                                        : Text(
-                                            rowList[index1][index2] ?? '0',
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                            ),
+        // drawer: const MyDrawer(),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Consumer(builder: (context, value, child) {
+                return Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Card(
+                          elevation: 5,
+                          shadowColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.98,
+                                  child: DataTable(
+                                    headingRowColor:
+                                        const WidgetStatePropertyAll(
+                                            Color.fromARGB(255, 48, 51, 228)),
+                                    // dataRowMinHeight: 10,
+                                    columnSpacing: 5,
+                                    columns: List.generate(5, (index) {
+                                      return DataColumn(
+                                        label: Text(
+                                          colums[index],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                  );
-                                },
+                                        ),
+                                      );
+                                    }),
+                                    rows: List.generate(
+                                      rowList.length,
+                                      (index1) {
+                                        return DataRow(
+                                          cells: List.generate(
+                                            colums.length,
+                                            (index2) {
+                                              print(rowList[index1][index2]);
+                                              return DataCell(
+                                                index2 == 1
+                                                    ? particulartsLableList[
+                                                                index1] ==
+                                                            '5_Bill No'
+                                                        ? TextButton(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                                    shape:
+                                                                        const RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .all(
+                                                                        Radius.circular(
+                                                                            5),
+                                                                      ),
+                                                                    ),
+                                                                    backgroundColor:
+                                                                        buttonColor,
+                                                                    fixedSize:
+                                                                        const Size(
+                                                                            70,
+                                                                            40)),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                    return LedgerBillDetailsPage(
+                                                                      flatno: widget
+                                                                          .flatno,
+                                                                      name: widget
+                                                                          .username,
+                                                                      societyName:
+                                                                          widget
+                                                                              .societyName,
+                                                                      billDate:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              0],
+                                                                      billNo:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              1],
+                                                                      billAmount:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              2],
+                                                                      dueDate:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              5],
+                                                                      interest:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              6],
+                                                                      legalNoticeCharges:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              7],
+                                                                      maintenanceCharges:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              8],
+                                                                      mhadaLeaseRent:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              9],
+                                                                      municipalTax:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              10],
+                                                                      nonOccupancyChg:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              11],
+                                                                      othercharges:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              12],
+                                                                      parkingCharges:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              13],
+                                                                      repairFund:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              14],
+                                                                      sinkingFund:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              15],
+                                                                      towerBenefit:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              16],
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: Text(
+                                                              '${particulartsLableList[index1].split('5_').join('')}\n ${rowList[index1][index2]}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          9,
+                                                                      // backgroundColor:
+                                                                      //     Colors.amber,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                          )
+                                                        : particulartsLableList[
+                                                                    index1] ==
+                                                                '2_Receipt No.'
+                                                            ? TextButton(
+                                                                style: TextButton
+                                                                    .styleFrom(
+                                                                        shape:
+                                                                            const RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(
+                                                                            Radius.circular(5),
+                                                                          ),
+                                                                        ),
+                                                                        backgroundColor:
+                                                                            buttonColor,
+                                                                        fixedSize: const Size(
+                                                                            70,
+                                                                            40)),
+                                                                onPressed: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder:
+                                                                              (context) {
+                                                                    return LedgerReceiptDetailsPage(
+                                                                      flatno: widget
+                                                                          .flatno,
+                                                                      name: widget
+                                                                          .username,
+                                                                      societyName:
+                                                                          widget
+                                                                              .societyName,
+                                                                      receiptNo:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              7],
+                                                                      receiptDate:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              0],
+                                                                      amount:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              3],
+                                                                      checkDate:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              6],
+                                                                      cheqNo:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              8],
+                                                                      bankName:
+                                                                          rowList[index1]
+                                                                              [
+                                                                              5],
+
+                                                                      //  receiptData: {},
+                                                                    );
+                                                                  }));
+                                                                },
+                                                                child: Text(
+                                                                  '${particulartsLableList[index1].split('2_').join('')}\n ${rowList[index1][index2]}',
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          9,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                              )
+                                                            : particulartsLableList[
+                                                                        index1] ==
+                                                                    'Debit Note'
+                                                                ? TextButton(
+                                                                    style: TextButton.styleFrom(
+                                                                        shape: const RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(
+                                                                            Radius.circular(5),
+                                                                          ),
+                                                                        ),
+                                                                        backgroundColor: buttonColor,
+                                                                        fixedSize: const Size(70, 40)),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(builder:
+                                                                              (context) {
+                                                                        return DebitNoteDetails(
+                                                                          flatno:
+                                                                              widget.flatno,
+                                                                          name:
+                                                                              widget.username,
+                                                                          societyName:
+                                                                              widget.societyName,
+                                                                          amount:
+                                                                              rowList[index1][2],
+                                                                          date: rowList[index1]
+                                                                              [
+                                                                              0],
+                                                                          debitNoteNumber:
+                                                                              rowList[index1][2],
+                                                                          particulars:
+                                                                              rowList[index1][1],
+                                                                          month:
+                                                                              rowList[index1][6],
+                                                                        );
+                                                                      }));
+                                                                    },
+                                                                    child: Text(
+                                                                      '${particulartsLableList[index1]}\n${rowList[index1][index2]}',
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  )
+                                                                : TextButton(
+                                                                    style: TextButton.styleFrom(
+                                                                        shape: const RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(
+                                                                            Radius.circular(5),
+                                                                          ),
+                                                                        ),
+                                                                        backgroundColor: buttonColor,
+                                                                        fixedSize: const Size(70, 40)),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(builder:
+                                                                              (context) {
+                                                                        return CreditNoteDetails(
+                                                                          flatno:
+                                                                              widget.flatno,
+                                                                          name:
+                                                                              widget.username,
+                                                                          societyName:
+                                                                              widget.societyName,
+                                                                          amount:
+                                                                              rowList[index1][3],
+                                                                          date: rowList[index1]
+                                                                              [
+                                                                              0],
+                                                                          creditNoteNumber:
+                                                                              rowList[index1][6],
+                                                                          particulars:
+                                                                              rowList[index1][1],
+                                                                        );
+                                                                      }));
+                                                                    },
+                                                                    child: Text(
+                                                                      '${particulartsLableList[index1]}\n ${rowList[index1][index2]}',
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              9,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  )
+                                                    : Text(
+                                                        rowList[index1]
+                                                                [index2] ??
+                                                            '0',
+                                                        style: const TextStyle(
+                                                          fontSize: 10,
+                                                        ),
+                                                      ),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
                               ),
-                            );
-                          },
+                              const Divider(
+                                thickness: 1,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    const Column(
+                                      children: [
+                                        Text(
+                                          'Total Amount: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.20,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.45,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(totalDebititAmount,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14)),
+                                          Text(totalCretitAmount,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14)),
+                                          Text(totalBillAmount,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-    );
+                );
+              }));
   }
 
   Future<void> getBill(String societyname, String flatno) async {
@@ -469,6 +561,11 @@ class _memberLedgerState extends State<memberLedger> {
             totalBillAmount = totalBillAmount +
                 (double.parse(billAmount) - double.parse(payableAmount))
                     .toString();
+
+            totalDebititAmount =
+                (double.parse(totalDebititAmount) + double.parse(billAmount))
+                    .toString();
+            // print('totalDebititAmount111 $totalDebititAmount');
 
             row.add(data['1_Bill Date'] ?? 'N/A');
             row.add(data['5_Bill No'] ?? '0');
@@ -532,6 +629,9 @@ class _memberLedgerState extends State<memberLedger> {
                     double.parse(payableAmount) -
                     double.parse(receiptAmount))
                 .toString();
+            totalCretitAmount =
+                (double.parse(totalCretitAmount) + double.parse(receiptAmount))
+                    .toString();
 
             receipt.add(data['3_Receipt Date'] ?? 'N/A');
             receipt.add(data['1_Flat No.'] ?? 'N/A');
@@ -596,6 +696,10 @@ class _memberLedgerState extends State<memberLedger> {
                 double.parse(payableAmount))
             .toString();
 
+        totalDebititAmount =
+            (double.parse(totalDebititAmount) + double.parse(debitAmount))
+                .toString();
+        // print('totalDebititAmount22 - $totalDebititAmount');
         singleRow.add(date2);
         singleRow.add(particulars);
         singleRow.add(debitAmount);
@@ -648,6 +752,10 @@ class _memberLedgerState extends State<memberLedger> {
                 double.parse(payableAmount) -
                 double.parse(creditAmount))
             .toString();
+
+        totalCretitAmount =
+            (double.parse(totalCretitAmount) + double.parse(creditAmount))
+                .toString();
 
         singleRow.add(date2);
         singleRow.add(particulars);

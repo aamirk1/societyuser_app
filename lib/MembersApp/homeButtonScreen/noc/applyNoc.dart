@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -87,62 +86,63 @@ class _apply_nocState extends State<apply_noc> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: noctypeController,
-                          decoration: const InputDecoration(
-                              labelText: 'Select Noc Type',
-                              border: OutlineInputBorder())),
-                      suggestionsCallback: (pattern) async {
-                        // return await getSocietyList();
+                  child: Text('pending'),
+                  //  TypeAheadField(
+                  //     textFieldConfiguration: TextFieldConfiguration(
+                  //         controller: noctypeController,
+                  //         decoration: const InputDecoration(
+                  //             labelText: 'Select Noc Type',
+                  //             border: OutlineInputBorder())),
+                  //     suggestionsCallback: (pattern) async {
+                  //       // return await getSocietyList();
 
-                        return widget.items;
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                suggestion.toString(),
-                                style: TextStyle(color: textColor),
-                              ),
-                            ),
-                            Divider(
-                              color: textColor,
-                              thickness: 1,
-                            ),
-                          ],
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        noctypeController.text = suggestion.toString();
-                        switch (suggestion.toString()) {
-                          case 'SALE NOC':
-                            _showDialog(widget.application[0], saleController);
-                            break;
-                          case 'GAS NOC':
-                            _showDialog(widget.application[1], gasController);
-                            break;
-                          case 'ELECTRIC METER NOC':
-                            _showDialog(
-                                widget.application[2], electricController);
-                            break;
-                          case 'PASSPORT NOC':
-                            _showDialog(
-                                widget.application[3], passportController);
-                            break;
-                          case 'RENOVATION NOC':
-                            _showDialog(
-                                widget.application[4], renovationController);
-                            break;
-                          case 'NOC FOR GIFT DEED':
-                            _showDialog(widget.application[5], giftController);
-                            break;
-                          case 'BANK':
-                            _showDialog(widget.application[6], bankController);
-                            break;
-                        }
-                      }),
+                  //       return widget.items;
+                  //     },
+                  //     itemBuilder: (context, suggestion) {
+                  //       return Column(
+                  //         children: [
+                  //           ListTile(
+                  //             title: Text(
+                  //               suggestion.toString(),
+                  //               style: TextStyle(color: textColor),
+                  //             ),
+                  //           ),
+                  //           Divider(
+                  //             color: textColor,
+                  //             thickness: 1,
+                  //           ),
+                  //         ],
+                  //       );
+                  //     },
+                  //     onSuggestionSelected: (suggestion) {
+                  //       noctypeController.text = suggestion.toString();
+                  //       switch (suggestion.toString()) {
+                  //         case 'SALE NOC':
+                  //           _showDialog(widget.application[0], saleController);
+                  //           break;
+                  //         case 'GAS NOC':
+                  //           _showDialog(widget.application[1], gasController);
+                  //           break;
+                  //         case 'ELECTRIC METER NOC':
+                  //           _showDialog(
+                  //               widget.application[2], electricController);
+                  //           break;
+                  //         case 'PASSPORT NOC':
+                  //           _showDialog(
+                  //               widget.application[3], passportController);
+                  //           break;
+                  //         case 'RENOVATION NOC':
+                  //           _showDialog(
+                  //               widget.application[4], renovationController);
+                  //           break;
+                  //         case 'NOC FOR GIFT DEED':
+                  //           _showDialog(widget.application[5], giftController);
+                  //           break;
+                  //         case 'BANK':
+                  //           _showDialog(widget.application[6], bankController);
+                  //           break;
+                  //       }
+                  //     }),
                 ),
               )
             ],

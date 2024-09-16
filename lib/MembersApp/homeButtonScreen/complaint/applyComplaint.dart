@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
@@ -99,65 +98,66 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.90,
                 height: MediaQuery.of(context).size.height * 0.08,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: complaintstypeController,
-                          decoration: const InputDecoration(
-                              labelText: 'Select complaints Type',
-                              border: OutlineInputBorder())),
-                      suggestionsCallback: (pattern) async {
-                        // return await getSocietyList();
+                child: const Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Text('pending'),
+                  // TypeAheadField(
+                  //     textFieldConfiguration: TextFieldConfiguration(
+                  //         controller: complaintstypeController,
+                  //         decoration: const InputDecoration(
+                  //             labelText: 'Select complaints Type',
+                  //             border: OutlineInputBorder())),
+                  //     suggestionsCallback: (pattern) async {
+                  //       // return await getSocietyList();
 
-                        return widget.items;
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(
-                            suggestion.toString(),
-                            style: TextStyle(color: textColor),
-                          ),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        complaintstypeController.text = suggestion.toString();
-                        switch (suggestion.toString()) {
-                          case 'House Keeping Complaint':
-                            _showDialog(widget.application[0], saleController);
-                            break;
-                          case 'Security Issues':
-                            _showDialog(widget.application[1], gasController);
-                            break;
-                          case 'Parking Issue':
-                            _showDialog(
-                                widget.application[2], electricController);
-                            break;
-                          case 'Admin Issue':
-                            _showDialog(
-                                widget.application[3], passportController);
-                            break;
-                          case 'Accounts Issue':
-                            _showDialog(
-                                widget.application[4], renovationController);
-                            break;
-                          case 'Vendor Complaints':
-                            _showDialog(widget.application[5], giftController);
-                            break;
-                          case 'Water Related':
-                            _showDialog(widget.application[6], bankController);
-                            break;
-                          case 'Leackage Related':
-                            _showDialog(widget.application[7], bankController);
-                            break;
-                          case 'Pet Animals Related':
-                            _showDialog(widget.application[8], bankController);
-                            break;
-                          case 'Others':
-                            _showDialog(widget.application[9], bankController);
-                            break;
-                        }
-                      }),
+                  //       return widget.items;
+                  //     },
+                  //     itemBuilder: (context, suggestion) {
+                  //       return ListTile(
+                  //         title: Text(
+                  //           suggestion.toString(),
+                  //           style: TextStyle(color: textColor),
+                  //         ),
+                  //       );
+                  //     },
+                  //     onSuggestionSelected: (suggestion) {
+                  //       complaintstypeController.text = suggestion.toString();
+                  //       switch (suggestion.toString()) {
+                  //         case 'House Keeping Complaint':
+                  //           _showDialog(widget.application[0], saleController);
+                  //           break;
+                  //         case 'Security Issues':
+                  //           _showDialog(widget.application[1], gasController);
+                  //           break;
+                  //         case 'Parking Issue':
+                  //           _showDialog(
+                  //               widget.application[2], electricController);
+                  //           break;
+                  //         case 'Admin Issue':
+                  //           _showDialog(
+                  //               widget.application[3], passportController);
+                  //           break;
+                  //         case 'Accounts Issue':
+                  //           _showDialog(
+                  //               widget.application[4], renovationController);
+                  //           break;
+                  //         case 'Vendor Complaints':
+                  //           _showDialog(widget.application[5], giftController);
+                  //           break;
+                  //         case 'Water Related':
+                  //           _showDialog(widget.application[6], bankController);
+                  //           break;
+                  //         case 'Leackage Related':
+                  //           _showDialog(widget.application[7], bankController);
+                  //           break;
+                  //         case 'Pet Animals Related':
+                  //           _showDialog(widget.application[8], bankController);
+                  //           break;
+                  //         case 'Others':
+                  //           _showDialog(widget.application[9], bankController);
+                  //           break;
+                  //       }
+                  //     }),
                 ),
               ),
             ],

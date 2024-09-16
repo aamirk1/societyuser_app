@@ -13,6 +13,7 @@ import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/member_ladger
 import 'package:societyuser_app/MembersApp/homeButtonScreen/noc/noc_page.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/notice/circular_notice.dart';
 import 'package:societyuser_app/MembersApp/provider/AllNoticeProvider.dart';
+import 'package:societyuser_app/MembersApp/provider/ChangeValueProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -78,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = false;
       });
     });
+
     super.initState();
   }
 
@@ -128,599 +130,559 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: appBarBgColor,
-        title: const Center(
-          child: Text(
-            'Home',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              signOut();
-            },
-            icon: const Icon(
-              Icons.power_settings_new,
-              color: Colors.white,
+        appBar: AppBar(
+          backgroundColor: appBarBgColor,
+          title: const Center(
+            child: Text(
+              'Home',
+              style: TextStyle(color: Colors.white),
             ),
-          )
-        ],
-      ),
-      // drawer: MyDrawer(
-      //     flatno: selectedFlatNo ?? '',
-      //     username: name,
-      //     societyName: selectedSocietyName ?? '',
-      //     mobile: mobile),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.40,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                signOut();
+              },
+              icon: const Icon(
+                Icons.power_settings_new,
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+        // drawer: MyDrawer(
+        //     flatno: selectedFlatNo ?? '',
+        //     username: name,
+        //     societyName: selectedSocietyName ?? '',
+        //     mobile: mobile),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Consumer<ChangeValue>(builder: (context, value, child) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.40,
 
-                      // height: 20,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          elevation: 5,
-                          shadowColor: Colors.grey,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
+                        // height: 20,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 5,
+                            shadowColor: Colors.grey,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
                             ),
-                          ),
-                          child: Column(
-                            children: [
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Dev Accounts -',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple),
-                                        ),
-                                        Text(
-                                          ' Society Manager',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    color: Colors.white,
-                                    height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.40,
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton2<String>(
-                                        isExpanded: true,
-                                        hint: Text(
-                                          'Select Society',
-                                          style: TextStyle(
-                                            color: textColor,
-                                            fontSize: 10,
+                            child: Column(
+                              children: [
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Dev Accounts -',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.purple),
                                           ),
-                                        ),
-                                        items: societyList
-                                            .map((item) => DropdownMenuItem(
-                                                  value: item,
-                                                  child: Text(
-                                                    item,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: textColor),
+                                          Text(
+                                            ' Society Manager',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.purple),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      color: Colors.white,
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.40,
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton2<String>(
+                                          isExpanded: true,
+                                          hint: Text(
+                                            'Select Society',
+                                            style: TextStyle(
+                                              color: textColor,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                          items: societyList
+                                              .map((item) => DropdownMenuItem(
+                                                    value: item,
+                                                    child: Text(
+                                                      item,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: textColor),
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                          // value: selectedSocietyName,
+                                          onChanged: (value) async {
+                                            flatNOList.clear();
+                                            flatnoController.clear();
+                                            selectedFlatNo = '';
+                                            selectedSocietyName = value;
+                                            await getflatno(
+                                                    selectedSocietyName!)
+                                                .whenComplete(() {
+                                              getNotice(selectedSocietyName);
+                                            });
+                                            setState(() {});
+                                          },
+                                          buttonStyleData:
+                                              const ButtonStyleData(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                                border: Border(
+                                                    right: BorderSide(
+                                                      color: Colors.grey,
+                                                    ),
+                                                    left: BorderSide(
+                                                        color: Colors.grey),
+                                                    top: BorderSide(
+                                                        color: Colors.grey),
+                                                    bottom: BorderSide(
+                                                      color: Colors.grey,
+                                                    ))),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            height: 40,
+                                            width: 200,
+                                          ),
+                                          dropdownStyleData:
+                                              const DropdownStyleData(
+                                            maxHeight: 200,
+                                          ),
+                                          menuItemStyleData:
+                                              const MenuItemStyleData(
+                                            height: 40,
+                                          ),
+                                          dropdownSearchData:
+                                              DropdownSearchData(
+                                            searchController:
+                                                _societyNameController,
+                                            searchInnerWidgetHeight: 50,
+                                            searchInnerWidget: Container(
+                                              height: 50,
+                                              padding: const EdgeInsets.only(
+                                                top: 8,
+                                                bottom: 4,
+                                                right: 8,
+                                                left: 8,
+                                              ),
+                                              child: TextFormField(
+                                                expands: true,
+                                                maxLines: null,
+                                                controller:
+                                                    _societyNameController,
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  contentPadding:
+                                                      const EdgeInsets
+                                                          .symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 8,
                                                   ),
-                                                ))
-                                            .toList(),
-                                        // value: selectedSocietyName,
-                                        onChanged: (value) async {
-                                          flatNOList.clear();
-                                          flatnoController.clear();
-                                          selectedFlatNo = '';
-                                          selectedSocietyName = value;
-                                          await getflatno(selectedSocietyName!)
-                                              .whenComplete(() {
-                                            getNotice(selectedSocietyName);
-                                          });
-                                          setState(() {});
-                                        },
-                                        buttonStyleData: const ButtonStyleData(
-                                          decoration: BoxDecoration(
+                                                  hintText: 'Search society',
+                                                  hintStyle: const TextStyle(
+                                                      fontSize: 10),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            searchMatchFn: (item, searchValue) {
+                                              return item.value
+                                                  .toString()
+                                                  .contains(searchValue);
+                                            },
+                                          ),
+                                          //This to clear the search value when you close the menu
+                                          onMenuStateChange: (isOpen) {
+                                            if (!isOpen) {
+                                              _societyNameController.clear();
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.40,
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton2<String>(
+                                          isExpanded: true,
+                                          hint: Text(
+                                            'Select Flat',
+                                            style: TextStyle(
+                                              color: textColor,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                          items: flatNOList
+                                              .map((item) => DropdownMenuItem(
+                                                    value: item,
+                                                    child: Text(
+                                                      item,
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: textColor),
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                          // value: selectedSocietyName,
+                                          onChanged: (value) {
+                                            isflatnoSelected = false;
+                                            selectedFlatNo = value;
+                                            getMemberName(selectedSocietyName!,
+                                                    value!)
+                                                .whenComplete(() {
+                                              isflatnoSelected = true;
+                                              _loadData();
+                                            });
+                                          },
+                                          buttonStyleData:
+                                              const ButtonStyleData(
+                                            decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10),
                                               ),
                                               border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.grey,
-                                                  ),
-                                                  left: BorderSide(
-                                                      color: Colors.grey),
-                                                  top: BorderSide(
-                                                      color: Colors.grey),
-                                                  bottom: BorderSide(
-                                                    color: Colors.grey,
-                                                  ))),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          height: 40,
-                                          width: 200,
-                                        ),
-                                        dropdownStyleData:
-                                            const DropdownStyleData(
-                                          maxHeight: 200,
-                                        ),
-                                        menuItemStyleData:
-                                            const MenuItemStyleData(
-                                          height: 40,
-                                        ),
-                                        dropdownSearchData: DropdownSearchData(
-                                          searchController:
-                                              _societyNameController,
-                                          searchInnerWidgetHeight: 50,
-                                          searchInnerWidget: Container(
-                                            height: 50,
-                                            padding: const EdgeInsets.only(
-                                              top: 8,
-                                              bottom: 4,
-                                              right: 8,
-                                              left: 8,
-                                            ),
-                                            child: TextFormField(
-                                              expands: true,
-                                              maxLines: null,
-                                              controller:
-                                                  _societyNameController,
-                                              decoration: InputDecoration(
-                                                isDense: true,
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 8,
+                                                right: BorderSide(
+                                                  color: Colors.grey,
                                                 ),
-                                                hintText: 'Search society',
-                                                hintStyle: const TextStyle(
-                                                    fontSize: 10),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                                left: BorderSide(
+                                                    color: Colors.grey),
+                                                top: BorderSide(
+                                                    color: Colors.grey),
+                                                bottom: BorderSide(
+                                                  color: Colors.grey,
                                                 ),
                                               ),
                                             ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            height: 40,
+                                            width: 200,
                                           ),
-                                          searchMatchFn: (item, searchValue) {
-                                            return item.value
-                                                .toString()
-                                                .contains(searchValue);
+                                          dropdownStyleData:
+                                              const DropdownStyleData(
+                                            maxHeight: 200,
+                                          ),
+                                          menuItemStyleData:
+                                              const MenuItemStyleData(
+                                            height: 40,
+                                          ),
+                                          dropdownSearchData:
+                                              DropdownSearchData(
+                                            searchController: flatnoController,
+                                            searchInnerWidgetHeight: 50,
+                                            searchInnerWidget: Container(
+                                              height: 50,
+                                              padding: const EdgeInsets.only(
+                                                top: 8,
+                                                bottom: 4,
+                                                right: 8,
+                                                left: 8,
+                                              ),
+                                              child: TextFormField(
+                                                expands: true,
+                                                maxLines: null,
+                                                controller: flatnoController,
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  contentPadding:
+                                                      const EdgeInsets
+                                                          .symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 8,
+                                                  ),
+                                                  hintText: 'Search flat',
+                                                  hintStyle: const TextStyle(
+                                                      fontSize: 10),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            searchMatchFn: (item, searchValue) {
+                                              return item.value
+                                                  .toString()
+                                                  .contains(searchValue);
+                                            },
+                                          ),
+                                          //This to clear the search value when you close the menu
+                                          onMenuStateChange: (isOpen) {
+                                            if (!isOpen) {
+                                              flatnoController.clear();
+                                            }
                                           },
                                         ),
-                                        //This to clear the search value when you close the menu
-                                        onMenuStateChange: (isOpen) {
-                                          if (!isOpen) {
-                                            _societyNameController.clear();
-                                          }
-                                        },
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    color: Colors.white,
-                                    height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.40,
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton2<String>(
-                                        isExpanded: true,
-                                        hint: Text(
-                                          'Select Flat',
-                                          style: TextStyle(
-                                            color: textColor,
-                                            fontSize: 10,
-                                          ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                isLoading
+                                    ? const Padding(
+                                        padding: EdgeInsets.only(top: 40.0),
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
                                         ),
-                                        items: flatNOList
-                                            .map((item) => DropdownMenuItem(
-                                                  value: item,
-                                                  child: Text(
-                                                    item,
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: textColor),
-                                                  ),
-                                                ))
-                                            .toList(),
-                                        // value: selectedSocietyName,
-                                        onChanged: (value) {
-                                          isflatnoSelected = false;
-                                          selectedFlatNo = value;
-                                          getMemberName(
-                                                  selectedSocietyName!, value!)
-                                              .whenComplete(() {
-                                            getCurrentBill(selectedSocietyName!,
-                                                selectedFlatNo!);
-                                            isflatnoSelected = true;
-                                          });
-                                        },
-                                        buttonStyleData: const ButtonStyleData(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                            border: Border(
-                                              right: BorderSide(
-                                                color: Colors.grey,
-                                              ),
-                                              left: BorderSide(
-                                                  color: Colors.grey),
-                                              top: BorderSide(
-                                                  color: Colors.grey),
-                                              bottom: BorderSide(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          height: 40,
-                                          width: 200,
-                                        ),
-                                        dropdownStyleData:
-                                            const DropdownStyleData(
-                                          maxHeight: 200,
-                                        ),
-                                        menuItemStyleData:
-                                            const MenuItemStyleData(
-                                          height: 40,
-                                        ),
-                                        dropdownSearchData: DropdownSearchData(
-                                          searchController: flatnoController,
-                                          searchInnerWidgetHeight: 50,
-                                          searchInnerWidget: Container(
-                                            height: 50,
-                                            padding: const EdgeInsets.only(
-                                              top: 8,
-                                              bottom: 4,
-                                              right: 8,
-                                              left: 8,
-                                            ),
-                                            child: TextFormField(
-                                              expands: true,
-                                              maxLines: null,
-                                              controller: flatnoController,
-                                              decoration: InputDecoration(
-                                                isDense: true,
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 8,
-                                                ),
-                                                hintText: 'Search flat',
-                                                hintStyle: const TextStyle(
-                                                    fontSize: 10),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          searchMatchFn: (item, searchValue) {
-                                            return item.value
-                                                .toString()
-                                                .contains(searchValue);
-                                          },
-                                        ),
-                                        //This to clear the search value when you close the menu
-                                        onMenuStateChange: (isOpen) {
-                                          if (!isOpen) {
-                                            flatnoController.clear();
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.all(4.0),
-                                  //   child: SizedBox(
-                                  //     width: MediaQuery.of(context).size.width * 0.90,
-                                  //     height:
-                                  //         MediaQuery.of(context).size.height * 0.06,
-                                  //     child: Padding(
-                                  //       padding: const EdgeInsets.all(4.0),
-                                  //       child: TypeAheadField(
-                                  //         textFieldConfiguration:
-                                  //             TextFieldConfiguration(
-                                  //                 controller: _societyNameController,
-                                  //                 decoration: const InputDecoration(
-                                  //                     labelText: 'Select Society',
-                                  //                     border: OutlineInputBorder())),
-                                  //         suggestionsCallback: (pattern) async {
-                                  //           return await getSocietyList();
-                                  //         },
-                                  //         itemBuilder: (context, suggestion) {
-                                  //           return ListTile(
-                                  //             title: Text(
-                                  //               suggestion.toString(),
-                                  //               style: TextStyle(color: textColor),
-                                  //             ),
-                                  //           );
-                                  //         },
-                                  //         onSuggestionSelected: (suggestion) {
-                                  //           _societyNameController.text =
-                                  //               suggestion.toString();
-                                  //           getMemberName(suggestion.toString())
-                                  //               .whenComplete(() {
-                                  //             getCurrentBill(suggestion.toString());
-                                  //             isSocietySelected = true;
-                                  //           });
-                                  //         },
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              isLoading
-                                  ? const Padding(
-                                      padding: EdgeInsets.only(top: 40.0),
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    )
-                                  : Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            buildInfoRow(
-                                                context,
-                                                Icons.person,
-                                                "Member Name",
-                                                usernameController.text),
-                                            buildInfoRow(
-                                                context,
-                                                Icons.home,
-                                                "Society Name",
-                                                selectedSocietyName ?? ''),
-                                            buildInfoRow(
-                                                context,
-                                                Icons.home,
-                                                "Flat No.",
-                                                selectedFlatNo ?? ''),
-                                          ]),
-                                    )
-                            ],
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              buildInfoRow(
+                                                  context,
+                                                  Icons.person,
+                                                  "Member Name",
+                                                  usernameController.text),
+                                              buildInfoRow(
+                                                  context,
+                                                  Icons.home,
+                                                  "Society Name",
+                                                  selectedSocietyName ?? ''),
+                                              buildInfoRow(
+                                                  context,
+                                                  Icons.home,
+                                                  "Flat No.",
+                                                  selectedFlatNo ?? ''),
+                                            ]),
+                                      )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      0.99, //add width and container on 270324
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Card(
-                                      elevation: 5,
-                                      shadowColor: Colors.grey,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: DataTable(
-                                        columnSpacing: 155,
-                                        columns: [
-                                          const DataColumn(
-                                              label: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Dues',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width *
+                                  0.99, //add width and container on 270324
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Card(
+                                  elevation: 5,
+                                  shadowColor: Colors.grey,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: DataTable(
+                                    columnSpacing: 155,
+                                    columns: [
+                                      const DataColumn(
+                                          label: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Dues',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )),
+                                      DataColumn(
+                                          label: value
+                                                  .grandTotalBillAmount.isEmpty
+                                              ? const Text('Rs: 0')
+                                              : Text(
+                                                  'Rs: ${value.grandTotalBillAmount}')),
+                                    ],
+                                    dividerThickness: 2,
+                                    rows: [
+                                      DataRow(cells: [
+                                        DataCell(
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                              shape:
+                                                  const RoundedRectangleBorder(),
+                                              backgroundColor: buttonColor,
                                             ),
-                                          )),
-                                          DataColumn(
-                                              label: payableAmountController
-                                                      .text.isEmpty
-                                                  ? const Text('Rs: 0')
-                                                  : Text(
-                                                      'Rs: ${payableAmountController.text}')),
-                                        ],
-                                        dividerThickness: 2,
-                                        rows: [
-                                          DataRow(cells: [
-                                            DataCell(
-                                              TextButton(
-                                                style: TextButton.styleFrom(
-                                                  shape:
-                                                      const RoundedRectangleBorder(),
-                                                  backgroundColor: buttonColor,
-                                                ),
-                                                onPressed: () {
-                                                  if (isflatnoSelected) {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) {
-                                                        return memberLedger(
-                                                          flatno:
-                                                              selectedFlatNo!,
-                                                          societyName:
-                                                              selectedSocietyName!,
-                                                          username:
-                                                              usernameController
-                                                                  .text,
-                                                        );
-                                                      }),
+                                            onPressed: () {
+                                              if (isflatnoSelected) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                    return memberLedger(
+                                                      flatno: selectedFlatNo!,
+                                                      societyName:
+                                                          selectedSocietyName!,
+                                                      username:
+                                                          usernameController
+                                                              .text,
                                                     );
-                                                  } else {
-                                                    customDialogBox();
-                                                  }
-                                                },
-                                                child: const Text(
-                                                  'Ledger',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
+                                                  }),
+                                                );
+                                              } else {
+                                                customDialogBox();
+                                              }
+                                            },
+                                            child: const Text(
+                                              'Ledger',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             ),
-                                            DataCell(ElevatedButton(
-                                              style: ButtonStyle(
-                                                  shape:
-                                                      WidgetStateProperty.all(
-                                                    const RoundedRectangleBorder(),
-                                                  ),
-                                                  backgroundColor:
-                                                      WidgetStateProperty.all(
-                                                          buttonColor)),
-                                              onPressed: () {},
-                                              child: const Text(
-                                                'Pay',
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                          ),
+                                        ),
+                                        DataCell(ElevatedButton(
+                                          style: ButtonStyle(
+                                              shape: WidgetStateProperty.all(
+                                                const RoundedRectangleBorder(),
                                               ),
-                                            )),
-                                          ]),
-                                        ],
-                                      ),
-                                    ),
+                                              backgroundColor:
+                                                  WidgetStateProperty.all(
+                                                      buttonColor)),
+                                          onPressed: () {},
+                                          child: const Text(
+                                            'Pay',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )),
+                                      ]),
+                                    ],
                                   ),
                                 ),
-                              ]),
-                        ]),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: GridView.builder(
-                                itemCount: buttons.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        // mainAxisSpacing: 2.0,
-                                        crossAxisSpacing: 10.0,
-                                        childAspectRatio: 0.7,
-                                        crossAxisCount: 3),
-                                itemBuilder: (context, index) {
-                                  return Column(children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          if (isflatnoSelected) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    screens[index](
-                                                        selectedFlatNo!,
-                                                        selectedSocietyName!,
-                                                        usernameController
-                                                            .text),
-                                              ),
-                                            );
-                                          } else {
-                                            customDialogBox();
-                                          }
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Stack(
-                                              alignment: Alignment.center,
-                                              children: [
-                                                Card(
-                                                  elevation: 10,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10.0),
-                                                    child:
-                                                        getIcon(buttons[index]),
-                                                  ),
+                              ),
+                            ),
+                          ]),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: GridView.builder(
+                                  itemCount: buttons.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          // mainAxisSpacing: 2.0,
+                                          crossAxisSpacing: 10.0,
+                                          childAspectRatio: 0.7,
+                                          crossAxisCount: 3),
+                                  itemBuilder: (context, index) {
+                                    return Column(children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            if (isflatnoSelected) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      screens[index](
+                                                          selectedFlatNo!,
+                                                          selectedSocietyName!,
+                                                          usernameController
+                                                              .text),
                                                 ),
-                                                buttons[index] ==
-                                                        "CIRCULAR/NOTICE"
-                                                    ? Positioned(
-                                                        top: 0,
-                                                        right: 0,
-                                                        child: CircleAvatar(
-                                                          radius: 10,
-                                                          backgroundColor:
-                                                              Colors.red,
-                                                          child: Text(
-                                                            totalNotice,
-                                                            style: const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 10),
+                                              );
+                                            } else {
+                                              customDialogBox();
+                                            }
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Card(
+                                                    elevation: 10,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10.0),
+                                                      child: getIcon(
+                                                          buttons[index]),
+                                                    ),
+                                                  ),
+                                                  buttons[index] ==
+                                                          "CIRCULAR/NOTICE"
+                                                      ? Positioned(
+                                                          top: 0,
+                                                          right: 0,
+                                                          child: CircleAvatar(
+                                                            radius: 10,
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            child: Text(
+                                                              totalNotice,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 10),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      )
-                                                    : Container()
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              buttons[index],
-                                              style: TextStyle(
-                                                  color: textColor,
-                                                  fontSize: 10),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        )),
-                                  ]);
-                                }),
-                          ),
-                        ]),
-                  ],
-                ),
-              ),
-            ),
-    );
+                                                        )
+                                                      : Container()
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                buttons[index],
+                                                style: TextStyle(
+                                                    color: textColor,
+                                                    fontSize: 10),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          )),
+                                    ]);
+                                  }),
+                            ),
+                          ]),
+                    ],
+                  ),
+                );
+              }));
   }
 
   Widget getIcon(String iconName) {
@@ -901,40 +863,6 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  Future<void> getCurrentBill(String selectedSociety, String flatno) async {
-    // ignore: unused_local_variable
-    String phoneNum = '';
-
-    phoneNum = await _splashService.getPhoneNum();
-
-    DocumentSnapshot societyQuerySnapshot = await FirebaseFirestore.instance
-        .collection('ladgerBill')
-        .doc(selectedSociety)
-        .collection('month')
-        .doc(lastMonth)
-        .get();
-
-    if (societyQuerySnapshot.exists) {
-      Map<String, dynamic> allSociety =
-          societyQuerySnapshot.data() as Map<String, dynamic>;
-
-      List<dynamic> dataList = allSociety['data'];
-
-      for (var data in dataList) {
-        if (flatno == data['3_Flat No.']) {
-          billAmount = data['6_Bill Amount'];
-          payableAmount = data['8_Payable'];
-
-          setState(() {
-            billAmountController.text = billAmount;
-            payableAmountController.text = payableAmount;
-          });
-          break;
-        }
-      }
-    }
-  }
-
   Future<void> getNotice(String? selectedSociety) async {
     final provider = Provider.of<AllNoticeProvider>(context, listen: false);
 
@@ -964,42 +892,9 @@ class _HomeScreenState extends State<HomeScreen> {
         (route) => false);
   }
 
-  // Future<void> getBill(String societyname, String flatno) async {
-  //   // billNoList.clear();
-  //   isLoading = true;
-
-  //   phoneNum = await _splashService.getPhoneNum();
-
-  //   QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
-  //       .collection('ladgerBill')
-  //       .doc(societyname)
-  //       .collection('month')
-  //       .get();
-  //   List<dynamic> monthList =
-  //       societyQuerySnapshot.docs.map((e) => e.id).toList();
-
-  //   for (var i = 0; i < monthList.length; i++) {
-  //     DocumentSnapshot data = await FirebaseFirestore.instance
-  //         .collection('ladgerBill')
-  //         .doc(societyname)
-  //         .collection('month')
-  //         .doc(monthList[i])
-  //         .get();
-  //     if (data.exists) {
-  //       Map<String, dynamic> totalusers = data.data() as Map<String, dynamic>;
-  //       List<dynamic> mapData = totalusers['data'];
-
-  //       for (var data in mapData) {
-  //         List<dynamic> row = [];
-
-  //         if (flatno == data['3_Flat No.']) {
-  //           row.add(data['6_Bill Amount'] ?? 'N/A');
-  //           row.add(data['8_Payable'] ?? 'N/A');
-
-  //           break;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  Future<void> _loadData() async {
+    // Access the DataProvider and call fetchData
+    await Provider.of<ChangeValue>(context, listen: false).fetchData(
+        selectedSocietyName!, selectedFlatNo!, usernameController.text);
+  }
 }
